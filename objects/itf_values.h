@@ -16,3 +16,16 @@ enum itf_colors {
 #define ITF_FG_HIGH "9"
 #define ITF_BG_LOW "4"
 #define ITF_BG_HIGH "10"
+
+#define ITF_LOW_INTEN false
+#define ITF_HIGH_INTEN true
+
+struct itf_pixels {
+    itf_colors color;
+    bool intensity;
+    bool used;
+};
+
+struct test {
+    std::vector<int> test;
+};
