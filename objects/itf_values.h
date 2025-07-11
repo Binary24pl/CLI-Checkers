@@ -1,3 +1,6 @@
+#ifndef ITF
+#define ITF
+
 #define ITF_BHB "▄"
 #define ITF_C_END "\e[0m"
 
@@ -25,3 +28,5 @@ struct itf_pixels {
     bool intensity;
     bool used;
 };
+
+#endif
