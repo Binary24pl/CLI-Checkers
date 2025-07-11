@@ -25,7 +25,3 @@ struct itf_pixels {
     bool intensity;
     bool used;
 };
-
-struct test {
-    std::vector<int> test;
-};
