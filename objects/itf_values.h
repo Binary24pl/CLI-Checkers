@@ -29,4 +29,42 @@ struct itf_pixels {
     bool used;
 };
 
+struct itf_text_pallete {
+    itf_colors fg_color;
+    itf_colors bg_color;
+    bool fg_inten;
+    bool bg_inten;
+};
+
+//used to create bash color string
+std::string itf_give_color(const std::string& to_color, const itf_text_pallete& of_color)
+{
+    std::string to_return = "\e[0;";
+
+
+    if(of_color.bg_inten) {
+        to_return += ITF_BG_HIGH;
+    } else {
+        to_return += ITF_BG_LOW;
+    }
+
+    to_return += (char)of_color.bg_color;
+    to_return += ";";
+
+
+    if(of_color.fg_inten) {
+        to_return += ITF_FG_HIGH;
+    } else {
+        to_return += ITF_FG_LOW;
+    }
+
+    to_return += (char)of_color.fg_color;
+    to_return += "m";
+
+    to_return += to_color;
+    to_return += ITF_C_END;
+
+    return to_return;
+}
+
 #endif
