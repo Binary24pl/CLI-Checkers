@@ -10,8 +10,11 @@ int main()
     test->init();
     std::cout << test->tile_buffer.size() << std::endl;
 
-    test->paint_fill(ITF_C_WHITE, ITF_HIGH_INTEN);
+    test->paint_fill(ITF_C_WHITE, ITF_LOW_INTEN);
     test->create_build();
+    test->create_buffer();
+
+    std::cout << test->tile_buffer[0] << std::endl << test->tile_buffer[1] << std::endl;
 
     delete test;
 

@@ -62,7 +62,7 @@ void itf_tile::create_buffer()
     for(int rst = 0; rst < hght_char; rst++) this->tile_buffer[rst] = "";
 
     for(int ch_hgt = 0; ch_hgt < hght_char; ch_hgt++) {
-        for(int ch_wdt = 0; ch_wdt < this->width; ch_wdt) {
+        for(int ch_wdt = 0; ch_wdt < this->width; ch_wdt++) {
             itf_text_pallete val_colors;
             
             val_colors.bg_color = ITF_C_BLACK;
