@@ -5,16 +5,19 @@ int main()
     std::locale::global(std::locale("")); //making special characters work
 
     ITF::itf_tile* test;
-    test = new ITF::itf_tile(4,4);
+    const int sqr = 8;
+    test = new ITF::itf_tile(sqr, sqr);
     
     test->init();
-    std::cout << test->tile_buffer.size() << std::endl;
 
-    test->paint_fill(ITF_C_WHITE, ITF_LOW_INTEN);
+    test->paint_fill(ITF_C_WHITE, ITF_HIGH_INTEN);
+    
     test->create_build();
     test->create_buffer();
 
-    std::cout << test->tile_buffer[0] << std::endl << test->tile_buffer[1] << std::endl;
+    for(int i = 0; i < test->tile_buffer.size(); i++) {
+        std::cout << test->tile_buffer[i] << std::endl;
+    }
 
     delete test;
 
