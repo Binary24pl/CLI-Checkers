@@ -55,6 +55,42 @@ void itf_tile::create_build()
     }
 }
 
+void itf_tile::create_buffer()
+{
+    const int hght_char = this->height / 2;
+
+    for(int rst = 0; rst < hght_char; rst++) this->tile_buffer[rst] = "";
+
+    for(int ch_hgt = 0; ch_hgt < hght_char; ch_hgt++) {
+        for(int ch_wdt = 0; ch_wdt < this->width; ch_wdt) {
+            itf_text_pallete val_colors;
+            
+            val_colors.bg_color = ITF_C_BLACK;
+            val_colors.fg_color = ITF_C_BLACK;
+            val_colors.bg_inten = ITF_LOW_INTEN;
+            val_colors.bg_inten = ITF_LOW_INTEN;
+
+            const int sup_hgt = ch_hgt;
+            const int sub_hgt = ch_hgt + 1;
+
+            std::string product = ITF_BHB;
+
+            if(this->tile_build[sup_hgt][ch_wdt].used) {
+                val_colors.bg_color = this->tile_build[sup_hgt][ch_wdt].color;
+                val_colors.bg_inten = this->tile_build[sup_hgt][ch_wdt].intensity;
+            }
+
+            if(this->tile_build[sub_hgt][ch_wdt].used) {
+                val_colors.fg_color = this->tile_build[sub_hgt][ch_wdt].color;
+                val_colors.fg_inten = this->tile_build[sub_hgt][ch_wdt].intensity;
+            }
+
+            product = itf_give_color(product, val_colors);
+            this->tile_buffer[ch_hgt] += product;
+        }
+    }
+}
+
 void itf_tile::paint_fill(const itf_colors& color, const bool intensity)
 {
     itf_pixels** working_layer;
