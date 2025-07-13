@@ -94,6 +94,17 @@ public:
             for(int cln_rws = 0; cln_rws < this->height; cln_rws++) delete[] this->tile_build[cln_rws];
             delete[] this->tile_build;
         }
+
+        //if layers contain anything really
+        if(this->draw_layers.size() > 0) {
+            for(int dst_layer = 0; dst_layer < this->draw_layers.size(); dst_layer++) {
+                itf_pixels** rnd_layer; //rnd stands for read and destroy
+                rnd_layer = this->draw_layers[dst_layer];
+
+                for(int cln_rws = 0; cln_rws < this->height; cln_rws++) delete[] rnd_layer[cln_rws];
+                delete[] rnd_layer;
+            }
+        }
     };
 
     void init(); // reads what output did validation make and creates needed data
