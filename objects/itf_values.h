@@ -67,4 +67,15 @@ std::string itf_give_color(const std::string& to_color, const itf_text_pallete& 
     return to_return;
 }
 
+class itf_tile {
+public:
+    itf_tile() {};
+
+    ~itf_tile() {};
+
+    void test();
+};
+
+#include "itf_tile.h"
+
 #endif
