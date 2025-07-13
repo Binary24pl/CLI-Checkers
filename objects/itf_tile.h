@@ -91,7 +91,7 @@ void itf_tile::create_buffer()
     }
 }
 
-void itf_tile::paint_fill(const itf_colors& color, const bool intensity)
+void itf_tile::paint_fill(const itf_colors color, const bool intensity)
 {
     itf_pixels** working_layer;
     working_layer = this->draw_layers[this->draw_pencil.on_layer];

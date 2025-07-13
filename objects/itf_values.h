@@ -15,6 +15,13 @@ enum itf_colors {
     ITF_C_WHITE = (int)'7'
 };
 
+enum itf_lines_drct {
+    ITF_D_UP,
+    ITF_D_DOWN,
+    ITF_D_LEFT,
+    ITF_D_RIGHT
+};
+
 #define ITF_FG_LOW "3"
 #define ITF_FG_HIGH "9"
 #define ITF_BG_LOW "4"
@@ -119,7 +126,10 @@ public:
     void create_build();
     void create_buffer();
 
-    void paint_fill(const itf_colors& color, const bool intensity);
+    void paint_fill(const itf_colors color, const bool intensity);
+    void paint_pixel(const itf_colors color, const bool intensity); //todo
+    void paint_line(const itf_colors color, const bool intensity, const itf_lines_drct direction, const int size); //todo
+    void paint_rect(const itf_colors color, const bool intensity, const bool is_hollow, const int height, const int width); //todo
 
     std::vector<std::string> tile_buffer;
     itf_pencil draw_pencil;
