@@ -23,6 +23,8 @@ enum itf_colors {
 #define ITF_LOW_INTEN false
 #define ITF_HIGH_INTEN true
 
+#define ITF_MOVE_PEN true
+
 struct itf_pixels {
     itf_colors color;
     bool intensity;
@@ -34,6 +36,12 @@ struct itf_text_pallete {
     itf_colors bg_color;
     bool fg_inten;
     bool bg_inten;
+};
+
+struct itf_pencil {
+    int on_hght;
+    int on_wdth;
+    int on_layer;
 };
 
 //used to create bash color string
@@ -77,6 +85,8 @@ public:
             this->height = h;
             this->width = w;
         }
+
+        this->draw_pencil.on_hght = this->draw_pencil.on_wdth = this->draw_pencil.on_layer = 0;
     };
 
     ~itf_tile() {
@@ -87,8 +97,11 @@ public:
     };
 
     void init(); // reads what output did validation make and creates needed data
+    void create_new_layer(bool move_pen);
+
 
     std::vector<std::string> tile_buffer;
+    itf_pencil draw_pencil;
 private:
     itf_pixels** tile_build;
     std::vector<itf_pixels**> draw_layers;
