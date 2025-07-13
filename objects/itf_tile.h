@@ -36,6 +36,25 @@ void itf_tile::create_new_layer(bool move_pen = false)
     }
 }
 
+void itf_tile::create_build()
+{
+    const int layers = this->draw_layers.size();
+    for(int rd_lyr = 0; rd_lyr < layers; rd_lyr++) {
+        itf_pixels** working_layer;
+        working_layer = this->draw_layers[rd_lyr];
+
+        for(int rd_hgt = 0; rd_hgt < this->height; rd_hgt++) {
+            for(int rd_wdt = 0; rd_wdt < this->width; rd_wdt++) {
+                if(working_layer[rd_hgt][rd_wdt].used) {
+                    this->tile_build[rd_hgt][rd_wdt].color = working_layer[rd_hgt][rd_wdt].color;
+                    this->tile_build[rd_hgt][rd_wdt].intensity = working_layer[rd_hgt][rd_wdt].intensity;
+                    this->tile_build[rd_hgt][rd_wdt].used = true;
+                }
+            }
+        }
+    }
+}
+
 void itf_tile::paint_fill(const itf_colors& color, const bool intensity)
 {
     itf_pixels** working_layer;

@@ -84,6 +84,11 @@ public:
         } else {
             this->height = h;
             this->width = w;
+
+            const int buf_cap = h / 2;
+            for(int add_buffer = 0; add_buffer < buf_cap; add_buffer++) {
+                this->tile_buffer.push_back("");
+            }
         }
 
         this->draw_pencil.on_hght = this->draw_pencil.on_wdth = this->draw_pencil.on_layer = 0;
@@ -110,8 +115,11 @@ public:
     void init(); // reads what output did validation make and creates needed data
     void create_new_layer(bool move_pen);
 
-    void paint_fill(const itf_colors& color, const bool intensity);
+    //as name suggest, these lil fellas are responsible for creating a final product
+    void create_build();
+    void create_buffer();
 
+    void paint_fill(const itf_colors& color, const bool intensity);
 
     std::vector<std::string> tile_buffer;
     itf_pencil draw_pencil;

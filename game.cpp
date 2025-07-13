@@ -8,9 +8,10 @@ int main()
     test = new ITF::itf_tile(4,4);
     
     test->init();
-    std::cout << test->draw_pencil.on_layer << std::endl;
+    std::cout << test->tile_buffer.size() << std::endl;
 
     test->paint_fill(ITF_C_WHITE, ITF_HIGH_INTEN);
+    test->create_build();
 
     delete test;
 
