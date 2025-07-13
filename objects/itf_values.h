@@ -110,6 +110,8 @@ public:
     void init(); // reads what output did validation make and creates needed data
     void create_new_layer(bool move_pen);
 
+    void paint_fill(const itf_colors& color, const bool intensity);
+
 
     std::vector<std::string> tile_buffer;
     itf_pencil draw_pencil;

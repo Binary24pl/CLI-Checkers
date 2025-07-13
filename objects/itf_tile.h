@@ -35,3 +35,18 @@ void itf_tile::create_new_layer(bool move_pen = false)
         this->draw_pencil.on_layer = last_layer;
     }
 }
+
+void itf_tile::paint_fill(const itf_colors& color, const bool intensity)
+{
+    itf_pixels** working_layer;
+    working_layer = this->draw_layers[this->draw_pencil.on_layer];
+    // extracting the layer
+
+    for(int chn_hgt = 0; chn_hgt < this->height; chn_hgt++) {
+        for(int chn_wdt = 0; chn_wdt < this->width; chn_wdt++) {
+            working_layer[chn_hgt][chn_wdt].used = true;
+            working_layer[chn_hgt][chn_wdt].color = color;
+            working_layer[chn_hgt][chn_wdt].intensity = intensity;
+        }
+    }
+}
