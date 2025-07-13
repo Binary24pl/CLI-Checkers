@@ -69,11 +69,30 @@ std::string itf_give_color(const std::string& to_color, const itf_text_pallete& 
 
 class itf_tile {
 public:
-    itf_tile() {};
+    itf_tile(const int height, const int width) {
+        if(height % 2 != 0 && width % 2 != 0) {
+            this->height = this->width = -1;
+        }
 
-    ~itf_tile() {};
+        this->height = height;
+        this->width = width;
+    };
 
-    void test();
+    ~itf_tile() {
+        if(this->height != -1 && this->width != -1) {
+            for(int cln_rws = 0; cln_rws < this->height; cln_rws++) delete[] this->tile_build[cln_rws];
+            delete[] this->tile_build;
+        }
+    };
+
+    void init(); // reads what output did validation make and creates needed data
+
+    std::vector<std::string> tile_buffer;
+private:
+    itf_pixels** tile_build;
+    std::vector<itf_pixels**> draw_layers;
+
+    int height, width;
 };
 
 #include "itf_tile.h"
