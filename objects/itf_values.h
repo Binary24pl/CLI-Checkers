@@ -69,13 +69,14 @@ std::string itf_give_color(const std::string& to_color, const itf_text_pallete& 
 
 class itf_tile {
 public:
-    itf_tile(const int height, const int width) {
-        if(height % 2 != 0 && width % 2 != 0) {
-            this->height = this->width = -1;
+    itf_tile(const int& h, const int& w) {
+        if(h % 2 != 0 && w % 2 != 0) {
+            this->height = -1;
+            this->width = -1;
+        } else {
+            this->height = h;
+            this->width = w;
         }
-
-        this->height = height;
-        this->width = width;
     };
 
     ~itf_tile() {

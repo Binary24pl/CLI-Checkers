@@ -1,7 +1,6 @@
 void itf_tile::init()
 {
     if(this->height == -1 && this->width == -1) {
-        std::cout << "Height and width need to be even numbers" << std::endl;
         return;
     }
 
