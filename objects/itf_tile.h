@@ -248,6 +248,8 @@ void itf_tile::paint_rect(const itf_colors color, const bool intensity, const bo
         return;
     }
 
+    std::cout << "Not out of bounds" << std::endl;
+
     //is it a godamn pixel
     if(h_diff == this->draw_pencil.on_hght && w_diff == this->draw_pencil.on_wdth) {
         this->paint_pixel(color, intensity);
