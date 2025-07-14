@@ -13,12 +13,6 @@ int main()
     test->paint_fill(ITF_C_WHITE, ITF_HIGH_INTEN);
 
     test->paint_pixel(ITF_C_RED, ITF_LOW_INTEN);
-    test->draw_pencil.on_hght = 8;
-    test->draw_pencil.on_wdth = 8;
-    test->paint_pixel(ITF_C_RED, ITF_LOW_INTEN);
-    
-    test->create_build();
-    test->create_buffer();
 
     for(int i = 0; i < test->tile_buffer.size(); i++) {
         std::cout << test->tile_buffer[i] << std::endl;
