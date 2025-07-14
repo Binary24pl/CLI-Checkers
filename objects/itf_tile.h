@@ -38,7 +38,7 @@ void itf_tile::create_new_layer(bool move_pen = false)
 
 void itf_tile::create_build()
 {
-    const int layers = this->draw_layers.size();
+    int layers = this->draw_layers.size();
     for(int rd_lyr = 0; rd_lyr < layers; rd_lyr++) {
         itf_pixels** working_layer;
         working_layer = this->draw_layers[rd_lyr];
@@ -70,8 +70,8 @@ void itf_tile::create_buffer()
             val_colors.bg_inten = ITF_LOW_INTEN;
             val_colors.bg_inten = ITF_LOW_INTEN;
 
-            const int sup_hgt = ch_hgt;
-            const int sub_hgt = ch_hgt + 1;
+            const int sup_hgt = ch_hgt * 2;
+            const int sub_hgt = (ch_hgt * 2) + 1;
 
             std::string product = ITF_BHB;
 
