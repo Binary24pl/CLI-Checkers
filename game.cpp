@@ -15,6 +15,10 @@ int main()
     test->create_build();
     test->create_buffer();
 
+    test->paint_rect(ITF_C_GREEN, ITF_LOW_INTEN, false, 1, 8);
+    test->paint_rect(ITF_C_RED, ITF_LOW_INTEN, false, 8, 1);
+    test->paint_rect(ITF_C_BLUE, ITF_LOW_INTEN, false, 1, 1);
+
     for(int i = 0; i < test->tile_buffer.size(); i++) {
         std::cout << test->tile_buffer[i] << std::endl;
     }
