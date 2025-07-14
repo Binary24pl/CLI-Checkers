@@ -179,4 +179,25 @@ void itf_tile::paint_line(const itf_colors color, const bool intensity, const it
             return;
         }
     }
+
+    //finally drawing some stuff
+
+    if(direction == ITF_D_UP || direction == ITF_D_DOWN) {
+        int high, low;
+
+        //I wont be doing nested if's, I will just do one for loop for high and low values
+        if(diff > this->draw_pencil.on_hght) {
+            high = diff;
+            low = this->draw_pencil.on_hght;
+        } else {
+            high = this->draw_pencil.on_hght;
+            low = diff;
+        }
+
+        for(int chn_hgt = low; chn_hgt <= high; chn_hgt++) {
+            working_layer[chn_hgt][this->draw_pencil.on_wdth].color = color;
+            working_layer[chn_hgt][this->draw_pencil.on_wdth].intensity = intensity;
+            working_layer[chn_hgt][this->draw_pencil.on_wdth].used = true;
+        }
+    }
 }
