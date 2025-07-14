@@ -105,3 +105,17 @@ void itf_tile::paint_fill(const itf_colors color, const bool intensity)
         }
     }
 }
+
+void itf_tile::paint_pixel(const itf_colors color, const bool intensity)
+{
+    itf_pixels** wokring_layer;
+    wokring_layer = this->draw_layers[this->draw_pencil.on_layer];
+
+    if(this->draw_pencil.on_hght < 0 || this->draw_pencil.on_wdth < 0 || this->draw_pencil.on_hght >= this->height || this->draw_pencil.on_wdth > this->width) {
+        return; // out of bounds
+    }
+
+    wokring_layer[this->draw_pencil.on_hght][this->draw_pencil.on_wdth].color = color;
+    wokring_layer[this->draw_pencil.on_hght][this->draw_pencil.on_wdth].intensity = intensity;
+    wokring_layer[this->draw_pencil.on_hght][this->draw_pencil.on_wdth].used = true;
+}
