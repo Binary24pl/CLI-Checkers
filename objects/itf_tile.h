@@ -248,22 +248,15 @@ void itf_tile::paint_rect(const itf_colors color, const bool intensity, const bo
         return;
     }
 
-    std::cout << "Not out of bounds" << std::endl;
-    std::cout << "h_diff : " << h_diff << " w_diff : " << w_diff << std::endl;
-    std::cout << "pencil h : " << this->draw_pencil.on_hght << " pencil w : " << this->draw_pencil.on_wdth << std::endl;
-
     //is it a godamn pixel
     if(h_diff == this->draw_pencil.on_hght && w_diff == this->draw_pencil.on_wdth) {
-        std::cout << "fii" << std::endl;
         this->paint_pixel(color, intensity);
         return;
     } else if (h_diff == this->draw_pencil.on_hght || w_diff == this->draw_pencil.on_wdth) {
         //it is a freakin line
         if(h_diff > w_diff) {
-            std::cout << "faa" << std::endl;
             this->paint_line(color, intensity, ITF_D_DOWN, h_diff + 1);
         } else {
-            std::cout << "foo" << std::endl;
             this->paint_line(color, intensity, ITF_D_RIGHT, w_diff + 1);
         }
         return;
