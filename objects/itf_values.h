@@ -128,8 +128,8 @@ public:
 
     void paint_fill(const itf_colors color, const bool intensity);
     void paint_pixel(const itf_colors color, const bool intensity);
-    void paint_line(const itf_colors color, const bool intensity, const itf_lines_drct direction, const int size); //todo
-    void paint_rect(const itf_colors color, const bool intensity, const bool is_hollow, const int height, const int width); //todo
+    void paint_line(const itf_colors color, const bool intensity, const itf_lines_drct direction, const int size);
+    void paint_rect(const itf_colors color, const bool intensity, const bool is_hollow, const int hght, const int wdth); //todo
 
     std::vector<std::string> tile_buffer;
     itf_pencil draw_pencil;

@@ -219,3 +219,46 @@ void itf_tile::paint_line(const itf_colors color, const bool intensity, const it
         }
     }
 }
+
+void itf_tile::paint_rect(const itf_colors color, const bool intensity, const bool is_hollow, const int hght, const int wdth)
+{
+    if(this->draw_pencil.on_layer < 0 || this->draw_pencil.on_layer >= this->draw_layers.size()) {
+        return;
+    }
+
+    itf_pixels** working_layer;
+    working_layer = this->draw_layers[this->draw_pencil.on_layer];
+
+    if(this->draw_pencil.on_hght < 0 || this->draw_pencil.on_wdth < 0 || this->draw_pencil.on_hght >= this->height || this->draw_pencil.on_wdth >= this->width) {
+        return; // out of bounds
+    }
+
+    int h_diff, w_diff;
+    h_diff = this->draw_pencil.on_hght;
+    w_diff = this->draw_pencil.on_wdth;
+
+    h_diff += hght;
+    w_diff += wdth;
+
+    h_diff -= 1;
+    w_diff -= 1;
+
+    //are diffs out of bounds
+    if(h_diff < 0 || w_diff < 0 || h_diff >= this->height || w_diff >= this->width) {
+        return;
+    }
+
+    //is it a godamn pixel
+    if(h_diff == this->draw_pencil.on_hght && w_diff == this->draw_pencil.on_wdth) {
+        this->paint_pixel(color, intensity);
+        return;
+    } else if (h_diff == this->draw_pencil.on_hght || w_diff == this->draw_pencil.on_wdth) {
+        //it is a freakin line
+        if(h_diff > w_diff) {
+            this->paint_line(color, intensity, ITF_D_DOWN, h_diff + 1);
+        } else {
+            this->paint_line(color, intensity, ITF_D_RIGHT, w_diff + 1);
+        }
+        return;
+    }
+}
