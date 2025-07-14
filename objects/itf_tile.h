@@ -199,5 +199,21 @@ void itf_tile::paint_line(const itf_colors color, const bool intensity, const it
             working_layer[chn_hgt][this->draw_pencil.on_wdth].intensity = intensity;
             working_layer[chn_hgt][this->draw_pencil.on_wdth].used = true;
         }
+    } else if(direction == ITF_D_LEFT || direction == ITF_D_LEFT) {
+        int high, low;
+
+        if(diff > this->draw_pencil.on_wdth) {
+            high = diff;
+            low = this->draw_pencil.on_wdth;
+        } else {
+            high = this->draw_pencil.on_wdth;
+            low = diff;
+        }
+
+        for(int chn_wdt = low; chn_wdt <= high; chn_wdt++) {
+            working_layer[this->draw_pencil.on_hght][chn_wdt].color = color;
+            working_layer[this->draw_pencil.on_hght][chn_wdt].intensity = intensity;
+            working_layer[this->draw_pencil.on_hght][chn_wdt].used = true;
+        }
     }
 }
