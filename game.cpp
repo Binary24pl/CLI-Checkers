@@ -14,13 +14,9 @@ int main()
 
     test->paint_pixel(ITF_C_RED, ITF_LOW_INTEN);
     test->create_new_layer(ITF_MOVE_PEN);
-    test->paint_pixel(ITF_C_GREEN, ITF_LOW_INTEN);
 
-    test->draw_pencil.on_layer = 0;
-    test->draw_pencil.on_hght = 7;
-    test->draw_pencil.on_wdth = 7;
-
-    test->paint_pixel(ITF_C_RED, ITF_LOW_INTEN);
+    test->create_build();
+    test->create_buffer();
 
     for(int i = 0; i < test->tile_buffer.size(); i++) {
         std::cout << test->tile_buffer[i] << std::endl;
