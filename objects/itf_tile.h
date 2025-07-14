@@ -111,6 +111,10 @@ void itf_tile::paint_pixel(const itf_colors color, const bool intensity)
     itf_pixels** wokring_layer;
     wokring_layer = this->draw_layers[this->draw_pencil.on_layer];
 
+    if(this->draw_pencil.on_layer < 0 || this->draw_pencil.on_layer >= this->draw_layers.size()) {
+        return;
+    }
+
     if(this->draw_pencil.on_hght < 0 || this->draw_pencil.on_wdth < 0 || this->draw_pencil.on_hght >= this->height || this->draw_pencil.on_wdth > this->width) {
         return; // out of bounds
     }
