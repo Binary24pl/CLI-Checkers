@@ -140,8 +140,43 @@ void itf_tile::paint_line(const itf_colors color, const bool intensity, const it
 
     int diff; // it will be used for calculations and cotrol checks
     if(direction == ITF_D_UP || direction == ITF_D_DOWN) {
-        //soon
-    } else if(direction == ITF_D_LEFT || ITF_D_RIGHT) {
-        //soon
+        diff = this->draw_pencil.on_hght;
+        
+        if(direction == ITF_D_UP) {
+            diff -= size;
+            diff += 1;
+        } else if(direction == ITF_D_DOWN) {
+            diff += size;
+            diff -= 1;
+        }
+
+
+        if(diff < 0 || diff >= this->height) {
+            return;
+        }
+
+        if(diff == this->draw_pencil.on_hght) {
+            this->paint_pixel(color, intensity);
+            return;
+        }
+    } else if(direction == ITF_D_LEFT || direction == ITF_D_RIGHT) {
+        diff = this->draw_pencil.on_wdth;
+
+        if(direction == ITF_D_LEFT) {
+            diff -= size;
+            diff += 1;
+        } else if(direction == ITF_D_RIGHT) {
+            diff += size;
+            diff -= 1;
+        }
+
+        if(diff < 0 || diff >= this->width) {
+            return;
+        }
+
+        if(diff == this->draw_pencil.on_wdth) {
+            this->paint_pixel(color, intensity);
+            return;
+        }
     }
 }
