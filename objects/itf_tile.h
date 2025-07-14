@@ -141,4 +141,81 @@ void itf_tile::paint_line(const itf_colors color, const bool intensity, const it
         return; // out of bounds
     }
 
+    int diff; // it will be used for calculations and cotrol checks
+    if(direction == ITF_D_UP || direction == ITF_D_DOWN) {
+        diff = this->draw_pencil.on_hght;
+        
+        if(direction == ITF_D_UP) {
+            diff -= size;
+            diff += 1;
+        } else if(direction == ITF_D_DOWN) {
+            diff += size;
+            diff -= 1;
+        }
+
+        if(diff < 0 || diff >= this->height) {
+            return;
+        }
+
+        if(diff == this->draw_pencil.on_hght) {
+            this->paint_pixel(color, intensity);
+            return;
+        }
+    } else if(direction == ITF_D_LEFT || direction == ITF_D_RIGHT) {
+        diff = this->draw_pencil.on_wdth;
+
+        if(direction == ITF_D_LEFT) {
+            diff -= size;
+            diff += 1;
+        } else if(direction == ITF_D_RIGHT) {
+            diff += size;
+            diff -= 1;
+        }
+
+        if(diff < 0 || diff >= this->width) {
+            return;
+        }
+
+        if(diff == this->draw_pencil.on_wdth) {
+            this->paint_pixel(color, intensity);
+            return;
+        }
+    }
+
+    //finally drawing some stuff
+
+    if(direction == ITF_D_UP || direction == ITF_D_DOWN) {
+        int high, low;
+
+        //I wont be doing nested if's, I will just do one for loop for high and low values
+        if(diff > this->draw_pencil.on_hght) {
+            high = diff;
+            low = this->draw_pencil.on_hght;
+        } else {
+            high = this->draw_pencil.on_hght;
+            low = diff;
+        }
+
+        for(int chn_hgt = low; chn_hgt <= high; chn_hgt++) {
+            working_layer[chn_hgt][this->draw_pencil.on_wdth].color = color;
+            working_layer[chn_hgt][this->draw_pencil.on_wdth].intensity = intensity;
+            working_layer[chn_hgt][this->draw_pencil.on_wdth].used = true;
+        }
+    } else if(direction == ITF_D_LEFT || direction == ITF_D_RIGHT) {  // Fixed the typo here
+        int high, low;
+
+        if(diff > this->draw_pencil.on_wdth) {
+            high = diff;
+            low = this->draw_pencil.on_wdth;
+        } else {
+            high = this->draw_pencil.on_wdth;
+            low = diff;
+        }
+
+        for(int chn_wdt = low; chn_wdt <= high; chn_wdt++) {
+            working_layer[this->draw_pencil.on_hght][chn_wdt].color = color;
+            working_layer[this->draw_pencil.on_hght][chn_wdt].intensity = intensity;
+            working_layer[this->draw_pencil.on_hght][chn_wdt].used = true;
+        }
+    }
 }
