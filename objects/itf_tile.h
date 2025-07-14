@@ -108,12 +108,12 @@ void itf_tile::paint_fill(const itf_colors color, const bool intensity)
 
 void itf_tile::paint_pixel(const itf_colors color, const bool intensity)
 {
-    itf_pixels** wokring_layer;
-    wokring_layer = this->draw_layers[this->draw_pencil.on_layer];
-
     if(this->draw_pencil.on_layer < 0 || this->draw_pencil.on_layer >= this->draw_layers.size()) {
         return;
     }
+
+    itf_pixels** wokring_layer;
+    wokring_layer = this->draw_layers[this->draw_pencil.on_layer];
 
     if(this->draw_pencil.on_hght < 0 || this->draw_pencil.on_wdth < 0 || this->draw_pencil.on_hght >= this->height || this->draw_pencil.on_wdth > this->width) {
         return; // out of bounds
@@ -122,4 +122,26 @@ void itf_tile::paint_pixel(const itf_colors color, const bool intensity)
     wokring_layer[this->draw_pencil.on_hght][this->draw_pencil.on_wdth].color = color;
     wokring_layer[this->draw_pencil.on_hght][this->draw_pencil.on_wdth].intensity = intensity;
     wokring_layer[this->draw_pencil.on_hght][this->draw_pencil.on_wdth].used = true;
+}
+
+void itf_tile::paint_line(const itf_colors color, const bool intensity, const itf_lines_drct direction, const int size)
+{
+    if(this->draw_pencil.on_layer < 0 || this->draw_pencil.on_layer >= this->draw_layers.size()) {
+        return;
+    }
+
+    itf_pixels** working_layer;
+    working_layer = this->draw_layers[this->draw_pencil.on_layer];
+
+    if(this->draw_pencil.on_hght < 0 || this->draw_pencil.on_wdth < 0 || this->draw_pencil.on_hght >= this->height || this->draw_pencil.on_wdth > this->width) {
+        return; // out of bounds
+    }
+
+
+    int diff; // it will be used for calculations and cotrol checks
+    if(direction == ITF_D_UP || direction == ITF_D_DOWN) {
+        //soon
+    } else if(direction == ITF_D_LEFT || ITF_D_RIGHT) {
+        //soon
+    }
 }

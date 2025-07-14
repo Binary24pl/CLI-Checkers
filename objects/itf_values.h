@@ -127,7 +127,7 @@ public:
     void create_buffer();
 
     void paint_fill(const itf_colors color, const bool intensity);
-    void paint_pixel(const itf_colors color, const bool intensity); //todo
+    void paint_pixel(const itf_colors color, const bool intensity);
     void paint_line(const itf_colors color, const bool intensity, const itf_lines_drct direction, const int size); //todo
     void paint_rect(const itf_colors color, const bool intensity, const bool is_hollow, const int height, const int width); //todo
 
