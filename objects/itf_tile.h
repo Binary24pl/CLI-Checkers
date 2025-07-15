@@ -272,7 +272,11 @@ void itf_tile::paint_rect(const itf_colors color, const bool intensity, const bo
     for(int on_hght = this->draw_pencil.on_hght; on_hght <= h_diff; on_hght++) {
         for(int on_wdth = this->draw_pencil.on_wdth; on_wdth <= w_diff; on_wdth++) {
             if(hollow_correctly) {
-                //todo
+                if(on_hght == this->draw_pencil.on_hght || on_hght == h_diff || on_wdth == this->draw_pencil.on_wdth || on_wdth == w_diff) {
+                    working_layer[on_hght][on_wdth].color = color;
+                    working_layer[on_hght][on_wdth].intensity = intensity;
+                    working_layer[on_hght][on_wdth].used = true;
+                }
             } else {
                 working_layer[on_hght][on_wdth].color = color;
                 working_layer[on_hght][on_wdth].intensity = intensity;
