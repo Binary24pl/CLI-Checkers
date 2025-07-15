@@ -32,6 +32,9 @@ enum itf_lines_drct {
 
 #define ITF_MOVE_PEN true
 
+#define ITF_RCT_FULL false
+#define ITF_RCT_HLOW true
+
 struct itf_pixels {
     itf_colors color;
     bool intensity;
