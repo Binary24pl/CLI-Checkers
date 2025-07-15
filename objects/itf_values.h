@@ -167,7 +167,7 @@ void itf_show_pallette()
         ITF_C_WHITE
     };
 
-    for(int elem_color = 0; elem_color < colors_count; elem_color) {
+    for(int elem_color = 0; elem_color < colors_count; elem_color++) {
         showcase->draw_pencil.on_wdth = elem_color;
 
         showcase->draw_pencil.on_hght = 0;
