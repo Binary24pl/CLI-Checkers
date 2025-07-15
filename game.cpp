@@ -12,9 +12,8 @@ int main()
 
     test->paint_fill(ITF_C_WHITE, ITF_HIGH_INTEN);
 
-    test->paint_rect(ITF_C_GREEN, ITF_LOW_INTEN, ITF_RCT_FULL, 1, 8);
-    test->paint_rect(ITF_C_RED, ITF_LOW_INTEN, ITF_RCT_FULL, 8, 1);
-    test->paint_rect(ITF_C_BLUE, ITF_LOW_INTEN, ITF_RCT_FULL, 1, 1);
+    test->paint_rect(ITF_C_BLUE, ITF_LOW_INTEN, ITF_RCT_HLOW, 2, 8);
+    test->paint_rect(ITF_C_GREEN, ITF_HIGH_INTEN, ITF_RCT_FULL, 3, 3);
 
     test->create_build();
     test->create_buffer();
