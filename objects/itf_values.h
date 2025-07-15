@@ -210,4 +210,22 @@ void itf_show_pallette()
     delete showcase;
 }
 
+void itf_preload_content(std::vector<itf_tile*>& container)
+{
+    //creating new tiles
+    const int sqr = 8;
+    for(int add = 0; add < ITF_COUNT_IDX; add++) {
+        itf_tile* to_add;
+        to_add = new itf_tile(sqr, sqr);
+
+        to_add->init();
+        container.push_back(to_add);
+    }
+}
+
+void itf_clean_contenr(std::vector<itf_tile*>& container)
+{
+    for(int clean = 0; clean < ITF_COUNT_IDX; clean++) delete container[clean];
+}
+
 #endif
