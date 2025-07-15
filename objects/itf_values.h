@@ -145,4 +145,44 @@ private:
 
 #include "itf_tile.h"
 
+void itf_show_pallette()
+{
+    const int hght = 2;
+    const int wdth = 8;
+
+    itf_tile* showcase;
+    showcase = new itf_tile(hght, wdth);
+
+    showcase->init();
+
+    const int colors_count = 8;
+    const itf_colors all_colors[colors_count] = {
+        ITF_C_BLACK,
+        ITF_C_RED,
+        ITF_C_GREEN,
+        ITF_C_YELLOW,
+        ITF_C_BLUE,
+        ITF_C_PURPLE,
+        ITF_C_CYAN,
+        ITF_C_WHITE
+    };
+
+    for(int elem_color = 0; elem_color < colors_count; elem_color) {
+        showcase->draw_pencil.on_wdth = elem_color;
+
+        showcase->draw_pencil.on_hght = 0;
+        showcase->paint_pixel(all_colors[elem_color], ITF_LOW_INTEN);
+
+        showcase->draw_pencil.on_hght = 1;
+        showcase->paint_pixel(all_colors[elem_color], ITF_HIGH_INTEN);
+    }
+
+    showcase->create_build();
+    showcase->create_buffer();
+
+    std::cout << showcase->tile_buffer[0] << std::endl;
+
+    delete showcase;
+}
+
 #endif
