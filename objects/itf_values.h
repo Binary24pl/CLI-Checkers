@@ -221,6 +221,17 @@ void itf_preload_content(std::vector<itf_tile*>& container)
         to_add->init();
         container.push_back(to_add);
     }
+
+    container[ITF_IDX_NON_PLAYABLE]->paint_fill(ITF_C_WHITE, ITF_LOW_INTEN);
+    for(int bg = ITF_IDX_EMPTY; bg < ITF_COUNT_IDX; bg++) {
+        container[bg]->paint_fill(ITF_C_GREEN, ITF_HIGH_INTEN);
+    }
+
+    for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
+        //compilation of the squeres
+        container[cmpl]->create_build();
+        container[cmpl]->create_buffer();
+    }
 }
 
 void itf_clean_content(std::vector<itf_tile*>& container)
