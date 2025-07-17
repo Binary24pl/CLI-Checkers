@@ -222,31 +222,6 @@ void itf_preload_content(std::vector<itf_tile*>& container)
         container.push_back(to_add);
     }
 
-    //giving background
-    container[ITF_IDX_NON_PLAYABLE]->paint_fill(ITF_C_WHITE, ITF_LOW_INTEN);
-    for(int bg = ITF_IDX_EMPTY; bg < ITF_COUNT_IDX; bg++) {
-        container[bg]->paint_fill(ITF_C_GREEN, ITF_HIGH_INTEN);
-    }
-
-    //giving pawned new layer
-    for(int pawns = ITF_IDX_LIGHT_PAWN; pawns < ITF_COUNT_IDX; pawns++) {
-        container[pawns]->create_new_layer(ITF_MOVE_PEN);
-        
-        //I wanna make a on 2,2 a 4 by 4 squeres
-        container[pawns]->draw_pencil.on_hght = 2;
-        container[pawns]->draw_pencil.on_wdth = 2;
-    }
-
-    //creating light ones
-    for(int light = ITF_IDX_LIGHT_PAWN; light < ITF_COUNT_IDX; light++) {
-        if((light == ITF_IDX_LIGHT_PAWN || light == ITF_IDX_LIGHT_JOKEY) || (light >= ITF_IDX_LIGHT_PAWN_SELECTABLE && light <= ITF_IDX_LIGHT_JOKEY_STRIKABLE)) {
-            container[light]->paint_rect(ITF_C_YELLOW, ITF_HIGH_INTEN, ITF_RCT_FULL, 4, 4);
-            container[light]->paint_rect(ITF_C_YELLOW, ITF_LOW_INTEN, ITF_RCT_HLOW, 4, 4);
-
-            
-        }
-    }
-
     for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
         //compilation of the squeres
         container[cmpl]->create_build();
