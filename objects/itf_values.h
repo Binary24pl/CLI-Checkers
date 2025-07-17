@@ -229,16 +229,36 @@ void itf_preload_content(std::vector<itf_tile*>& container)
     const itf_colors playable_c = ITF_C_GREEN;
     const bool playable_i = ITF_LOW_INTEN;
 
+    const itf_colors light_c = ITF_C_WHITE;
+
+    const itf_colors dark_c = ITF_C_YELLOW;
+
     //implementing backgrounds
     container[ITF_IDX_NON_PLAYABLE]->paint_fill(non_playable_c, non_playable_i);
     for(int bg = ITF_IDX_EMPTY; bg < ITF_COUNT_IDX; bg++) {
         container[bg]->paint_fill(playable_c, playable_i);
     }
 
+    //making new layer for pawns and jokeys
+    for(int elms = ITF_IDX_LIGHT_PAWN; elms < ITF_COUNT_IDX; elms++) {
+        container[elms]->create_new_layer(ITF_MOVE_PEN);
+        container[elms]->draw_pencil.on_hght = 2;
+        container[elms]->draw_pencil.on_wdth = 2;
+    }
+
     for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
         //compilation of the squeres
         container[cmpl]->create_build();
         container[cmpl]->create_buffer();
+    }
+
+    //light
+    for(int lght = ITF_IDX_LIGHT_PAWN; lght <= ITF_IDX_LIGHT_JOKEY_STRIKABLE; lght++) {
+        container[lght]->paint_rect(light_c, ITF_HIGH_INTEN, ITF_RCT_FULL, 4, 4);
+    }
+
+    for(int dark = ITF_IDX_DARK_PAWN; dark <= ITF_IDX_DARK_JOKEY_STRIKABLE; dark++) {
+        container[dark]->paint_rect(dark_c, ITF_HIGH_INTEN, ITF_RCT_FULL, 4, 4);
     }
 }
 
