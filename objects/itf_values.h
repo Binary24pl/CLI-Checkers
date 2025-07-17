@@ -233,6 +233,11 @@ void itf_preload_content(std::vector<itf_tile*>& container)
 
     const itf_colors dark_c = ITF_C_YELLOW;
 
+    const bool all_slct_i = ITF_HIGH_INTEN;
+    const itf_colors to_slct = ITF_C_BLUE;
+    const itf_colors slct_ed = ITF_C_CYAN;
+    const itf_colors strike = ITF_C_RED;
+
     //implementing backgrounds
     container[ITF_IDX_NON_PLAYABLE]->paint_fill(non_playable_c, non_playable_i);
     for(int bg = ITF_IDX_EMPTY; bg < ITF_COUNT_IDX; bg++) {
@@ -317,6 +322,22 @@ void itf_preload_content(std::vector<itf_tile*>& container)
 
         container[dark]->draw_pencil.on_hght = 0;
         container[dark]->draw_pencil.on_wdth = 0;
+    }
+
+    for(int nwlr = 0; nwlr < ITF_COUNT_IDX; nwlr++) {
+        if((nwlr >= ITF_IDX_SELECTABLE_EMPTY && nwlr <= ITF_IDX_SELECTED_EMPTY) || (nwlr >= ITF_IDX_LIGHT_PAWN_SELECTABLE && nwlr <= ITF_IDX_DARK_JOKEY_STRIKABLE)) {
+            container[nwlr]->create_new_layer(ITF_MOVE_PEN);
+        }
+    }
+
+    for(int idx_slct = 0; idx_slct < ITF_COUNT_IDX; idx_slct++) {
+        if(idx_slct == ITF_IDX_SELECTABLE_EMPTY || idx_slct == ITF_IDX_LIGHT_PAWN_SELECTABLE || idx_slct == ITF_IDX_LIGHT_JOKEY_SELECTABLE || idx_slct == ITF_IDX_DARK_PAWN_SELECTABLE || idx_slct == ITF_IDX_DARK_JOKEY_SELECTABLE) {
+            container[idx_slct]->paint_rect(to_slct, all_slct_i, ITF_RCT_HLOW, 8, 8);
+        } else if(idx_slct == ITF_IDX_SELECTED_EMPTY || idx_slct == ITF_IDX_LIGHT_PAWN_SELECTED || idx_slct == ITF_IDX_LIGHT_JOKEY_SELECTED || idx_slct == ITF_IDX_DARK_PAWN_SELECTED || idx_slct == ITF_IDX_DARK_JOKEY_SELECTED) {
+            container[idx_slct]->paint_rect(slct_ed, all_slct_i, ITF_RCT_HLOW, 8, 8);
+        } else if(idx_slct == ITF_IDX_LIGHT_PAWN_STRIKABLE || idx_slct == ITF_IDX_LIGHT_JOKEY_STRIKABLE || idx_slct == ITF_IDX_DARK_PAWN_STRIKABLE || idx_slct == ITF_IDX_DARK_JOKEY_STRIKABLE) {
+            container[idx_slct]->paint_rect(strike, all_slct_i, ITF_RCT_HLOW, 8, 8);
+        }
     }
 
     for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
