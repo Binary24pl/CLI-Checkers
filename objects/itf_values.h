@@ -222,6 +222,19 @@ void itf_preload_content(std::vector<itf_tile*>& container)
         container.push_back(to_add);
     }
 
+    //coloring
+    const itf_colors non_playable_c = ITF_C_BLACK;
+    const bool non_playable_i = ITF_HIGH_INTEN;
+
+    const itf_colors playable_c = ITF_C_GREEN;
+    const bool playable_i = ITF_LOW_INTEN;
+
+    //implementing backgrounds
+    container[ITF_IDX_NON_PLAYABLE]->paint_fill(non_playable_c, non_playable_i);
+    for(int bg = ITF_IDX_EMPTY; bg < ITF_COUNT_IDX; bg++) {
+        container[bg]->paint_fill(playable_c, playable_i);
+    }
+
     for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
         //compilation of the squeres
         container[cmpl]->create_build();
