@@ -249,10 +249,12 @@ void itf_preload_content(std::vector<itf_tile*>& container)
     //light
     for(int lght = ITF_IDX_LIGHT_PAWN; lght <= ITF_IDX_LIGHT_JOKEY_STRIKABLE; lght++) {
         container[lght]->paint_rect(light_c, ITF_HIGH_INTEN, ITF_RCT_FULL, 4, 4);
+        container[lght]->paint_rect(light_c, ITF_LOW_INTEN, ITF_RCT_HLOW, 4, 4);
     }
 
     for(int dark = ITF_IDX_DARK_PAWN; dark <= ITF_IDX_DARK_JOKEY_STRIKABLE; dark++) {
         container[dark]->paint_rect(dark_c, ITF_HIGH_INTEN, ITF_RCT_FULL, 4, 4);
+        container[dark]->paint_rect(dark_c, ITF_LOW_INTEN, ITF_RCT_HLOW, 4, 4);
     }
 
     for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
