@@ -286,6 +286,37 @@ void itf_preload_content(std::vector<itf_tile*>& container)
     for(int dark = ITF_IDX_DARK_PAWN; dark <= ITF_IDX_DARK_JOKEY_STRIKABLE; dark++) {
         container[dark]->paint_rect(dark_c, ITF_HIGH_INTEN, ITF_RCT_FULL, 4, 4);
         container[dark]->paint_rect(dark_c, ITF_LOW_INTEN, ITF_RCT_HLOW, 4, 4);
+
+        container[dark]->draw_pencil.on_hght = 1;
+        container[dark]->draw_pencil.on_wdth = 3;
+        container[dark]->paint_line(dark_c, ITF_LOW_INTEN, ITF_D_RIGHT, 2);
+        container[dark]->draw_pencil.on_hght = 2;
+        container[dark]->paint_line(dark_c, ITF_HIGH_INTEN, ITF_D_RIGHT, 2);
+
+        container[dark]->draw_pencil.on_hght = 6;
+        container[dark]->paint_line(dark_c, ITF_LOW_INTEN, ITF_D_RIGHT, 2);
+        container[dark]->draw_pencil.on_hght = 5;
+        container[dark]->paint_line(dark_c, ITF_HIGH_INTEN, ITF_D_RIGHT, 2);
+
+        container[dark]->draw_pencil.on_hght = 3;
+        container[dark]->draw_pencil.on_wdth = 1;
+        container[dark]->paint_line(dark_c, ITF_LOW_INTEN, ITF_D_DOWN, 2);
+        container[dark]->draw_pencil.on_wdth = 2;
+        container[dark]->paint_line(dark_c, ITF_HIGH_INTEN, ITF_D_DOWN, 2);
+
+        container[dark]->draw_pencil.on_wdth = 6;
+        container[dark]->paint_line(dark_c, ITF_LOW_INTEN, ITF_D_DOWN, 2);
+        container[dark]->draw_pencil.on_wdth = 5;
+        container[dark]->paint_line(dark_c, ITF_HIGH_INTEN, ITF_D_DOWN, 2);
+
+        if(dark == ITF_IDX_DARK_JOKEY || (dark >= ITF_IDX_DARK_JOKEY_SELECTABLE && dark <= ITF_IDX_DARK_JOKEY_STRIKABLE)) {
+            container[dark]->draw_pencil.on_hght = 3;
+            container[dark]->draw_pencil.on_wdth = 3;
+            container[dark]->paint_rect(dark_c, ITF_LOW_INTEN, ITF_RCT_FULL, 2, 2);
+        }
+
+        container[dark]->draw_pencil.on_hght = 0;
+        container[dark]->draw_pencil.on_wdth = 0;
     }
 
     for(int cmpl = 0; cmpl < ITF_COUNT_IDX; cmpl++) {
