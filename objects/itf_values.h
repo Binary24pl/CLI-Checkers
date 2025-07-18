@@ -368,10 +368,14 @@ public:
     ~itf_board() {
         //soon
     }
+
+    void init();
 private:
     int board_height, board_width;
     int buffer_size;
     std::vector<itf_tile*> pre_gen_content;
 };
+
+#include "itf_board.h"
 
 #endif
