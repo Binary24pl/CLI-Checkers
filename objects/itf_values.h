@@ -366,7 +366,7 @@ public:
     }
 
     ~itf_board() {
-        //soon
+        itf_clean_content(this->pre_gen_content);
     }
 
     void init();
