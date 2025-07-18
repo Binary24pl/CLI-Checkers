@@ -8,6 +8,7 @@ int main()
 
     ITF::itf_board* global_board;
     global_board = new itf_board(3,3);
+    global_board->init();
 
     delete global_board;
 
