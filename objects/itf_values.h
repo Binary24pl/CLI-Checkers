@@ -355,9 +355,23 @@ void itf_clean_content(std::vector<itf_tile*>& container)
 
 class itf_board {
 public:
-    //soon
+    itf_board(const int& height, const int& width) {
+        if(height % 2 != 0 || width % 2 != 0) {
+            this->board_height = -1;
+            this->board_width = -1;
+        } else {
+            this->board_height = height;
+            this->board_width = width;
+        }
+    }
+
+    ~itf_board() {
+        //soon
+    }
 private:
-    //soon
+    int board_height, board_width;
+    int buffer_size;
+    std::vector<itf_tile*> pre_gen_content;
 };
 
 #endif
