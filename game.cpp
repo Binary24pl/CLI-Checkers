@@ -7,7 +7,7 @@ int main()
     ITF::itf_show_pallette();
 
     ITF::itf_board* global_board;
-    global_board = new itf_board(4,4);
+    global_board = new itf_board(3,3);
     global_board->init();
 
     delete global_board;
