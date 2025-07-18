@@ -9,6 +9,7 @@ int main()
     ITF::itf_board* global_board;
     global_board = new itf_board(10,10);
     global_board->init();
+    global_board->test();
 
     delete global_board;
 

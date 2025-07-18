@@ -375,6 +375,8 @@ public:
     }
 
     void init();
+    void test();
+    void show_visual_state();
 private:
     int board_height, board_width;
     int buffer_size;
