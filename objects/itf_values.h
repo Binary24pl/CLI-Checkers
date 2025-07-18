@@ -352,4 +352,12 @@ void itf_clean_content(std::vector<itf_tile*>& container)
     for(int clean = 0; clean < ITF_COUNT_IDX; clean++) delete container[clean];
 }
 
+
+class itf_board {
+public:
+    //soon
+private:
+    //soon
+};
+
 #endif
