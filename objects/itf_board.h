@@ -14,7 +14,22 @@ void itf_board::init() {
 }
 
 void itf_board::show_visual_state() {
-    //soon
+    std::vector<std::string> local_bfr;
+    for(int start_vals = 0; start_vals < this->buffer_size; start_vals++) local_bfr.push_back("");
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int rst_bfr = 0; rst_bfr < this->buffer_size; rst_bfr++) local_bfr[rst_bfr] = "";
+
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            const std::vector<std::string> other_buffer = this->pre_gen_content[this->state_visual[on_hght][on_wdth]]->tile_buffer;
+
+            for(int add_bfr = 0; add_bfr < this->buffer_size; add_bfr++) local_bfr[add_bfr] += other_buffer[add_bfr];
+        }
+
+        for(int shw_bfr = 0; shw_bfr < this->buffer_size; shw_bfr++) {
+            std::cout << local_bfr[shw_bfr] << std::endl;
+        }
+    }
 }
 
 void itf_board::test() {
