@@ -7,6 +7,9 @@ int main()
     ITF::itf_show_pallette();
 
     ITF::itf_board* global_board;
+    global_board = new itf_board(3,3);
+
+    delete global_board;
 
     std::locale::global(std::locale::classic()); //clears the special characters interpreter
     return 0;
