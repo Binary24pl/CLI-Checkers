@@ -368,6 +368,9 @@ public:
     ~itf_board() {
         if(this->board_height != -1 && this->board_width != -1) {
             itf_clean_content(this->pre_gen_content);
+
+            for(int clean_vs = 0; clean_vs < this->board_height; clean_vs++) delete[] this->state_visual[clean_vs];
+            delete[] this->state_visual;
         }
     }
 
@@ -376,6 +379,7 @@ private:
     int board_height, board_width;
     int buffer_size;
     std::vector<itf_tile*> pre_gen_content;
+    itf_preload_idx** state_visual;
 };
 
 #include "itf_board.h"
