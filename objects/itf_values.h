@@ -366,7 +366,9 @@ public:
     }
 
     ~itf_board() {
-        itf_clean_content(this->pre_gen_content);
+        if(this->board_height != -1 && this->board_width != -1) {
+            itf_clean_content(this->pre_gen_content);
+        }
     }
 
     void init();
