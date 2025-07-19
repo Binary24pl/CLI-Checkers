@@ -4,7 +4,7 @@ int main()
 {
     std::locale::global(std::locale("")); //making special characters work
 
-    std::cout << (char)((int)'A' + 1) << std::endl;
+    std::cout << (char)((int)'A' + 1) << " " << (int)'a' << " " << (int)'A' << std::endl;
 
     ITF::itf_board* global_board;
     global_board = new itf_board(10,10);
