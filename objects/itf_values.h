@@ -380,8 +380,11 @@ public:
 private:
     int board_height, board_width;
     int buffer_size;
+    const int tile_width = 8;
     std::vector<itf_tile*> pre_gen_content;
     itf_preload_idx** state_visual;
+
+    void top_numeric_indexies();
 };
 
 #include "itf_board.h"
