@@ -16,6 +16,12 @@ void itf_board::init() {
 void itf_board::show_visual_state() {
     this->top_numeric_indexies();
 
+    itf_text_pallete used_color;
+    used_color.bg_color = ITF_C_BLACK;
+    used_color.fg_color = ITF_C_RED;
+    used_color.bg_inten = ITF_LOW_INTEN;
+    used_color.fg_inten = ITF_HIGH_INTEN;
+
     std::vector<std::string> local_bfr;
     for(int start_vals = 0; start_vals < this->buffer_size; start_vals++) local_bfr.push_back("");
 
@@ -29,8 +35,20 @@ void itf_board::show_visual_state() {
         }
 
         for(int shw_bfr = 0; shw_bfr < this->buffer_size; shw_bfr++) {
-            std::cout << local_bfr[shw_bfr] << std::endl;
+            std::cout << local_bfr[shw_bfr];
+            if(shw_bfr != this->buffer_size - 1) std::cout << std::endl;
         }
+        int letter_index_num = (int)'A';
+        letter_index_num += on_hght;
+
+        char letter_index_char = (char)letter_index_num;
+        
+        std::string letter_index_str = "";
+        letter_index_str += letter_index_char;
+
+        letter_index_str = itf_give_color(letter_index_str, used_color);
+        std::cout << letter_index_str << std::endl;
+        
     }
 }
 
@@ -44,10 +62,10 @@ void itf_board::top_numeric_indexies() {
     used_color.fg_inten = ITF_HIGH_INTEN;
 
     for(int idx = 0; idx < this->board_width; idx++) {
-        std::string num = common_translate_value<int, std::string>(idx);
+        std::string num = common_translate_value<int, std::string>(idx + 1);
         int diff = this->tile_width - num.length();
 
-        itf_give_color(num, used_color);
+        num = itf_give_color(num, used_color);
 
         to_view += num;
         for(int wh_ch = 0; wh_ch < diff; wh_ch++) to_view += " ";
