@@ -14,6 +14,8 @@ void itf_board::init() {
 }
 
 void itf_board::show_visual_state() {
+    this->top_numeric_indexies();
+
     std::vector<std::string> local_bfr;
     for(int start_vals = 0; start_vals < this->buffer_size; start_vals++) local_bfr.push_back("");
 
@@ -30,6 +32,28 @@ void itf_board::show_visual_state() {
             std::cout << local_bfr[shw_bfr] << std::endl;
         }
     }
+}
+
+void itf_board::top_numeric_indexies() {
+    std::string to_view = "";
+
+    itf_text_pallete used_color;
+    used_color.bg_color = ITF_C_BLACK;
+    used_color.fg_color = ITF_C_RED;
+    used_color.bg_inten = ITF_LOW_INTEN;
+    used_color.fg_inten = ITF_HIGH_INTEN;
+
+    for(int idx = 0; idx < this->board_width; idx++) {
+        std::string num = common_translate_value<int, std::string>(idx);
+        int diff = this->tile_width - num.length();
+
+        itf_give_color(num, used_color);
+
+        to_view += num;
+        for(int wh_ch = 0; wh_ch < diff; wh_ch++) to_view += " ";
+    }
+
+    std::cout << to_view << std::endl;
 }
 
 void itf_board::test() {
