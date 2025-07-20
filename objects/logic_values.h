@@ -2,7 +2,8 @@
 #define LOGIC
 
 enum logic_whatami_node {
-    ITF_NODE_NONE
+    LOGIC_NODE_NONE,
+    LOGIC_NODE_TEST
 };
 
 struct logic_passage_node {
@@ -11,6 +12,7 @@ struct logic_passage_node {
     int count;
 };
 
+//these nodes will be used by various logic thingies
 class logic_node {
 public:
     logic_node(const logic_whatami_node& identity) {
@@ -19,6 +21,8 @@ public:
     };
 
     ~logic_node() {
+        std::cout << "From parent" << std::endl;
+
         if(this->prev_count > 0) {
             delete[] this->prev_scores;
             delete[] this->prev_idx;
