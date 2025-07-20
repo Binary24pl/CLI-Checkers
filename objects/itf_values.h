@@ -222,6 +222,8 @@ public:
         }
     };
 
+    void set_range(const itf_input_range<input_type>& range);
+
     bool output_vld;
 private:
     itf_input_range<input_type>* range_of_input;
