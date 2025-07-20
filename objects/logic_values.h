@@ -18,7 +18,12 @@ public:
         this->prev_count = 0;
     };
 
-    ~logic_node() {};
+    ~logic_node() {
+        if(this->prev_count > 0) {
+            delete[] this->prev_scores;
+            delete[] this->prev_idx;
+        }
+    };
 
     logic_whatami_node whatami;
 protected:
