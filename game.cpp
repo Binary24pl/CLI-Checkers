@@ -10,11 +10,7 @@ int main()
     test = new ITF::itf_query*[len];
 
     for(int i = 0; i < len; i++) {
-        if(i % 2 == 0) {
-            test[i] = new ITF::itf_query_elm<std::string>;
-        } else {
-            test[i] = new ITF::itf_query_elm<int>;
-        }
+        test[i] = new ITF::itf_query_elm<int>;
     }
     
     for(int i = 0; i < len; i++) {
