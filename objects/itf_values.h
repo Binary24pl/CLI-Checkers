@@ -242,6 +242,10 @@ public:
         this->main_node.main_range->what_range = what_type;
         this->main_node.main_range->args_amn = amn;
     }
+
+    void provide_input(input_type val) {
+        main_node.main_val = val;
+    }
 private:
     itf_input_node<input_type> main_node;
 };
