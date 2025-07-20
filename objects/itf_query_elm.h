@@ -34,7 +34,15 @@ template<typename input_type>
 bool itf_query_elm<input_type>::validate()
 {
     if(this->range_of_input != nullptr) {
-        //soon
+        if(this->range_of_input->what_range == ITF_RANGE_FROM_TO) {
+            return this->check_range_from_to();
+        } else if(this->range_of_input->what_range == ITF_RANGE_BEYOND_FROM_TO) {
+            return this->check_range_beyond();
+        } else if(this->range_of_input->what_range == ITF_RANGE_IS_IN) {
+            return this->check_range_is_in();
+        } else if(this->range_of_input->what_range == ITF_RANGE_IS_NOT_IN) {
+            return this->check_range_is_not_in();
+        }
     }
     return true;
 }
