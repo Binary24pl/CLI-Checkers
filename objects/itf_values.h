@@ -207,4 +207,11 @@ private:
     void top_numeric_indexies();
 };
 
+class itf_query {
+public:
+    itf_query() {};
+    
+    ~itf_query() {};
+};
+
 #endif
