@@ -205,7 +205,11 @@ class itf_query {
 public:
     itf_query() {};
     
-    ~itf_query() {};
+    virtual ~itf_query() = 0;
+
+    virtual void set_range() = 0;
+    virtual void set_input() = 0;
+    virtual bool validate() = 0;
 };
 
 template<typename input_type>
@@ -215,16 +219,53 @@ public:
         this->range_of_input = nullptr;
     };
 
-    ~itf_query_elm() {
+    ~itf_query_elm() override {
         if(range_of_input != nullptr) {
             delete[] this->range_of_input->containter;
             delete this->range_of_input;
         }
     };
 
-    void set_range(const itf_input_range<input_type>& range);
-    void set_input(const input_type& val);
-    bool validate();
+    void set_range(const itf_input_range<input_type>& range) override {
+        if((range.what_range == ITF_RANGE_BEYOND_FROM_TO || range.what_range == ITF_RANGE_FROM_TO) && range.args_amn % 2 != 0) {
+            return;
+        }
+
+        if(this->range_of_input != nullptr) {
+            itf_input_range<input_type>* temp = this->range_of_input;
+            this->range_of_input = nullptr;
+
+            delete[] temp->containter;
+            delete temp;
+        }
+
+        this->range_of_input = new itf_input_range<input_type>;
+        
+        this->range_of_input->what_range = range.what_range;
+        this->range_of_input->args_amn = range.args_amn;
+
+        this->range_of_input->containter = new input_type[this->range_of_input->args_amn];
+        for(int trans = 0; trans < range.args_amn; trans++) {
+            range_of_input->containter[trans] = range.containter[trans];
+        }
+    }
+    void set_input(const input_type& val) override {
+        this->input_val = val;
+    }
+    bool validate() override {
+        if(this->range_of_input != nullptr) {
+            if(this->range_of_input->what_range == ITF_RANGE_FROM_TO) {
+                return this->check_range_from_to();
+            } else if(this->range_of_input->what_range == ITF_RANGE_BEYOND_FROM_TO) {
+                return this->check_range_beyond();
+            } else if(this->range_of_input->what_range == ITF_RANGE_IS_IN) {
+                return this->check_range_is_in();
+            } else if(this->range_of_input->what_range == ITF_RANGE_IS_NOT_IN) {
+                return this->check_range_is_not_in();
+            }
+        }
+    return true;
+    }
 private:
     bool check_range_from_to();
     bool check_range_beyond();
