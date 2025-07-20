@@ -52,12 +52,6 @@ enum itf_range_types {
     ITF_RANGE_IS_NOT_IN
 };
 
-template<typename input_type>
-struct itf_input_node
-{
-    input_type main_val;
-    itf_input_range<input_type>* main_range;
-};
 
 template<typename input_type>
 struct itf_input_range
@@ -65,6 +59,12 @@ struct itf_input_range
     input_type* containter;
     int args_amn;
     itf_range_types what_range;
+};
+template<typename input_type>
+struct itf_input_node
+{
+    input_type main_val;
+    itf_input_range<input_type>* main_range;
 };
 
 
