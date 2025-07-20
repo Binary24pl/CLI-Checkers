@@ -225,8 +225,6 @@ public:
     void set_range(const itf_input_range<input_type>& range);
     void set_input(const input_type& val);
     bool validate();
-
-    bool output_vld;
 private:
     bool check_range_from_to();
     bool check_range_beyond();
