@@ -58,13 +58,8 @@ struct itf_input_range
 {
     input_type* containter;
     int args_amn;
+    int args_spc;
     itf_range_types what_range;
-};
-template<typename input_type>
-struct itf_input_node
-{
-    input_type main_val;
-    itf_input_range<input_type>* main_range;
 };
 
 
@@ -217,11 +212,21 @@ public:
 template<typename input_type>
 class itf_query_elm : public itf_query {
 public:
-    itf_query_elm() {};
+    itf_query_elm() {
+        this->range_of_input = nullptr;
+    };
 
-    ~itf_query_elm() {};
+    ~itf_query_elm() {
+        if(range_of_input != nullptr) {
+            delete[] this->range_of_input->containter;
+            delete this->range_of_input;
+        }
+    };
 
-    void test(input_type val);
+    bool output_vld;
+private:
+    itf_input_range<input_type>* range_of_input;
+    input_type input_val;
 };
 
 #endif
