@@ -214,8 +214,21 @@ public:
     ~itf_query() {};
 };
 
+template<typename input_type>
 class itf_query_elm : public itf_query {
-    //soon
+public:
+    itf_query_elm() {
+        this->main_node.main_range = nullptr;
+    };
+    
+    ~itf_query_elm() {
+        if(this->main_node.main_range != nullptr) {
+            delete[] this->main_node.main_range.container;
+            delete this->main_node.main_range;
+        }
+    };
+private:
+    itf_input_node<input_type> main_node;
 };
 
 #endif
