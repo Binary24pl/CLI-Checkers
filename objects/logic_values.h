@@ -5,12 +5,6 @@ enum logic_whatami_node {
     LOGIC_NODE_NONE
 };
 
-struct logic_passage_node {
-    bool* scores;
-    int* indexies;
-    int count;
-};
-
 //these nodes will be used by various logic thingies
 class logic_node {
 public:
@@ -29,9 +23,12 @@ public:
     };
 
     logic_whatami_node whatami;
+    
+    void connected_from(const int& id, const int& priority);
 protected:
     bool* prev_scores;
     int* prev_idx;
+    int* prev_priority;
     int prev_count;
 
     bool output;
