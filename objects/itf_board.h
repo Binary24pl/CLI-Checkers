@@ -1,3 +1,5 @@
+//finish it later;
+
 void itf_board::init() {
     if(this->board_height == -1 || this->board_width == -1) {
         return;

@@ -45,6 +45,29 @@ enum itf_preload_idx {
     ITF_IDX_DARK_JOKEY_STRIKABLE = 19
 };
 
+enum itf_range_types {
+    ITF_RANGE_FROM_TO,
+    ITF_RANGE_BEYOND_FROM_TO,
+    ITF_RANGE_IS_IN,
+    ITF_RANGE_IS_NOT_IN
+};
+
+template<typename input_type>
+struct itf_input_node
+{
+    input_type main_val;
+    itf_input_range<input_type>* main_range;
+};
+
+template<typename input_type>
+struct itf_input_range
+{
+    input_type* containter;
+    int args_amn;
+    itf_range_types what_range;
+};
+
+
 #define ITF_COUNT_IDX 20
 
 #define ITF_FG_LOW "3"
