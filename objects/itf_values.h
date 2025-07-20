@@ -217,55 +217,11 @@ public:
 template<typename input_type>
 class itf_query_elm : public itf_query {
 public:
-    itf_query_elm() {
-        this->main_node.main_range = nullptr;
-    };
-    
-    ~itf_query_elm() {
-        if(this->main_node.main_range != nullptr) {
-            delete[] this->main_node.main_range->containter;
-            delete this->main_node.main_range;
-        }
-    };
+    itf_query_elm() {};
 
-    void set_range(input_type* args, itf_range_types what_type, const int& amn) {
-        if((what_type == ITF_RANGE_FROM_TO || what_type == ITF_RANGE_BEYOND_FROM_TO) && amn % 2 != 0) {
-            //it needs to be even, because you can have multiple ranges, but they are from and to so yk
-            return;
-        }
+    ~itf_query_elm() {};
 
-        if(this->main_node.main_range != nullptr) {
-            itf_input_range<input_type>* temp = this->main_node.main_range;
-            this->main_node.main_range = nullptr;
-
-            delete[] temp->containter;
-            delete temp;
-        }
-        
-        this->main_node.main_range = new itf_input_range<input_type>;
-        
-        this->main_node.main_range->containter = new input_type[amn];
-        for(int i =  0; i < amn; i++) this->main_node.main_range->containter[i] = args[i];
-
-        this->main_node.main_range->what_range = what_type;
-        this->main_node.main_range->args_amn = amn;
-    }
-
-    void provide_input(input_type val) {
-        main_node.main_val = val;
-    }
-
-    bool provide_validation() {
-        if(main_node.main_range == nullptr) {
-            return true;
-        }
-
-        //soon
-    }
-
-
-private:
-    itf_input_node<input_type> main_node;
+    void test(input_type val);
 };
 
 #endif
