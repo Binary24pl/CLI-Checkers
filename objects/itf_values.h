@@ -229,6 +229,14 @@ public:
     };
 
     void set_range(input_type* args, itf_range_types what_type, int amn) {
+        if(this->main_node.main_range != nullptr) {
+            itf_input_range<input_type>* temp = this->main_node.main_range;
+            this->main_node.main_range = nullptr;
+
+            delete[] temp->containter;
+            delete temp;
+        }
+        
         this->main_node.main_range = new itf_input_range<input_type>;
         this->main_node.main_range->containter = args;
         this->main_node.main_range->what_range = what_type;
