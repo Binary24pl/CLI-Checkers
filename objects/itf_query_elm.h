@@ -23,3 +23,18 @@ void itf_query_elm<input_type>::set_range(const itf_input_range<input_type>& ran
         range_of_input->containter[trans] = range.containter[trans];
     }
 }
+
+template<typename input_type>
+void itf_query_elm<input_type>::set_input(const input_type& val)
+{
+    this->input_val = val;
+}
+
+template<typename input_type>
+bool itf_query_elm<input_type>::validate()
+{
+    if(this->range_of_input != nullptr) {
+        //soon
+    }
+    return true;
+}
