@@ -2,8 +2,7 @@
 #define LOGIC
 
 enum logic_whatami_node {
-    LOGIC_NODE_NONE,
-    LOGIC_NODE_TEST
+    LOGIC_NODE_NONE
 };
 
 struct logic_passage_node {
