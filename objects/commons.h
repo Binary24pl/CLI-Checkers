@@ -10,7 +10,6 @@ template<typename FROM, typename TO> TO common_translate_value(FROM to_translate
 #include "itf_funcs.h"
 #include "itf_tile.h"
 #include "itf_board.h"
-#include "itf_query_elm.h"
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate)
 {
