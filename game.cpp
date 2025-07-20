@@ -4,13 +4,16 @@ int main()
 {
     std::locale::global(std::locale("")); //making special characters work
 
-    ITF::itf_board* global_board;
-    global_board = new itf_board(10,10);
-    global_board->init();
-    global_board->test();
-    global_board->show_visual_state();
+    LOGIC::logic_node* test;
+    test = new LOGIC::logic_node(LOGIC_NODE_NONE);
 
-    delete global_board;
+    test->connected_from(1,1);
+    test->connected_from(1,1);
+    test->connected_from(1,1);
+    test->connected_from(1,1);
+    test->connected_from(1,1);
+
+    delete test;
 
     std::locale::global(std::locale::classic()); //clears the special characters interpreter
     return 0;
