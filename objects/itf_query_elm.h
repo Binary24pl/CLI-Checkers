@@ -38,3 +38,27 @@ bool itf_query_elm<input_type>::validate()
     }
     return true;
 }
+
+template<typename input_type>
+bool itf_query_elm<input_type>::check_range_from_to()
+{
+    //soon
+}
+
+template<typename input_type>
+bool itf_query_elm<input_type>::check_range_beyond()
+{
+    //soon
+}
+
+template<typename input_type>
+bool itf_query_elm<input_type>::check_range_is_in()
+{
+    //soon
+}
+
+template<typename input_type>
+bool itf_query_elm<input_type>::check_range_is_not_in()
+{
+    //soon
+}
