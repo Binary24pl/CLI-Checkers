@@ -227,6 +227,13 @@ public:
             delete this->main_node.main_range;
         }
     };
+
+    void set_range(input_type* args, itf_range_types what_type, int amn) {
+        this->main_node.main_range = new itf_input_range<input_type>;
+        this->main_node.main_range->containter = args;
+        this->main_node.main_range->what_range = what_type;
+        this->main_node.main_range->args_amn = amn;
+    }
 private:
     itf_input_node<input_type> main_node;
 };
