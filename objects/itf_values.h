@@ -45,22 +45,6 @@ enum itf_preload_idx {
     ITF_IDX_DARK_JOKEY_STRIKABLE = 19
 };
 
-enum itf_range_types {
-    ITF_RANGE_FROM_TO,
-    ITF_RANGE_BEYOND_FROM_TO,
-    ITF_RANGE_IS_IN,
-    ITF_RANGE_IS_NOT_IN
-};
-
-
-template<typename input_type>
-struct itf_input_range
-{
-    input_type* containter;
-    int args_amn;
-    itf_range_types what_range;
-};
-
 
 #define ITF_COUNT_IDX 20
 
@@ -199,56 +183,6 @@ private:
     itf_preload_idx** state_visual;
 
     void top_numeric_indexies();
-};
-
-class itf_query {
-public:
-    itf_query() {};
-    
-    ~itf_query() {};
-
-    virtual void set_range(void* range) = 0;
-    virtual void set_input(void* val) = 0;
-    virtual bool validate() = 0;
-};
-
-template<typename input_type>
-class itf_query_elm : public itf_query {
-public:
-    itf_query_elm() {
-        this->range_of_input = nullptr;
-    };
-
-    ~itf_query_elm() {
-        if(range_of_input != nullptr) {
-            delete[] this->range_of_input->containter;
-            delete this->range_of_input;
-        }
-    };
-
-    void set_range(void* range) override {
-        if (!range) return;
-        set_range(*static_cast<itf_input_range<input_type>*>(range));
-        //la wizard
-    }
-
-    void set_input(void* val) override {
-        if (!val) return;
-        set_input(*static_cast<input_type*>(val));
-    }
-    
-
-    void set_range(const itf_input_range<input_type>& range);
-    void set_input(const input_type& val);
-    bool validate() override;
-private:
-    bool check_range_from_to();
-    bool check_range_beyond();
-    bool check_range_is_in();
-    bool check_range_is_not_in();
-
-    itf_input_range<input_type>* range_of_input;
-    input_type input_val;
 };
 
 #endif
