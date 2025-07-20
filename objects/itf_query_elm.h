@@ -1,6 +1,10 @@
 template<typename input_type>
 void itf_query_elm<input_type>::set_range(const itf_input_range<input_type>& range)
 {
+    if((range.what_range == ITF_RANGE_BEYOND_FROM_TO || range.what_range == ITF_RANGE_FROM_TO) && range.args_amn % 2 != 0) {
+        std::cout << "It is an odd number tho :(" << std::endl;
+    }
+
     if(this->range_of_input != nullptr) {
         itf_input_range<input_type>* temp = this->range_of_input;
         this->range_of_input = nullptr;

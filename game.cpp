@@ -11,7 +11,7 @@ int main()
     ITF::itf_input_range<int> passer;
     passer.containter = new int[length];
     passer.args_amn = length;
-    passer.what_range = ITF_RANGE_IS_IN;
+    passer.what_range = ITF_RANGE_FROM_TO;
 
     passer.containter[0] = 1;
     passer.containter[1] = 3;
