@@ -228,6 +228,11 @@ public:
 
     bool output_vld;
 private:
+    bool check_range_from_to();
+    bool check_range_beyond();
+    bool check_range_is_in();
+    bool check_range_is_not_in();
+
     itf_input_range<input_type>* range_of_input;
     input_type input_val;
 };
