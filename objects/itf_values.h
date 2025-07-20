@@ -214,4 +214,8 @@ public:
     ~itf_query() {};
 };
 
+class itf_query_elm : public itf_query {
+    //soon
+};
+
 #endif
