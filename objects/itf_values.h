@@ -58,7 +58,6 @@ struct itf_input_range
 {
     input_type* containter;
     int args_amn;
-    int args_spc;
     itf_range_types what_range;
 };
 
