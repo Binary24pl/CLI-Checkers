@@ -15,6 +15,7 @@ class logic_node {
 public:
     logic_node(const logic_whatami_node& identity) {
         this->whatami = identity;
+        this->prev_count = 0;
     };
 
     ~logic_node() {};
