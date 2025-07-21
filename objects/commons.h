@@ -5,7 +5,6 @@
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate);
 template<typename PASS> void common_passer(PASS to_pass, void(*func_ptr)(void*&));
-void test(void*&);
 
 #include "itf_values.h"
 
@@ -35,9 +34,4 @@ template<typename PASS> void common_passer(PASS to_pass, void(*func_ptr)(void*&)
     func_ptr(to_send);
 
     delete to_cast;
-}
-
-void test(void*&)
-{
-    std::cout << "hello from test" << std::endl;
 }
