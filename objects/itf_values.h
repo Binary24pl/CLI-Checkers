@@ -200,9 +200,9 @@ public:
 
     itf_input_whatami identity;
 
-    void insert_value(void*& val);
-    void set_range(void*& range);
-    bool is_valid();
+    virtual void insert_value(void*& val) = 0;
+    virtual void set_range(void*& range) = 0;
+    virtual bool is_valid() = 0;
 };
 
 template<typename input_type>
@@ -216,15 +216,22 @@ public:
         int test_int;
 
         if(typeid(tested) == typeid(test_str)) {
-            std::cout << "it is a string" << std::endl;
+            this->identity = ITF_INPUT_STRING;
         } else if(typeid(tested) == typeid(test_chr)) {
-            std::cout << "it is a char" << std::endl;
+            this->identity = ITF_INPUT_CHAR;
         } else if(typeid(tested) == typeid(test_int)) {
-            std::cout << "it is an int" << std::endl;
+            this->identity = ITF_INPUT_INT;
         } else {
-            std::cout << "it is an error" << std::endl;
+            this->identity = ITF_INPUT_ERROR;
         }
     };
+
+    void insert_value(void*& val) override;
+    void set_range(void*& range) override;
+    bool is_valid() override;
+private:
+    void native_insert_value(cosnt input_type& val);
+    void native_set_range(const input_type& range);
 };
 
 #endif
