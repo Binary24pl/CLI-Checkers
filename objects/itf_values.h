@@ -45,6 +45,13 @@ enum itf_preload_idx {
     ITF_IDX_DARK_JOKEY_STRIKABLE = 19
 };
 
+enum itf_input_whatami {
+    ITF_INPUT_INT,
+    ITF_INPUT_STRING,
+    ITF_INPUT_CHAR,
+    ITF_INPUT_ERROR
+};
+
 
 #define ITF_COUNT_IDX 20
 
@@ -183,6 +190,41 @@ private:
     itf_preload_idx** state_visual;
 
     void top_numeric_indexies();
+};
+
+class itf_query_master {
+public:
+    itf_query_master() {}
+
+    ~itf_query_master() {}
+
+    itf_input_whatami identity;
+
+    void insert_value(void*& val);
+    void set_range(void*& range);
+    bool is_valid();
+};
+
+template<typename input_type>
+class itf_query_element : public itf_query_master {
+public:
+    itf_query_element() {
+        input_type tested;
+
+        std::string test_str;
+        char test_chr;
+        int test_int;
+
+        if(typeid(tested) == typeid(test_str)) {
+            std::cout << "it is a string" << std::endl;
+        } else if(typeid(tested) == typeid(test_chr)) {
+            std::cout << "it is a char" << std::endl;
+        } else if(typeid(tested) == typeid(test_int)) {
+            std::cout << "it is an int" << std::endl;
+        } else {
+            std::cout << "it is an error" << std::endl;
+        }
+    };
 };
 
 #endif
