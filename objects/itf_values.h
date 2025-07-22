@@ -52,6 +52,22 @@ enum itf_input_whatami {
     ITF_INPUT_ERROR
 };
 
+enum itf_inrange_type {
+    ITF_RANGE_FROM_TO,
+    ITF_RANGE_BEYOND,
+    ITF_RANGE_IS_IN,
+    ITF_RANGE_IS_NOT_IN
+};
+
+template<typename input_type>
+struct itf_input_range
+{
+    input_type* args;
+    int args_len;
+    itf_inrange_type args_type;
+};
+
+
 
 #define ITF_COUNT_IDX 20
 
@@ -224,6 +240,15 @@ public:
         } else {
             this->identity = ITF_INPUT_ERROR;
         }
+
+        this->local_range = nullptr;
+    };
+
+    ~itf_query_element() {
+        if(this->local_range != nullptr) {
+            delete[] this->local_range->args;
+            delete this->local_range;
+        }
     };
 
     void assign_val(void*& val) override;
@@ -231,8 +256,10 @@ public:
     bool validate() override;
 private:
     input_type local_val;
+    itf_input_range<input_type>* local_range;
 
     void ntv_assign_val(const input_type& val); // native implementation of assign_val
+    void ntv_set_range(const itf_input_range<input_type>& range);
 };
 
 #endif
