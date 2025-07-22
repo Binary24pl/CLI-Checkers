@@ -259,6 +259,17 @@ public:
         delete val_dlt;
 
         void* other_range;
+        other->give_range(other_range);
+
+        if(other_range != nullptr) {
+            this->set_range(other_range);
+
+            itf_input_range<input_type>* rng_dlt;
+            rng_dlt = (itf_input_range<input_type>*)other_range;
+
+            delete[] rng_dlt->args;
+            delete rng_dlt;
+        }
     }
 
     ~itf_query_element() {

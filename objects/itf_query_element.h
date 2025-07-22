@@ -61,9 +61,23 @@ void itf_query_element<input_type>::give_val(void*& val) {
 }
 
 template<typename input_type>
-void itf_query_element<input_type>::give_range(void*& val)
+void itf_query_element<input_type>::give_range(void*& range)
 {
-    //later
+    if(this->local_range == nullptr) {
+        range = nullptr;
+        return;
+    }
+
+    itf_input_range<input_type>* to_pass = new itf_input_range<input_type>;
+    to_pass->args_len = this->local_range->args_len;
+    to_pass->args_type = this->local_range->args_type;
+
+    to_pass->args = new input_type[to_pass->args_len];
+    for(int ctn_idx = 0; ctn_idx < to_pass->args_len; ctn_idx++) {
+        to_pass->args[ctn_idx] = this->local_range->args[ctn_idx];
+    }
+
+    range = (void*)to_pass;
 }
 
 template<typename input_type>
