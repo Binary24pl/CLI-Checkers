@@ -221,6 +221,7 @@ public:
     virtual bool validate() = 0;
 
     virtual void give_val(void*& val) = 0;
+    virtual void give_range(void*& range) = 0;
 };
 
 template<typename input_type>
@@ -250,12 +251,14 @@ public:
         void* val_other;
         other->give_val(val_other);
 
-        input_type* test;
-        test = (input_type*)val_other;
+        this->assign_val(val_other);
 
-        std::cout << *test << std::endl;
+        input_type* val_dlt;
+        val_dlt = (input_type*)val_other;
 
-        delete val_other;
+        delete val_dlt;
+
+        void* other_range;
     }
 
     ~itf_query_element() {
@@ -270,6 +273,7 @@ public:
     bool validate() override;
 
     void give_val(void*& val) override;
+    void give_range(void*& range) override;
 private:
     input_type local_val;
     itf_input_range<input_type>* local_range;

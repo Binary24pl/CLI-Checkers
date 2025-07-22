@@ -57,9 +57,13 @@ void itf_query_element<input_type>::give_val(void*& val) {
     input_type* to_pass = new input_type;
     *to_pass = this->local_val;
 
-    std::cout << *to_pass << std::endl;
-
     val = (void*)to_pass;
+}
+
+template<typename input_type>
+void itf_query_element<input_type>::give_range(void*& val)
+{
+    //later
 }
 
 template<typename input_type>
