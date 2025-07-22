@@ -7,7 +7,8 @@ int main()
     ITF::itf_query_master** master = new ITF::itf_query_master*[1];
     master[0] = new ITF::itf_query_element<std::string>;
     
-    common_passer("Hello world", master[0], &ITF::itf_query_master::assign_val);
+    std::string test = "hello world";
+    common_passer(test, master[0], &ITF::itf_query_master::assign_val);
 
     delete master[0];
     delete[] master;
