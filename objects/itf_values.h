@@ -199,6 +199,8 @@ public:
     ~itf_query_master() {}
 
     itf_input_whatami identity;
+
+    virtual void test(void*& val) = 0;
 };
 
 template<typename input_type>
@@ -221,6 +223,8 @@ public:
             this->identity = ITF_INPUT_ERROR;
         }
     };
+
+    void test(void*& val) override;
 };
 
 #endif
