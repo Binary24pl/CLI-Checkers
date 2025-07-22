@@ -5,10 +5,7 @@ int main()
     std::locale::global(std::locale("")); //making special characters work
 
     ITF::itf_query_master** master = new ITF::itf_query_master*[1];
-    master[0] = new ITF::itf_query_element<int>;
-
-    void (ITF::itf_query_master::*func_ptr)(void*&) = &ITF::itf_query_master::test;
-    common_passer(5, master[0], func_ptr);    
+    master[0] = new ITF::itf_query_element<int>;    
 
     delete master[0];
     delete[] master;

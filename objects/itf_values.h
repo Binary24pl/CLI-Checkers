@@ -200,7 +200,9 @@ public:
 
     itf_input_whatami identity;
 
-    virtual void test(void*& val) = 0;
+    virtual void assign_val(void*& val) = 0;
+    virtual void set_range(void*& range) = 0;
+    virtual bool validate() = 0;
 };
 
 template<typename input_type>
@@ -224,7 +226,13 @@ public:
         }
     };
 
-    void test(void*& val) override;
+    void assign_val(void*& val) override;
+    void set_range(void*& range) override;
+    bool validate() override;
+private:
+    input_type local_val;
+
+    void ntv_assign_val(const input_type& val); // native implementation of assign_val
 };
 
 #endif

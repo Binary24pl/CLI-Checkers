@@ -1,7 +1,22 @@
 template<typename input_type>
-void itf_query_element<input_type>::test(void*& val)
+void itf_query_element<input_type>::assign_val(void*& val)
 {
-    input_type* re_caster = (input_type*)val;
+    input_type* caster = (input_type*) val;
+    const input_type casted = *caster;
 
-    std::cout << "Hello and to you mr. value: " << *re_caster << std::endl;
+    this->ntv_assign_val(casted);
+}
+
+template<typename input_type>
+void itf_query_element<input_type>::set_range(void*& set_range)
+{}
+
+template<typename input_type>
+bool itf_query_element<input_type>::validate()
+{}
+
+template<typename input_type>
+void itf_query_element<input_type>::ntv_assign_val(const input_type& val)
+{
+    this->local_val = val;
 }
