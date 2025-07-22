@@ -4,7 +4,7 @@
 #include <sstream>
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate);
-template<typename PASS> void common_passer(const PASS& to_pass, void(*func_ptr)(void*&));
+template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, CLASS* of_obj, void(CLASS::*method)(void*&));
 
 #include "itf_values.h"
 
@@ -24,15 +24,8 @@ template<typename FROM, typename TO> TO common_translate_value(FROM to_translate
     return to_return;
 }
 
-template<typename PASS> void common_passer(const PASS& to_pass, void(*func_ptr)(void*&))
+template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, CLASS* of_obj, void(CLASS::*method)(void*&))
 {
-    PASS* to_cast = new PASS;
-    *to_cast = to_pass;
-
-    void* to_send;
-    to_send = (void*)to_cast;
-
-    func_ptr(to_send);
-
-    delete to_cast;
+    void* arg = nullptr;
+    (of_obj->*method)(arg);
 }

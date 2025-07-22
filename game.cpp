@@ -8,7 +8,7 @@ int main()
     master[0] = new ITF::itf_query_element<int>;
 
     void (ITF::itf_query_master::*func_ptr)(void*&) = &ITF::itf_query_master::test;
-        
+    common_passer(5, master[0], func_ptr);    
 
     delete master[0];
     delete[] master;
