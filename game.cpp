@@ -8,7 +8,7 @@ int main()
     master[0] = new ITF::itf_query_element<std::string>;
     
     ITF::itf_input_range<std::string> test_range;
-    test_range.args_len = 6;
+    test_range.args_len = 5;
     test_range.args_type = ITF_RANGE_FROM_TO;
     test_range.args = new std::string[test_range.args_len];
 
