@@ -13,6 +13,8 @@ int main()
     test_range.args = new std::string[test_range.args_len];
 
     common_passer(test_range, master[0], &ITF::itf_query_master::set_range);
+    common_passer(test_range, master[0], &ITF::itf_query_master::set_range);
+    common_passer(test_range, master[0], &ITF::itf_query_master::set_range);
 
     delete master[0];
     delete[] master;
