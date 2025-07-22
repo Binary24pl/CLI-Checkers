@@ -53,6 +53,16 @@ bool itf_query_element<input_type>::validate()
 }
 
 template<typename input_type>
+void itf_query_element<input_type>::give_val(void*& val) {
+    input_type* to_pass = new input_type;
+    *to_pass = this->local_val;
+
+    std::cout << *to_pass << std::endl;
+
+    val = (void*)to_pass;
+}
+
+template<typename input_type>
 void itf_query_element<input_type>::ntv_assign_val(const input_type& val)
 {
     this->local_val = val;

@@ -219,6 +219,8 @@ public:
     virtual void assign_val(void*& val) = 0;
     virtual void set_range(void*& range) = 0;
     virtual bool validate() = 0;
+
+    virtual void give_val(void*& val) = 0;
 };
 
 template<typename input_type>
@@ -244,6 +246,18 @@ public:
         this->local_range = nullptr;
     };
 
+    itf_query_element(itf_query_master* other) {
+        void* val_other;
+        other->give_val(val_other);
+
+        input_type* test;
+        test = (input_type*)val_other;
+
+        std::cout << *test << std::endl;
+
+        delete val_other;
+    }
+
     ~itf_query_element() {
         if(this->local_range != nullptr) {
             delete[] this->local_range->args;
@@ -254,6 +268,8 @@ public:
     void assign_val(void*& val) override;
     void set_range(void*& range) override;
     bool validate() override;
+
+    void give_val(void*& val) override;
 private:
     input_type local_val;
     itf_input_range<input_type>* local_range;
@@ -269,9 +285,11 @@ private:
 
 class itf_question {
 public:
-    //later
+    itf_question() {};
+    
+    ~itf_question() {};
 private:
-    //later
+    itf_query_master** question_form;
 };
 
 #endif
