@@ -32,7 +32,7 @@ template<typename input_type>
 void itf_query_element<input_type>::ntv_set_range(const itf_input_range<input_type>& range)
 {
     if(this->local_range != nullptr) {
-        itf_input_range<itf_input_range>* temp_holder = this->local_range;
+        itf_input_range<input_type>* temp_holder = this->local_range;
 
         this->local_range = new itf_input_range<input_type>;
         
@@ -48,6 +48,6 @@ void itf_query_element<input_type>::ntv_set_range(const itf_input_range<input_ty
     const int len = range.args_len;
     this->local_range->args = new input_type[len];
     for(int copy = 0; copy < len; copy++) {
-        this->local_range->args[copy] = range.args[copy]
+        this->local_range->args[copy] = range.args[copy];
     }
 }
