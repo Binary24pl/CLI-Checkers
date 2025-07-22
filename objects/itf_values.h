@@ -260,6 +260,11 @@ private:
 
     void ntv_assign_val(const input_type& val); // native implementation of assign_val
     void ntv_set_range(const itf_input_range<input_type>& range);
+
+    bool range_from_to();
+    bool range_beyond();
+    bool range_is_in();
+    bool range_not_in();
 };
 
 #endif

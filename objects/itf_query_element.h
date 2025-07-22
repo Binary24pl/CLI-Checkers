@@ -18,14 +18,44 @@ void itf_query_element<input_type>::set_range(void*& range)
 
 template<typename input_type>
 bool itf_query_element<input_type>::validate()
-{}
+{
+    if(this->identity == ITF_INPUT_ERROR) {
+        return false;
+    }
+
+    if(this->local_range != nullptr) {
+        const itf_inrange_type our_type = this->local_range->args_type;
+
+        switch (our_type)
+        {
+        case ITF_RANGE_FROM_TO:
+            return this->range_from_to();
+            break;
+        
+        case ITF_RANGE_BEYOND:
+            return this->range_beyond();
+            break;
+        
+        case ITF_RANGE_IS_IN:
+            return this->range_is_in();
+            break;
+        
+        case ITF_RANGE_IS_NOT_IN:
+            return this->range_not_in();
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    return true;
+}
 
 template<typename input_type>
 void itf_query_element<input_type>::ntv_assign_val(const input_type& val)
 {
     this->local_val = val;
-
-    std::cout << this->local_val << std::endl;
 }
 
 template<typename input_type>
@@ -57,4 +87,54 @@ void itf_query_element<input_type>::ntv_set_range(const itf_input_range<input_ty
     for(int copy = 0; copy < len; copy++) {
         this->local_range->args[copy] = range.args[copy];
     }
+}
+
+template<typename input_type>
+bool itf_query_element<input_type>::range_from_to()
+{
+    for(int elm = 0; elm < this->local_range->args_len; elm += 2) {
+        const int our_val = (int)this->local_val;
+        const int our_from = (int)this->local_range->args[elm];
+        const int our_to = (int)this->local_range->args[elm + 1];
+
+        if(our_val >= our_from && our_val <= our_to) return true;
+    }
+
+    return false;
+}
+
+template<typename input_type>
+bool itf_query_element<input_type>::range_beyond()
+{
+    for(int elm = 0; elm < this->local_range->args_len; elm += 2) {
+        const int our_val = (int)this->local_val;
+        const int our_from = (int)this->local_range->args[elm];
+        const int our_to = (int)this->local_range->args[elm + 1];
+
+        if(our_val >= our_from && our_val <= our_to) return false;
+    }
+
+    return true;
+}
+
+template<typename input_type>
+bool itf_query_element<input_type>::range_is_in()
+{
+    const input_type local_compared = this->local_val;
+    for(int elm = 0; elm < this->local_range->args_len; elm++) {
+        if(local_compared == this->local_range->args[elm]) return true;
+    }
+
+    return false;
+}
+
+template<typename input_type>
+bool itf_query_element<input_type>::range_not_in()
+{
+    const input_type local_compared = this->local_val;
+    for(int elm = 0; elm < this->local_range->args_len; elm++) {
+        if(local_compared == this->local_range->args[elm]) return false;
+    }
+
+    return true;
 }
