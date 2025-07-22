@@ -19,4 +19,6 @@ template<typename input_type>
 void itf_query_element<input_type>::ntv_assign_val(const input_type& val)
 {
     this->local_val = val;
+
+    std::cout << this->local_val << std::endl;
 }
