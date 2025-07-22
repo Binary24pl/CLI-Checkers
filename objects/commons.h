@@ -12,6 +12,7 @@ template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, 
 #include "itf_tile.h"
 #include "itf_board.h"
 #include "itf_query_element.h"
+#include "itf_question.h"
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate)
 {

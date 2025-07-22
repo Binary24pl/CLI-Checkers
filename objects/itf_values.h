@@ -267,4 +267,11 @@ private:
     bool range_not_in();
 };
 
+class itf_question {
+public:
+    //later
+private:
+    //later
+};
+
 #endif
