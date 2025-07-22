@@ -27,7 +27,7 @@ template<typename FROM, typename TO> TO common_translate_value(FROM to_translate
 
 template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, CLASS* of_obj, void(CLASS::*method)(void*&))
 {
-    PASS* to_cast = new PASS;
+    PASS* to_cast = new PASS; //alloc id: 4, 6
     *to_cast = to_pass;
 
     void* arg;
@@ -35,5 +35,5 @@ template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, 
 
     (of_obj->*method)(arg);
 
-    delete to_cast;
+    delete to_cast; //de_alloc id: 4, 6
 }

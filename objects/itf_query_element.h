@@ -14,6 +14,7 @@ void itf_query_element<input_type>::set_range(void*& range)
     const itf_input_range<input_type> casted = *caster;
 
     this->ntv_set_range(casted);
+     //de_alloc id: 5
 }
 
 template<typename input_type>
@@ -53,31 +54,25 @@ bool itf_query_element<input_type>::validate()
 }
 
 template<typename input_type>
-void itf_query_element<input_type>::give_val(void*& val) {
-    input_type* to_pass = new input_type;
-    *to_pass = this->local_val;
+void itf_query_element<input_type>::give_val(void*& caller) {
+    itf_query_element<input_type>* other = (itf_query_element<input_type>*)caller;
 
-    val = (void*)to_pass;
+    input_type* caster = new input_type;
+    const input_type to_cast = this->local_val;
+    *caster = to_cast;
+
+    void* passer;
+    passer = (void*)caster;
+
+    other->assign_val(passer);
+
+    delete caster;
 }
 
 template<typename input_type>
-void itf_query_element<input_type>::give_range(void*& range)
+void itf_query_element<input_type>::give_range(void*& caller)
 {
-    if(this->local_range == nullptr) {
-        range = nullptr;
-        return;
-    }
-
-    itf_input_range<input_type>* to_pass = new itf_input_range<input_type>;
-    to_pass->args_len = this->local_range->args_len;
-    to_pass->args_type = this->local_range->args_type;
-
-    to_pass->args = new input_type[to_pass->args_len];
-    for(int ctn_idx = 0; ctn_idx < to_pass->args_len; ctn_idx++) {
-        to_pass->args[ctn_idx] = this->local_range->args[ctn_idx];
-    }
-
-    range = (void*)to_pass;
+    //to be rewritten
 }
 
 template<typename input_type>
@@ -121,9 +116,9 @@ template<typename input_type>
 bool itf_query_element<input_type>::range_from_to()
 {
     for(int elm = 0; elm < this->local_range->args_len; elm += 2) {
-        const int our_val = (int)this->local_val;
-        const int our_from = (int)this->local_range->args[elm];
-        const int our_to = (int)this->local_range->args[elm + 1];
+        const input_type our_val = this->local_val;
+        const input_type our_from = this->local_range->args[elm];
+        const input_type our_to = this->local_range->args[elm + 1];
 
         if(our_val >= our_from && our_val <= our_to) return true;
     }
@@ -135,9 +130,9 @@ template<typename input_type>
 bool itf_query_element<input_type>::range_beyond()
 {
     for(int elm = 0; elm < this->local_range->args_len; elm += 2) {
-        const int our_val = (int)this->local_val;
-        const int our_from = (int)this->local_range->args[elm];
-        const int our_to = (int)this->local_range->args[elm + 1];
+        const input_type our_val = this->local_val;
+        const input_type our_from = this->local_range->args[elm];
+        const input_type our_to = this->local_range->args[elm + 1];
 
         if(our_val >= our_from && our_val <= our_to) return false;
     }

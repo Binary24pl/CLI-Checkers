@@ -212,7 +212,7 @@ class itf_query_master {
 public:
     itf_query_master() {}
 
-    ~itf_query_master() {}
+    virtual ~itf_query_master() {};
 
     itf_input_whatami identity;
 
@@ -220,8 +220,8 @@ public:
     virtual void set_range(void*& range) = 0;
     virtual bool validate() = 0;
 
-    virtual void give_val(void*& val) = 0;
-    virtual void give_range(void*& range) = 0;
+    virtual void give_val(void*& caller) = 0;
+    virtual void give_range(void*& caller) = 0;
 };
 
 template<typename input_type>
@@ -248,31 +248,29 @@ public:
     };
 
     itf_query_element(itf_query_master* other) {
-        void* val_other;
-        other->give_val(val_other);
+        input_type tested;
 
-        this->assign_val(val_other);
+        std::string test_str;
+        char test_chr;
+        int test_int;
 
-        input_type* val_dlt;
-        val_dlt = (input_type*)val_other;
+        if(typeid(tested) == typeid(test_str)) {
+            this->identity = ITF_INPUT_STRING;
+        } else if(typeid(tested) == typeid(test_chr)) {
+            this->identity = ITF_INPUT_CHAR;
+        } else if(typeid(tested) == typeid(test_int)) {
+            this->identity = ITF_INPUT_INT;
+        } else {
+            this->identity = ITF_INPUT_ERROR;
+        }
 
-        delete val_dlt;
-
-        void* other_range;
-        other->give_range(other_range);
-
-        if(other_range != nullptr) {
-            this->set_range(other_range);
-
-            itf_input_range<input_type>* rng_dlt;
-            rng_dlt = (itf_input_range<input_type>*)other_range;
-
-            delete[] rng_dlt->args;
-            delete rng_dlt;
+        if(other->identity == this->identity) {
+            void* our_object = (void*)this;
+            other->give_val(our_object);
         }
     }
 
-    ~itf_query_element() {
+    ~itf_query_element() override {
         if(this->local_range != nullptr) {
             delete[] this->local_range->args;
             delete this->local_range;
@@ -283,8 +281,8 @@ public:
     void set_range(void*& range) override;
     bool validate() override;
 
-    void give_val(void*& val) override;
-    void give_range(void*& range) override;
+    void give_val(void*& caller) override;
+    void give_range(void*& caller) override;
 private:
     input_type local_val;
     itf_input_range<input_type>* local_range;
