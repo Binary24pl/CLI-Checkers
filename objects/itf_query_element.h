@@ -32,7 +32,9 @@ template<typename input_type>
 void itf_query_element<input_type>::ntv_set_range(const itf_input_range<input_type>& range)
 {
     if((range.args_type == ITF_RANGE_FROM_TO || range.args_type == ITF_RANGE_FROM_TO) && range.args_len % 2 != 0) {
-        std::cout << "Da number is odd :(" << std::endl;
+        //from-to and beyond can have multiple ranges, but each has to to have two values
+        return;
+    } else if((range.args_type == ITF_RANGE_FROM_TO || range.args_type == ITF_RANGE_BEYOND) && this->identity == ITF_INPUT_STRING) {
         return;
     }
 
