@@ -1,3 +1,5 @@
+// deemed: finished
+
 void itf_tile::init()
 {
     if(this->height == -1 && this->width == -1) {

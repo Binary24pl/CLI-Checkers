@@ -1,3 +1,5 @@
+// deemed: finished
+
 template<typename input_type>
 void itf_query_element<input_type>::assign_val(void*& val)
 {
