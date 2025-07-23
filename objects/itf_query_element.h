@@ -72,7 +72,26 @@ void itf_query_element<input_type>::give_val(void*& caller) {
 template<typename input_type>
 void itf_query_element<input_type>::give_range(void*& caller)
 {
-    //to be rewritten
+    if(this->local_range == nullptr) return;
+
+    itf_query_element<input_type>* other = (itf_query_element<input_type>*)caller;
+    itf_input_range<input_type>* caster = new itf_input_range<input_type>;
+
+    caster->args_len = this->local_range->args_len;
+    caster->args_type = this->local_range->args_type;
+    caster->args = new input_type[caster->args_len];
+
+    for(int idx = 0; idx < this->local_range->args_len; idx++) {
+        caster->args[idx] = this->local_range->args[idx];
+    }
+
+    void* passer;
+    passer = (void*)caster;
+
+    other->set_range(passer);
+
+    delete[] caster->args;
+    delete caster;
 }
 
 template<typename input_type>

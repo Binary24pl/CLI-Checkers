@@ -7,20 +7,22 @@ void itf_question::cleanup_question()
 
     const int len = this->question_length;
     for(int elm = 0; elm < len; elm++) {
-        itf_input_whatami what_kind = question_form[elm]->identity;
+        if(question_form[elm] != nullptr) {
+            itf_input_whatami what_kind = question_form[elm]->identity;
 
-        switch(what_kind) {
-        case ITF_INPUT_INT:
-            delete (itf_query_element<int>*)question_form[elm];
-            break;
-        case ITF_INPUT_CHAR:
-            delete (itf_query_element<char>*)question_form[elm];
-            break;
-        case ITF_INPUT_STRING:
-            delete (itf_query_element<std::string>*)question_form[elm];
-            break;
-        default:
-            break;
+            switch(what_kind) {
+            case ITF_INPUT_INT:
+                delete (itf_query_element<int>*)question_form[elm];
+                break;
+            case ITF_INPUT_CHAR:
+                delete (itf_query_element<char>*)question_form[elm];
+                break;
+            case ITF_INPUT_STRING:
+                delete (itf_query_element<std::string>*)question_form[elm];
+                break;
+            default:
+                break;
+            }
         }
     }
 

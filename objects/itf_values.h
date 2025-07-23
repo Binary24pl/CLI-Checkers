@@ -267,6 +267,7 @@ public:
         if(other->identity == this->identity) {
             void* our_object = (void*)this;
             other->give_val(our_object);
+            other->give_range(our_object);
         }
     }
 
@@ -305,6 +306,9 @@ public:
     ~itf_question() {
         this->cleanup_question();
     };
+
+    void start_new_question(const int& size);
+    void build_into_question(const itf_input_whatami& what_kind, const int& what_posiiton);
 private:
     itf_query_master** question_form;
     int question_length;
