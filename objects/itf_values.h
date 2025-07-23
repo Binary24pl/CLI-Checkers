@@ -298,11 +298,17 @@ private:
 
 class itf_question {
 public:
-    itf_question() {};
+    itf_question() {
+        this->question_form = nullptr;
+    };
     
-    ~itf_question() {};
+    ~itf_question() {
+        this->cleanup_question();
+    };
 private:
     itf_query_master** question_form;
+    int question_length;
+    void cleanup_question();
 };
 
 #endif
