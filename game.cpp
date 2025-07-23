@@ -4,31 +4,21 @@ int main()
 {
     std::locale::global(std::locale("")); //making special characters work
 
-    itf_input_range<int> range_test;
-    range_test.args_len = 4;
-    range_test.args_type = ITF_RANGE_FROM_TO;
-    range_test.args = new int[range_test.args_len];
-    range_test.args[0] = 1;
-    range_test.args[1] = 5;
-    range_test.args[2] = 10;
-    range_test.args[3] = 15;
+    ITF::itf_question* test = new ITF::itf_question;
+    test->start_new_question(3);
+    test->start_new_question(1);
+    test->start_new_question(5);
+    test->start_new_question(3);
 
-    const int len = 5;
-    itf_query_master** test = new itf_query_master*[len];
-    test[0] = new itf_query_element<int>;
-
-    common_passer(range_test, test[0], &ITF::itf_query_master::set_range);
-    common_passer(1, test[0], &ITF::itf_query_master::assign_val);
-    for(int i = 1; i < len; i++) {
-        test[i] = new itf_query_element<int>(test[0]);
-        int to_add = i * 5;
-
-        common_passer(to_add, test[i], &ITF::itf_query_master::assign_val);
+    for(int sup_test = 0; sup_test < 3; sup_test++) {
+        for(int sub_test = 0; sub_test < 3; sub_test++) {
+            ITF::itf_input_whatami our_type = (ITF::itf_input_whatami)sup_test;
+            test->build_into_question(our_type, sub_test);
+        }
     }
 
-    delete[] range_test.args;
-    for(int del = 0; del < len; del++) delete (itf_query_element<int>*)test[del];
-    delete[] test;
+    delete test;
+    
     std::locale::global(std::locale::classic()); //clears the special characters interpreter
     return 0;
 }

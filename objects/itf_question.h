@@ -1,6 +1,6 @@
 void itf_question::cleanup_question()
 {
-    if(this->question_form != nullptr) {
+    if(this->question_form == nullptr) {
         //we dont want do double free do we;
         return;
     }
