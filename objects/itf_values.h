@@ -222,6 +222,10 @@ public:
 
     virtual void give_val(void*& caller) = 0;
     virtual void give_range(void*& caller) = 0;
+
+    virtual void return_val(void*& carrier) = 0;
+    virtual void return_range(void*& carrier) = 0;
+    virtual bool is_range_set() = 0;
 };
 
 template<typename input_type>
@@ -282,8 +286,14 @@ public:
     void set_range(void*& range) override;
     bool validate() override;
 
+    //these are for copy constructor
     void give_val(void*& caller) override;
     void give_range(void*& caller) override;
+
+    //these are for foreign objects
+    void return_val(void*& carrier) override;
+    void return_range(void*& carrier) override;
+    bool is_range_set() override;
 private:
     input_type local_val;
     itf_input_range<input_type>* local_range;
@@ -302,22 +312,10 @@ public:
     itf_question() {
         this->question_form = nullptr;
         this->question_length = 0;
-        
-        this->main_vals_pos = nullptr;
-        this->main_vals_identities = nullptr;
-        this->main_vals_len = 0;
     };
     
     ~itf_question() {
         this->cleanup_question();
-
-        if(this->main_vals_pos != nullptr) {
-            delete[] this->main_vals_pos;
-        }
-
-        if(this->main_vals_identities != nullptr) {
-            delete[] this->main_vals_identities;
-        }
     };
 
     void start_new_question(const int& size);
@@ -329,13 +327,10 @@ private:
     int question_length;
     bool validate_question(const std::vector<std::string>& raw_question);
 
-    //values that will be returned;
-    int main_vals_len;
-    int* main_vals_pos;
-    itf_input_whatami* main_vals_identities;
-
     void cleanup_question();
     template <typename compared, typename input_type> bool verify_type(const input_type& to_check);
+
+    void hint_syntax();
 };
 
 #endif

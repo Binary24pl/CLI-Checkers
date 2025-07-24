@@ -1,4 +1,4 @@
-// deemed: finished
+// deemed: unifinished
 
 template<typename input_type>
 void itf_query_element<input_type>::assign_val(void*& val)
@@ -94,6 +94,40 @@ void itf_query_element<input_type>::give_range(void*& caller)
 
     delete[] caster->args;
     delete caster;
+}
+
+template<typename input_type>
+void itf_query_element<input_type>::return_val(void*& carrier)
+{
+    input_type* caster = new input_type;
+    *caster = this->local_val;
+
+    carrier = (void*)caster;
+}
+
+template<typename input_type>
+void itf_query_element<input_type>::return_range(void*& carrier)
+{
+    itf_input_range<input_type>* caster = new itf_input_range<input_type>;
+    
+    const int len = this->local_range->args_len;
+    caster->args_len = len;
+    caster->args_type = this->local_range->args_type;
+
+    caster->args = new input_type[len];
+
+    for(int idx = 0; idx < len; idx++) {
+        caster->args[idx] = this->local_range->args[idx];
+    }
+
+    carrier = (void*)caster;
+}
+
+template<typename input_type>
+bool itf_query_element<input_type>::is_range_set()
+{
+    if(this->local_range == nullptr) return true;
+    return false;
 }
 
 template<typename input_type>

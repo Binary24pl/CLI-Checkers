@@ -132,6 +132,7 @@ void itf_question::ask_question()
 {
     while (true)
     {
+        this->hint_syntax();
         std::vector<std::string> raw_version;
         std::string raw_element = "";
 
@@ -197,4 +198,51 @@ bool itf_question::validate_question(const std::vector<std::string>& raw_questio
     }
 
     return true;
+}
+
+void itf_question::hint_syntax()
+{
+    std::string to_show = "Your entry formula: ";
+    itf_text_pallete value, option;
+    
+    value.bg_color = ITF_C_BLACK;
+    value.bg_inten = ITF_LOW_INTEN;
+    value.fg_color = ITF_C_CYAN;
+    value.fg_inten = ITF_HIGH_INTEN;
+
+    option.bg_color = ITF_C_BLACK;
+    option.bg_inten = ITF_HIGH_INTEN;
+    option.fg_color = ITF_C_GREEN;
+    option.fg_inten = ITF_LOW_INTEN;
+
+    const int len = this->question_length;
+    for(int elms = 0; elms < len; elms++) {
+        if(this->question_form[elms] != nullptr) {
+            const itf_input_whatami check_identity = this->question_form[elms]->identity;
+
+            switch(check_identity) {
+                case ITF_INPUT_CHAR: {
+                    to_show += itf_give_color("<character>", value);
+                    break;
+                }
+
+                case ITF_INPUT_INT: {
+                    to_show += itf_give_color("<integer>", value);
+                    break;
+                }
+
+                case ITF_INPUT_STRING: {
+                    to_show += itf_give_color("<text>", value);
+                    break;
+                }
+
+                default:
+                    break;
+            }
+
+            if(elms < len - 1) to_show += ", ";
+        }
+    }
+
+    std::cout << to_show << std::endl;
 }
