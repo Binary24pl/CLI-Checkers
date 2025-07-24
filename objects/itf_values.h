@@ -323,7 +323,6 @@ public:
     void start_new_question(const int& size);
     void build_into_question(const itf_input_whatami& what_kind, const int& what_posiiton);
     template<typename input_type> void give_element_range(const itf_input_range<input_type>& range, const int& position);
-    void define_return_values(const int& size, int*& positions);
 private:
     itf_query_master** question_form;
     int question_length;
