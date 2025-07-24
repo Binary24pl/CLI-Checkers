@@ -80,3 +80,46 @@ void itf_question::build_into_question(const itf_input_whatami& what_kind, const
         break;
     }
 }
+
+template<typename input_type>
+void itf_question::give_element_range(const itf_input_range<input_type>& range, const int& position)
+{
+    itf_input_whatami our_identity;
+
+    if(this->verify_type<itf_input_range<int>>(range)) {
+        our_identity = ITF_INPUT_INT;
+    } else if(this->verify_type<itf_input_range<char>>(range)) {
+        our_identity = ITF_INPUT_CHAR;
+    } else if(this->verify_type<itf_input_range<std::string>>(range)) {
+        our_identity = ITF_INPUT_STRING;
+    } else {
+        our_identity = ITF_INPUT_ERROR;
+    }
+
+    //time to safefail
+    if(our_identity == ITF_INPUT_ERROR) {
+        return;
+    }
+
+    if(position >= 0 && position < this->question_length) {
+        if(this->question_form[0]->identity != our_identity) {
+            return;
+        }
+    } else {
+        return;
+    }
+
+    common_passer(range, this->question_form[0], &ITF::itf_query_master::set_range);
+}
+
+template <typename compared, typename input_type> 
+bool itf_question::verify_type(const input_type& to_check)
+{
+    compared test_var;
+    
+    if(typeid(test_var) == typeid(to_check)) {
+        return true;
+    }
+
+    return false;
+}
