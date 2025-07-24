@@ -38,6 +38,8 @@ int main()
     test->give_element_range<std::string>(str_range, 0);
     test->give_element_range<char>(chr_range, 1);
     test->give_element_range<int>(num_range, 2);
+
+    test->ask_question();
     
 
     delete test;

@@ -127,3 +127,74 @@ bool itf_question::verify_type(const input_type& to_check)
 
     return false;
 }
+
+void itf_question::ask_question()
+{
+    while (true)
+    {
+        std::vector<std::string> raw_version;
+        std::string raw_element = "";
+
+        while (std::cin >> raw_element)
+        {
+            raw_version.push_back(raw_element);
+            if(std::cin.peek() == '\n') {
+                break;
+            }
+        }
+
+        if(this->validate_question(raw_version)) {
+            break;
+        }
+    }
+    
+}
+
+bool itf_question::validate_question(const std::vector<std::string>& raw_question)
+{
+    if(raw_question.size() != this->question_length) {
+        return false;
+    }
+
+    for(int idx = 0; idx < raw_question.size(); idx++) {
+        std::string our_element = raw_question[idx];
+        itf_input_whatami our_identity = this->question_form[idx]->identity;
+
+        switch(our_identity) {
+        case ITF_INPUT_STRING: {
+            common_passer(our_element, this->question_form[idx], &ITF::itf_query_master::assign_val);
+            break;
+        }
+        case ITF_INPUT_CHAR: {
+            if(our_element.length() != 1) {
+                return false;
+            }
+
+            char our_trans_elm = our_element[0];
+
+            common_passer(our_trans_elm, this->question_form[idx], &ITF::itf_query_master::assign_val);
+            break;
+        }
+        case ITF_INPUT_INT: {
+            const int zero_char = (int)'0';
+            for(int check_num = 0; check_num < our_element.length(); check_num++) {
+                const int our_digit = (int)our_element[check_num];
+
+                if(our_digit < zero_char || our_digit > zero_char + 9) {
+                    return false;
+                }
+            }
+
+            int our_num = common_translate_value<std::string, int>(our_element);
+            common_passer(our_num, this->question_form[idx], &ITF::itf_query_master::assign_val);
+            break;
+        }
+        default:
+            break;
+        }
+
+        if(this->question_form[idx]->validate() == false) return false;
+    }
+
+    return true;
+}

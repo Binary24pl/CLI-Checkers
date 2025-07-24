@@ -323,9 +323,11 @@ public:
     void start_new_question(const int& size);
     void build_into_question(const itf_input_whatami& what_kind, const int& what_posiiton);
     template<typename input_type> void give_element_range(const itf_input_range<input_type>& range, const int& position);
+    void ask_question();
 private:
     itf_query_master** question_form;
     int question_length;
+    bool validate_question(const std::vector<std::string>& raw_question);
 
     //values that will be returned;
     int main_vals_len;
