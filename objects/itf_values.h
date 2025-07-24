@@ -301,18 +301,38 @@ class itf_question {
 public:
     itf_question() {
         this->question_form = nullptr;
+        this->question_length = 0;
+        
+        this->main_vals_pos = nullptr;
+        this->main_vals_identities = nullptr;
+        this->main_vals_len = 0;
     };
     
     ~itf_question() {
         this->cleanup_question();
+
+        if(this->main_vals_pos != nullptr) {
+            delete[] this->main_vals_pos;
+        }
+
+        if(this->main_vals_identities != nullptr) {
+            delete[] this->main_vals_identities;
+        }
     };
 
     void start_new_question(const int& size);
     void build_into_question(const itf_input_whatami& what_kind, const int& what_posiiton);
     template<typename input_type> void give_element_range(const itf_input_range<input_type>& range, const int& position);
+    void define_return_values(const int& size, int*& positions);
 private:
     itf_query_master** question_form;
     int question_length;
+
+    //values that will be returned;
+    int main_vals_len;
+    int* main_vals_pos;
+    itf_input_whatami* main_vals_identities;
+
     void cleanup_question();
     template <typename compared, typename input_type> bool verify_type(const input_type& to_check);
 };

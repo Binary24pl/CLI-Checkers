@@ -109,6 +109,10 @@ void itf_question::give_element_range(const itf_input_range<input_type>& range, 
         return;
     }
 
+    if(range.args == nullptr) {
+        return;
+    }
+
     common_passer(range, this->question_form[0], &ITF::itf_query_master::set_range);
 }
 
@@ -122,4 +126,39 @@ bool itf_question::verify_type(const input_type& to_check)
     }
 
     return false;
+}
+
+void itf_question::define_return_values(const int& size, int*& positions)
+{
+    if(this->question_form == nullptr) {
+        return;
+    }
+
+    if(size < 0 || size > this->question_length) {
+        return;
+    }
+
+    if(this->main_vals_pos != nullptr) {
+        int* temp = this->main_vals_pos;
+        this->main_vals_pos = nullptr;
+
+        delete[] temp;
+    }
+
+    if(this->main_vals_identities != nullptr) {
+        itf_input_whatami* temp = this->main_vals_identities;
+        this->main_vals_identities = nullptr;
+
+        delete[] temp;
+    }
+
+    this->main_vals_pos = new int[size];
+    this->main_vals_identities = new itf_input_whatami[size];
+
+    for(int idx = 0; idx < size; idx++) {
+        this->main_vals_pos[idx] = positions[idx];
+        this->main_vals_identities[idx] = this->question_form[positions[idx]]->identity;
+    }
+
+    this->main_vals_len = size;
 }
