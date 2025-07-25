@@ -154,6 +154,7 @@ void itf_question::ask_question()
 bool itf_question::validate_question(const std::vector<std::string>& raw_question)
 {
     if(raw_question.size() != this->question_length) {
+        this->hint_size_error(raw_question.size());
         return false;
     }
 
@@ -168,6 +169,7 @@ bool itf_question::validate_question(const std::vector<std::string>& raw_questio
         }
         case ITF_INPUT_CHAR: {
             if(our_element.length() != 1) {
+                this->hint_char_error(our_element);
                 return false;
             }
 
@@ -182,6 +184,7 @@ bool itf_question::validate_question(const std::vector<std::string>& raw_questio
                 const int our_digit = (int)our_element[check_num];
 
                 if(our_digit < zero_char || our_digit > zero_char + 9) {
+                    this->hint_digit_error(our_element[check_num]);
                     return false;
                 }
             }
@@ -356,4 +359,59 @@ std::string itf_question::hint_range_digest(const int& pos)
     return to_return;
 }
 
-//todo: hint system
+void itf_question::hint_error_shared(const std::string& error_msg, const std::string& user_input, const std::string& expected_value)
+{
+    itf_text_pallete msg, usr, exp;
+
+    msg.bg_color = ITF_C_BLACK;
+    msg.bg_inten = ITF_LOW_INTEN;
+    msg.fg_color = ITF_C_RED;
+    msg.fg_inten = ITF_HIGH_INTEN;
+
+    usr.bg_color = ITF_C_RED;
+    usr.bg_inten = ITF_LOW_INTEN;
+    usr.fg_color = ITF_C_WHITE;
+    usr.fg_inten = ITF_HIGH_INTEN;
+
+    exp.bg_color = ITF_C_BLACK;
+    exp.bg_inten = ITF_LOW_INTEN;
+    exp.fg_color = ITF_C_PURPLE;
+    exp.fg_inten = ITF_HIGH_INTEN;
+
+    std::cout << "Input error:: " << itf_give_color(error_msg, msg) << std::endl;
+    std::cout << "Your wrong input:: " << itf_give_color(user_input, usr) << " /:: expected- " << itf_give_color(expected_value, exp) << std::endl;
+}
+
+void itf_question::hint_size_error(const int& og_size)
+{
+    std::string args = "Arguments amount: ";
+    std::string what_type;
+    std::string exp = "amount: ";
+
+    if(og_size > this->question_length) {
+        what_type = "Amount of arguments exceeded";
+    } else {
+        what_type = "Amount of arguments below expected";
+    }
+
+    args += common_translate_value<int, std::string>(og_size);
+    exp += common_translate_value<int, std::string>(this->question_length);
+
+    this->hint_error_shared(what_type, args, exp);
+}
+
+void itf_question::hint_digit_error(const char& og_dig)
+{
+    std::string failed_dig = "";
+    failed_dig += og_dig;
+
+    std::cout << "digit" << std::endl;
+
+    this->hint_error_shared("Your given 'digit' is not a digit", failed_dig, "characters from 0 to 9");
+}
+
+void itf_question::hint_char_error(const std::string& og_char) {
+    std::cout << "char" << std::endl;
+
+    this->hint_error_shared("Your given input isn't a singular character", og_char, " one character");
+}

@@ -332,6 +332,11 @@ private:
 
     void hint_syntax();
     template<typename input_type> std::string hint_range_digest(const int& pos);
+    void hint_size_error(const int& og_size);
+    void hint_digit_error(const char& og_dig);
+    void hint_char_error(const std::string& og_char);
+    void hint_error_shared(const std::string& error_msg, const std::string& user_input, const std::string& expected_value);
+
 };
 
 #endif
