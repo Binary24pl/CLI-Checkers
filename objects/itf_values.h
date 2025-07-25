@@ -331,6 +331,7 @@ private:
     template <typename compared, typename input_type> bool verify_type(const input_type& to_check);
 
     void hint_syntax();
+    template<typename input_type> std::string hint_range_digest(const int& pos);
 };
 
 #endif

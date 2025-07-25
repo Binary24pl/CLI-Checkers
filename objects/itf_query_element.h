@@ -126,7 +126,7 @@ void itf_query_element<input_type>::return_range(void*& carrier)
 template<typename input_type>
 bool itf_query_element<input_type>::is_range_set()
 {
-    if(this->local_range == nullptr) return true;
+    if(this->local_range != nullptr) return true;
     return false;
 }
 

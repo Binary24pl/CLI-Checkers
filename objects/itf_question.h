@@ -102,7 +102,7 @@ void itf_question::give_element_range(const itf_input_range<input_type>& range, 
     }
 
     if(position >= 0 && position < this->question_length) {
-        if(this->question_form[0]->identity != our_identity) {
+        if(this->question_form[position]->identity != our_identity) {
             return;
         }
     } else {
@@ -113,7 +113,7 @@ void itf_question::give_element_range(const itf_input_range<input_type>& range, 
         return;
     }
 
-    common_passer(range, this->question_form[0], &ITF::itf_query_master::set_range);
+    common_passer(range, this->question_form[position], &ITF::itf_query_master::set_range);
 }
 
 template <typename compared, typename input_type> 
@@ -202,7 +202,7 @@ bool itf_question::validate_question(const std::vector<std::string>& raw_questio
 
 void itf_question::hint_syntax()
 {
-    std::string to_show = "Your entry formula: ";
+    std::string to_show = "Your entry formula: \n";
     itf_text_pallete value, option;
     
     value.bg_color = ITF_C_BLACK;
@@ -223,16 +223,43 @@ void itf_question::hint_syntax()
             switch(check_identity) {
                 case ITF_INPUT_CHAR: {
                     to_show += itf_give_color("<character>", value);
+
+                    if(this->question_form[elms]->is_range_set()) {
+                        std::string digested = this->hint_range_digest<char>(elms);
+
+                        digested = itf_give_color(digested, option);
+
+                        to_show += ":: ";
+                        to_show += digested;
+                    }
                     break;
                 }
 
                 case ITF_INPUT_INT: {
                     to_show += itf_give_color("<integer>", value);
+
+                    if(this->question_form[elms]->is_range_set()) {
+                        std::string digested = this->hint_range_digest<int>(elms);
+
+                        digested = itf_give_color(digested, option);
+
+                        to_show += ":: ";
+                        to_show += digested;
+                    }
                     break;
                 }
 
                 case ITF_INPUT_STRING: {
                     to_show += itf_give_color("<text>", value);
+
+                    if(this->question_form[elms]->is_range_set()) {
+                        std::string digested = this->hint_range_digest<std::string>(elms);
+
+                        digested = itf_give_color(digested, option);
+
+                        to_show += ":: ";
+                        to_show += digested;
+                    }
                     break;
                 }
 
@@ -246,3 +273,87 @@ void itf_question::hint_syntax()
 
     std::cout << to_show << std::endl;
 }
+
+template<typename input_type> 
+std::string itf_question::hint_range_digest(const int& pos)
+{
+
+    std::string to_return = "";
+    void* taker;
+
+    this->question_form[pos]->return_range(taker);
+    
+    itf_input_range<input_type>* reader = (itf_input_range<input_type>*)taker;
+
+    const itf_inrange_type our_type = reader->args_type;
+    bool slash_or_dash; // true = slash, false = dash
+    int incrementation;
+
+    switch(our_type)
+    {
+        case ITF_RANGE_IS_IN: {
+            to_return += "Must be one of these: (";
+            slash_or_dash = true;
+            incrementation = 1;
+            break;
+        }
+
+        case ITF_RANGE_IS_NOT_IN: {
+            to_return += "Can't be one of these: (";
+            slash_or_dash = true;
+            incrementation = 1;
+            break;
+        }
+
+        case ITF_RANGE_FROM_TO: {
+            to_return += "Must fit within this set of ranges: (";
+            slash_or_dash = false;
+            incrementation = 2;
+            break;
+        }
+
+        case ITF_RANGE_BEYOND: {
+            to_return += "Can't fit within this set of ranges: (";
+            slash_or_dash = false;
+            incrementation = 2;
+            break;
+        }
+
+        default:
+            break;
+    }
+
+    const int len = reader->args_len;
+    for(int idx = 0; idx < len; idx += incrementation) {
+        if(slash_or_dash) {
+            input_type raw_form = reader->args[idx];
+            
+            std::string digested_form = common_translate_value<input_type, std::string>(raw_form);
+            to_return += digested_form;
+        } else {
+            input_type raw_left, raw_right;
+
+            raw_left = reader->args[idx];
+            raw_right = reader->args[idx + 1];
+
+            std::string digested_form = "";
+
+            digested_form += common_translate_value<input_type, std::string>(raw_left);
+            digested_form += "-";
+            digested_form += common_translate_value<input_type, std::string>(raw_right);
+
+            to_return += digested_form;
+        }
+
+        if(idx < len - incrementation) to_return += "/";
+    }
+
+    to_return += ")";
+
+    delete[] reader->args;
+    delete reader;
+
+    return to_return;
+}
+
+//todo: hint system
