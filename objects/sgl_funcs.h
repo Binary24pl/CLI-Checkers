@@ -12,6 +12,10 @@ void sgl_make_reco_list(std::vector<const std::type_info*>& our_list)
                 break;
             }
 
+            case SGL_TYPE_STRING: {
+                our_list.push_back(&typeid(std::string));
+            }
+
             default: {
                 our_list.push_back(&typeid(sgl_wrong_data_type));
                 break;

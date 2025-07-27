@@ -4,6 +4,7 @@
 enum sgl_type_idx {
     SGL_TYPE_INT,
     SGL_TYPE_CHAR,
+    SGL_TYPE_STRING,
     SGL_TYPE_TOTAL
 };
 
