@@ -4,6 +4,12 @@ int main()
 {
     std::locale::global(std::locale("")); //making special characters work
 
+    ITF::itf_board* our_board = new ITF::itf_board(10, 10);
+    our_board->init();
+    our_board->test();
+    our_board->show_visual_state();
+
+
     ITF::itf_question* test = new ITF::itf_question;
     test->start_new_question(3);
     test->build_into_question(ITF_INPUT_STRING, 0);
@@ -41,7 +47,7 @@ int main()
 
     test->ask_question();
     
-
+    delete our_board;
     delete test;
     delete[] str_range.args;
     delete[] chr_range.args;
