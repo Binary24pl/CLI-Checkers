@@ -10,7 +10,6 @@ template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, 
 #include "itf_values.h"
 
 #include "sgl_funcs.h"
-#include "sgl_data_master.h"
 
 #include "itf_funcs.h"
 #include "itf_tile.h"
