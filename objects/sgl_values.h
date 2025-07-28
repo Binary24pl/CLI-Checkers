@@ -16,7 +16,4 @@ template<typename cast> void sgl_data_recaster(void*& val, sgl_data& holder);
 template<typename cast> void sgl_data_setter(sgl_data& holder);
 template<typename cast> void sgl_data_cleaner(sgl_data& holder);
 
-template<typename pass> void sgl_data_passer(const pass& val, sgl_data& holder);
-template<typename pass> void sgl_data_repasser(pass& val, sgl_data& holder);
-
 #endif
