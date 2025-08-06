@@ -1,6 +1,8 @@
 #ifndef SGL
 #define SGL
 
+#define SGL_DATA_NEW true
+
 struct sgl_data {
     void* value;
     void (*caster_func)(void*&, sgl_data&);
@@ -15,5 +17,8 @@ template<typename cast> void sgl_data_recaster(void*& val, sgl_data& holder);
 
 template<typename cast> void sgl_data_setter(sgl_data& holder);
 template<typename cast> void sgl_data_cleaner(sgl_data& holder);
+
+template<typename pass> void sgl_data_passer(const pass& val, sgl_data& holder, const bool& is_new = false);
+template<typename pass> void sgl_data_repasser(pass& val, sgl_data& holder);
 
 #endif
