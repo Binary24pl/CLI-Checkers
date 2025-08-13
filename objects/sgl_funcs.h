@@ -8,3 +8,12 @@ void sgl_func_ptr_passer(sgl_signal*& to_config)
 
     to_config = new sgl_signal(sgl_to_set<sygnal_type>, sgl_to_ret<sygnal_type>, sgl_to_ret<sygnal_type>);
 }
+
+template<typename sygnal_type>
+void sgl_to_set(void*& val, const std::type_info& given_type)
+{
+    if(typeid(sygnal_type) != given_type) {
+        //missmatch
+        return;
+    }
+}
