@@ -9,5 +9,9 @@ void sgl_signal::set_message_type()
         this->container.cleaner(this->container);
     }
 
-    signal_type* empty_val = new signal_type;
+    signal_type* empty_val = new signal_type(sgl_invalid_value<signal_type>::get());
+
+    container.message = empty_val;
+    container.msg_type = &typeid(signal_type);
+    container.cleaner = sgl_cleaner<signal_type>;
 }

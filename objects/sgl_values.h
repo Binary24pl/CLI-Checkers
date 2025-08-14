@@ -15,6 +15,12 @@ template<>
 struct sgl_invalid_value<int> {
     static int get() { return -1; }
 };
+
+template<>
+struct sgl_invalid_value<char> {
+    static char get() { return '*'; }
+};
+
 struct sgl_medium
 {
     void* message;
