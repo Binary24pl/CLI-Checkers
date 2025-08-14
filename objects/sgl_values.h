@@ -52,6 +52,12 @@ public:
     template<typename signal_type>
     void set_message_type();
 
+    template<typename signal_type>
+    void get_message(signal_type& reciever);
+
+    template<typename signal_type>
+    void set_message(signal_type& setter);
+
 private:
     sgl_medium container;
 };
