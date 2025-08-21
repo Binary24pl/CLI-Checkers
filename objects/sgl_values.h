@@ -62,4 +62,75 @@ private:
     sgl_medium container;
 };
 
+template <typename signal_type>
+void sgl_type_setter(sgl_signal*& to_set);
+
+struct sgl_setter
+{
+    void(*set_ptr)(sgl_signal*& to_set);
+};
+
+class sgl_manager
+{
+public:
+    sgl_manager(int& len, int*& depths) {
+        if(len <= 0) {
+            this->sectors_num = -1;
+            this->sector_depths = nullptr;
+            return;
+        } else if(depths == nullptr) {
+            this->sectors_num = -1;
+            this->sector_depths = nullptr;
+            return;
+        }
+
+        this->sectors_num = len;
+        this->sector_depths = new int[this->sectors_num];
+
+        for(int re_as = 0; re_as < len; re_as++) {
+            if(depths[re_as] <= 0) {
+                this->sectors_num = -1;
+
+                int* temp = this->sector_depths;
+                this->sector_depths = nullptr;
+
+                delete[] temp;
+
+                return;
+            }
+
+
+            this->sector_depths[re_as] = depths[re_as];
+        }
+
+        this->sectors_container = new sgl_signal*[this->sectors_num];
+
+        for(int regions = 0; regions < this->sectors_num; regions++) {
+            this->sectors_container[regions] = new sgl_signal[this->sector_depths[regions]];
+        }
+    };
+
+    ~sgl_manager() {
+        if(this->sector_depths != nullptr) {
+            delete[] this->sector_depths;
+        }
+
+        if(this->sectors_container != nullptr) {
+            for(int regions = 0; regions < this->sectors_num; regions++) {
+                if(this->sectors_container[regions] != nullptr) {
+                    delete[] this->sectors_container[regions];
+                }
+            }
+
+            delete[] this->sectors_container;
+        }
+    };
+
+private:
+    int sectors_num;
+    int* sector_depths;
+
+    sgl_signal** sectors_container;
+};
+
 #endif
