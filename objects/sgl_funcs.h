@@ -17,11 +17,7 @@ void sgl_cleaner(sgl_medium& to_clean)
 }
 
 template <typename signal_type>
-void sgl_type_setter(sgl_signal*& to_set)
+void sgl_type_setter(sgl_signal& to_set)
 {
-    if(to_set == nullptr) {
-        return;
-    }
-
-    to_set->set_message_type<signal_type>();
+    to_set.set_message_type<signal_type>();
 }
