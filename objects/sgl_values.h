@@ -74,4 +74,6 @@ public:
     static std::vector<int> test;
 };
 
+std::vector<int> sgl_manager::test;
+
 #endif
