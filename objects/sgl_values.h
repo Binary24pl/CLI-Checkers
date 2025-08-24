@@ -68,12 +68,7 @@ public:
     sgl_manager() {}
 
     ~sgl_manager() {}
-
-    static void read();
-    static void push(int val);
-    static std::vector<int> test;
 };
 
-std::vector<int> sgl_manager::test;
 
 #endif
