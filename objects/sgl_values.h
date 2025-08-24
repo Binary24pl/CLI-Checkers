@@ -62,4 +62,16 @@ private:
     sgl_medium container;
 };
 
+class sgl_manager
+{
+public:
+    sgl_manager() {}
+
+    ~sgl_manager() {}
+
+    static void read();
+    static void push(int val);
+    static std::vector<int> test;
+};
+
 #endif
