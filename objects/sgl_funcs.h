@@ -15,9 +15,3 @@ void sgl_cleaner(sgl_medium& to_clean)
 
     to_clean.cleaner = nullptr;
 }
-
-template <typename signal_type>
-void sgl_type_setter(sgl_signal& to_set)
-{
-    to_set.set_message_type<signal_type>();
-}
