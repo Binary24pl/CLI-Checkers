@@ -14,8 +14,6 @@ void sgl_manager::make_regions_depths()
                 delete[] this->regions[region];
             }
 
-            std::cout << "hi :3" << std::endl;
-
             this->regions[region] = new sgl_signal[this->depths[region]];
         }
     }

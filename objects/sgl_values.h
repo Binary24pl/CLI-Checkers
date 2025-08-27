@@ -67,6 +67,45 @@ enum sgl_regional_auth {
     SGL_AUTH_COUNT
 };
 
+enum sgl_data_type {
+    SGL_DTTP_STRING,     // for std::string
+    SGL_DTTP_INT,        // for int
+    SGL_DTTP_CHAR,       // for char
+    SGL_DTTP_WRONG
+};
+
+template<typename T>
+sgl_data_type sgl_get_data_type() {
+    return SGL_DTTP_WRONG;
+}
+
+// Specializations for supported types
+template<>
+sgl_data_type sgl_get_data_type<std::string>() {
+    return SGL_DTTP_STRING;
+}
+
+template<>
+sgl_data_type sgl_get_data_type<int>() {
+    return SGL_DTTP_INT;
+}
+
+template<>
+sgl_data_type sgl_get_data_type<char>() {
+    return SGL_DTTP_CHAR;
+}
+
+template <typename input_type>
+void sgl_set_type(sgl_signal*& to_edit);
+
+struct sgl_pattern {
+    void(*typer)(sgl_signal*& to_type);
+    sgl_data_type our_type;
+};
+
+template<typename signal_type>
+void sgl_set_pattern(sgl_pattern& to_edit);
+
 class sgl_manager
 {
 public:
