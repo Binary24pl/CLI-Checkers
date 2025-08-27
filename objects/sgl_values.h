@@ -62,13 +62,40 @@ private:
     sgl_medium container;
 };
 
+enum sgl_regional_auth {
+    SGL_AUTH_GOD,
+    SGL_AUTH_COUNT
+};
+
 class sgl_manager
 {
 public:
-    sgl_manager() {}
+    sgl_manager(const sgl_regional_auth& whatami) {
+        this->identity = whatami;
 
-    ~sgl_manager() {}
+        if(whatami == SGL_AUTH_COUNT) {
+            return;
+        }
+    }
+
+    ~sgl_manager() {
+        //only god-like manager can do clean up, and so best advised to keep god in pointer for better memory timing control
+        if(this->identity = SGL_AUTH_GOD) {
+            for(int i = 0; i < SGL_AUTH_COUNT; i++) {
+                delete[] this->regions[i];
+            }
+
+            delete[] this->regions;
+        }
+    }
+
+private:
+    static sgl_signal** regions;
+
+    sgl_regional_auth identity;
 };
+
+sgl_signal** sgl_manager::regions = nullptr;
 
 
 #endif
