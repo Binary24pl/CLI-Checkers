@@ -76,26 +76,42 @@ public:
         if(whatami == SGL_AUTH_COUNT) {
             return;
         }
+
+        if(whatami == SGL_AUTH_GOD) {
+            this->regions = new sgl_signal*[SGL_AUTH_COUNT];
+            this->depths = new int[SGL_AUTH_COUNT];
+
+            for(int make_null = 0; make_null < SGL_AUTH_COUNT; make_null++) {
+                this->regions[make_null] = nullptr;
+                this->depths[make_null] = -1; //as in emtpy data type
+            }
+        }
     }
 
     ~sgl_manager() {
         //only god-like manager can do clean up, and so best advised to keep god in pointer for better memory timing control
-        if(this->identity = SGL_AUTH_GOD) {
+        if(this->identity == SGL_AUTH_GOD) {
             for(int i = 0; i < SGL_AUTH_COUNT; i++) {
-                delete[] this->regions[i];
+                if(this->regions[i] != nullptr) delete[] this->regions[i];
             }
 
             delete[] this->regions;
+            delete[] depths;
         }
     }
 
+    void declare_region(const int& amount);
+    void show_region_counts();
+
 private:
     static sgl_signal** regions;
+    static int* depths;
 
     sgl_regional_auth identity;
 };
 
 sgl_signal** sgl_manager::regions = nullptr;
+int* sgl_manager::depths = nullptr;
 
 
 #endif
