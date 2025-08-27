@@ -101,7 +101,7 @@ public:
     }
 
     void declare_region(const int& amount);
-    void show_region_counts();
+    void make_regions_depths();
 
 private:
     static sgl_signal** regions;
