@@ -96,15 +96,15 @@ sgl_data_type sgl_get_data_type<char>() {
 }
 
 template <typename input_type>
-void sgl_set_type(sgl_signal*& to_edit);
+void sgl_set_type(sgl_signal& to_edit);
 
 struct sgl_pattern {
-    void(*typer)(sgl_signal*& to_type);
+    void(*typer)(sgl_signal& to_type);
     sgl_data_type our_type;
 };
 
 template<typename signal_type>
-void sgl_set_pattern(sgl_pattern& to_edit);
+sgl_pattern sgl_set_pattern();
 
 class sgl_manager
 {
@@ -141,12 +141,19 @@ public:
 
     void declare_region(const int& amount);
     void make_regions_depths();
+    
+    void reset_pattern() { this->local_pattern.clear(); }
+    void append_to_pattern(const sgl_pattern& to_append) { this->local_pattern.push_back(to_append); }
+    std::vector<sgl_data_type> show_pattern();
+
+    void build_from_pattern();
 
 private:
     static sgl_signal** regions;
     static int* depths;
 
     sgl_regional_auth identity;
+    std::vector<sgl_pattern> local_pattern;
 };
 
 sgl_signal** sgl_manager::regions = nullptr;
