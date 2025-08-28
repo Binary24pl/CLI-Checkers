@@ -11,6 +11,7 @@ template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, 
 
 #include "sgl_funcs.h"
 #include "sgl_signal.h"
+#include "sgl_package.h"
 #include "sgl_manager.h"
 
 #include "itf_funcs.h"

@@ -106,6 +106,18 @@ struct sgl_pattern {
 template<typename signal_type>
 sgl_pattern sgl_set_pattern();
 
+class sgl_package
+{
+public:
+    sgl_package() {};
+
+    ~sgl_package() {};
+
+private:
+
+    void* package;
+};
+
 class sgl_manager
 {
 public:
