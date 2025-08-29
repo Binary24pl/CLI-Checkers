@@ -6,13 +6,7 @@
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate);
 template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, CLASS* of_obj, void(CLASS::*method)(void*&));
 
-#include "sgl_values.h"
 #include "itf_values.h"
-
-#include "sgl_funcs.h"
-#include "sgl_signal.h"
-#include "sgl_package.h"
-#include "sgl_manager.h"
 
 #include "itf_funcs.h"
 #include "itf_tile.h"
