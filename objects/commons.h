@@ -47,17 +47,23 @@ struct common_board_interface
     std::vector<common_board_playable> playable;
 };
 
+//debug function
 void common_define_playable(std::vector<common_board_playable>& to_write, int width, int height);
-void common_define_showcase(std::vector<common_board_pawns>& to_write, int width, int height);
+void common_define_showcase(std::vector<common_board_pawns>& to_write, int width, int height);;
 
 
 #include "itf_values.h"
+#include "gam_board.h"
 
 #include "itf_funcs.h"
 #include "itf_tile.h"
 #include "itf_board.h"
 #include "itf_query_element.h"
 #include "itf_question.h"
+
+#include "gam_board.h"
+
+void common_board_setter(int height, int width, ITF::itf_board*& interface);
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate)
 {
