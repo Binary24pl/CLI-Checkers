@@ -16,10 +16,10 @@ enum common_board_pawns_types
 
 enum common_states
 {
+    CMN_STAT_NEITHER,
     CMN_STAT_SELECTABLE,
     CMN_STAT_STRIKABLE,
-    CMN_STAT_SELECTED,
-    CMN_STAT_NEITHER
+    CMN_STAT_SELECTED
 };
 
 struct common_position
@@ -48,6 +48,7 @@ struct common_board_interface
 };
 
 void common_define_playable(std::vector<common_board_playable>& to_write, int width, int height);
+void common_define_showcase(std::vector<common_board_pawns>& to_write, int width, int height);
 
 
 #include "itf_values.h"
@@ -95,5 +96,32 @@ void common_define_playable(std::vector<common_board_playable>& to_write, int wi
                 to_write.push_back(temp);
             }
         }
+    }
+}
+
+void common_define_showcase(std::vector<common_board_pawns>& to_write, int width, int height)
+{
+    int vrt_x, vrt_y;
+
+    vrt_x = vrt_y = 0;
+
+    for(int h = 0; h < height; h++) {
+        for(int w = 0; w < width; w++) {
+            if(h % 2 == w % 2) {
+                common_board_pawns temp;
+                temp.position.on_height = h;
+                temp.position.on_width = w;
+
+                temp.type = (common_board_pawns_types)(vrt_x % 4);
+                temp.current_state = (common_states)(vrt_y % 4);
+
+                vrt_y += 1;
+                to_write.push_back(temp);
+
+                std::cout << temp.type << " : our type; " << temp.current_state << " : our state;" << std::endl;
+            }
+        }
+        vrt_y = 0;
+        vrt_x += 1;
     }
 }

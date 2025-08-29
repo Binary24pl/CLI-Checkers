@@ -8,6 +8,7 @@ int main()
 
     common_board_interface our_vals;
     common_define_playable(our_vals.playable, 10, 10);
+    common_define_showcase(our_vals.pawns, 10, 10);
 
     our_board->init();
     our_board->read_vals(our_vals);
