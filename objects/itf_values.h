@@ -197,6 +197,7 @@ public:
 
     void init();
     void test();
+    void read_vals(const common_board_interface& our_vals);
     void show_visual_state();
 private:
     int board_height, board_width;
@@ -206,6 +207,7 @@ private:
     itf_preload_idx** state_visual;
 
     void top_numeric_indexies();
+    void handle_pawn(const common_board_pawns& our_pawn);
 };
 
 class itf_query_master {

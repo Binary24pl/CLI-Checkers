@@ -87,3 +87,146 @@ void itf_board::test() {
         }
     }
 }
+
+void itf_board::read_vals(const common_board_interface& our_vals) {
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            this->state_visual[on_hght][on_wdth] = ITF_IDX_NON_PLAYABLE;
+        }
+    }
+
+    for(int read_tiles = 0; read_tiles < our_vals.playable.size(); read_tiles++) {
+        if(our_vals.playable[read_tiles].current_state != CMN_STAT_STRIKABLE) {
+            if(our_vals.playable[read_tiles].current_state == CMN_STAT_NEITHER) {
+                this->state_visual[our_vals.playable[read_tiles].position.on_height][our_vals.playable[read_tiles].position.on_width] = ITF_IDX_EMPTY;
+            } else if(our_vals.playable[read_tiles].current_state == CMN_STAT_SELECTABLE) {
+                this->state_visual[our_vals.playable[read_tiles].position.on_height][our_vals.playable[read_tiles].position.on_width] = ITF_IDX_SELECTABLE_EMPTY;
+            } else if(our_vals.playable[read_tiles].current_state == CMN_STAT_SELECTED) {
+                this->state_visual[our_vals.playable[read_tiles].position.on_height][our_vals.playable[read_tiles].position.on_width] = ITF_IDX_SELECTED_EMPTY;
+            }
+        }
+    }
+
+    for(int read_pawns = 0; read_pawns < our_vals.pawns.size(); read_pawns++) {
+        this->handle_pawn(our_vals.pawns[read_pawns]);
+    }
+}
+
+void itf_board::handle_pawn(const common_board_pawns& our_pawn)
+{
+    const common_board_pawns_types our_type = our_pawn.type;
+    const common_states our_state = our_pawn.current_state;
+    const common_position our_pos = our_pawn.position;
+
+    switch(our_type) {
+        case CMN_PAWN_LIGHT : {
+            switch(our_state) {
+                case CMN_STAT_NEITHER : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_PAWN;
+                    break;
+                }
+
+                case CMN_STAT_SELECTABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_PAWN_SELECTABLE;
+                    break;
+                }
+
+                case CMN_STAT_SELECTED : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_PAWN_SELECTED;
+                    break;
+                }
+
+                case CMN_STAT_STRIKABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_PAWN_STRIKABLE;
+                    break;
+                }
+
+                default : {}
+            }
+            break;
+        }
+
+        case CMN_PAWN_DARK : {
+            switch(our_state) {
+                case CMN_STAT_NEITHER : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_PAWN;
+                    break;
+                }
+
+                case CMN_STAT_SELECTABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_PAWN_SELECTABLE;
+                    break;
+                }
+
+                case CMN_STAT_SELECTED : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_PAWN_SELECTED;
+                    break;
+                }
+
+                case CMN_STAT_STRIKABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_PAWN_STRIKABLE;
+                    break;
+                }
+
+                default : {}
+            }
+            break;
+        }
+
+        case CMN_JOKEY_LIGHT : {
+            switch(our_state) {
+                case CMN_STAT_NEITHER : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_JOKEY;
+                    break;
+                }
+
+                case CMN_STAT_SELECTABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_JOKEY_SELECTABLE;
+                    break;
+                }
+
+                case CMN_STAT_SELECTED : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_JOKEY_SELECTED;
+                    break;
+                }
+
+                case CMN_STAT_STRIKABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_LIGHT_JOKEY_STRIKABLE;
+                    break;
+                }
+
+                default : {}
+            }
+            break;
+        }
+
+        case CMN_JOKEY_DARK : {
+            switch(our_state) {
+                case CMN_STAT_NEITHER : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_JOKEY;
+                    break;
+                }
+
+                case CMN_STAT_SELECTABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_JOKEY_SELECTABLE;
+                    break;
+                }
+
+                case CMN_STAT_SELECTED : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_JOKEY_SELECTED;
+                    break;
+                }
+
+                case CMN_STAT_STRIKABLE : {
+                    this->state_visual[our_pos.on_height][our_pos.on_width] = ITF_IDX_DARK_JOKEY_STRIKABLE;
+                    break;
+                }
+
+                default : {}
+            }
+            break;
+        }
+
+        default : {}
+    }
+}

@@ -6,6 +6,50 @@
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate);
 template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, CLASS* of_obj, void(CLASS::*method)(void*&));
 
+enum common_board_pawns_types
+{
+    CMN_PAWN_DARK,
+    CMN_PAWN_LIGHT,
+    CMN_JOKEY_DARK,
+    CMN_JOKEY_LIGHT   
+};
+
+enum common_states
+{
+    CMN_STAT_SELECTABLE,
+    CMN_STAT_STRIKABLE,
+    CMN_STAT_SELECTED,
+    CMN_STAT_NEITHER
+};
+
+struct common_position
+{
+    int on_height;
+    int on_width;
+};
+
+struct common_board_pawns
+{
+    common_board_pawns_types type;
+    common_position position;
+    common_states current_state;
+};
+
+struct common_board_playable
+{
+    common_position position;
+    common_states current_state;
+};
+
+struct common_board_interface
+{
+    std::vector<common_board_pawns> pawns;
+    std::vector<common_board_playable> playable;
+};
+
+void common_define_playable(std::vector<common_board_playable>& to_write, int width, int height);
+
+
 #include "itf_values.h"
 
 #include "itf_funcs.h"
@@ -36,4 +80,20 @@ template<typename PASS, typename CLASS> void common_passer(const PASS& to_pass, 
     (of_obj->*method)(arg);
 
     delete to_cast; //de_alloc id: 4, 6
+}
+
+void common_define_playable(std::vector<common_board_playable>& to_write, int width, int height)
+{
+    for(int h = 0; h < height; h++) {
+        for(int w = 0; w < width; w++) {
+            if(h % 2 == w % 2) {
+                common_board_playable temp;
+                temp.position.on_height = h;
+                temp.position.on_width = w;
+                temp.current_state = CMN_STAT_NEITHER;
+
+                to_write.push_back(temp);
+            }
+        }
+    }
 }

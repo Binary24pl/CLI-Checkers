@@ -5,8 +5,12 @@ int main()
     std::locale::global(std::locale("")); //making special characters work
 
     ITF::itf_board* our_board = new ITF::itf_board(10, 10);
+
+    common_board_interface our_vals;
+    common_define_playable(our_vals.playable, 10, 10);
+
     our_board->init();
-    our_board->test();
+    our_board->read_vals(our_vals);
     our_board->show_visual_state();
 
 
