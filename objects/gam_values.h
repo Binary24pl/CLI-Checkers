@@ -44,13 +44,6 @@ public:
 private:
     int board_height, board_width;
     gam_pawn_rep** board_pos;
-
-    template<gam_pawn_rep lookup>
-    bool find_me(gam_pawn_rep& compared);
-    bool is_movable(const bool& whose_turn, const int& directions ,const common_position& current_pos);
-
-    template<int fronts, int sides, gam_pawn_rep strikeable_pawn, gam_pawn_rep strikable_jokey>
-    bool side_way_check(const common_position& current_pos);
 };
 
 #endif
