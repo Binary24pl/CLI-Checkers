@@ -33,6 +33,47 @@ void gam_board::init()
     }
 }
 
+common_board_interface gam_board::communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos = {-1 , -1})
+{
+    common_board_interface to_return;
+
+    if(what_draw == GAM_DRW_SLCTB) {
+        std::vector<common_position> selectable_poses;
+
+        this->give_movable(whose_turn, selectable_poses);
+
+        for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+            for(int on_wdth = 0; on_wdth < this->board_height; on_wdth++) {
+                if(this->board_pos[on_hght][on_wdth] != GAM_REP_UNPLAYABLE) this->handle_position_slct(on_hght, on_wdth, to_return, selectable_poses);
+            }
+        }
+    } else if(what_draw == GAM_DRW_SLCTD) {
+        if(pos.on_height < 0 || pos.on_width < 0 || pos.on_height >= this->board_height || pos.on_width >= this->board_width) return to_return;
+
+        gam_pawn_rep pawn, jokey;
+
+        if(whose_turn) {
+            pawn = GAM_REP_LIGHT_PAWN;
+            jokey = GAM_REP_LIGHT_JOKEY;
+        } else {
+            pawn = GAM_REP_DARK_PAWN;
+            jokey = GAM_REP_DARK_JOKEY;
+        }
+
+        if(this->board_pos[pos.on_height][pos.on_width] != pawn && this->board_pos[pos.on_height][pos.on_width] != jokey) return to_return;
+
+        gam_piece_move temp;
+
+        bool unlimited = false;
+
+        if(this->board_pos[pos.on_height][pos.on_width] == jokey) unlimited = true;
+    }
+
+    return to_return;
+}
+
+//movable lounge
+
 void gam_board::give_movable(const bool& whose_turn, std::vector<common_position>& positions)
 {
     if(positions.size() != 0) positions.clear();
@@ -141,45 +182,6 @@ bool gam_board::check_sideways(const common_position our_pos)
     return false;
 }
 
-common_board_interface gam_board::communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos = {-1 , -1})
-{
-    common_board_interface to_return;
-
-    if(what_draw == GAM_DRW_SLCTB) {
-        std::vector<common_position> selectable_poses;
-
-        this->give_movable(whose_turn, selectable_poses);
-
-        for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
-            for(int on_wdth = 0; on_wdth < this->board_height; on_wdth++) {
-                if(this->board_pos[on_hght][on_wdth] != GAM_REP_UNPLAYABLE) this->handle_position_slct(on_hght, on_wdth, to_return, selectable_poses);
-            }
-        }
-    } else if(what_draw == GAM_DRW_SLCTD) {
-        if(pos.on_height < 0 || pos.on_width < 0 || pos.on_height >= this->board_height || pos.on_width >= this->board_width) return to_return;
-
-        gam_pawn_rep pawn, jokey;
-
-        if(whose_turn) {
-            pawn = GAM_REP_LIGHT_PAWN;
-            jokey = GAM_REP_LIGHT_JOKEY;
-        } else {
-            pawn = GAM_REP_DARK_PAWN;
-            jokey = GAM_REP_DARK_JOKEY;
-        }
-
-        if(this->board_pos[pos.on_height][pos.on_width] != pawn && this->board_pos[pos.on_height][pos.on_width] != jokey) return to_return;
-
-        gam_piece_move temp;
-
-        bool unlimited = false;
-
-        if(this->board_pos[pos.on_height][pos.on_width] == jokey) unlimited = true;
-    }
-
-    return to_return;
-}
-
 void gam_board::handle_position_slct(int on_hght, int on_wdth, common_board_interface& interface, const std::vector<common_position>& selectable)
 {
     if(this->board_pos[on_hght][on_wdth] == GAM_REP_EMPTY) {
@@ -233,4 +235,47 @@ void gam_board::handle_position_slct(int on_hght, int on_wdth, common_board_inte
     }
 
     interface.pawns.push_back(temp);
+}
+
+//options lounge
+
+void gam_board::give_options(const bool& whose_turn, gam_piece_move& our_opts, const common_position& our_pos, const bool& unlimited)
+{
+    //soon
+}
+
+template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
+void gam_board::sideway_options(gam_piece_move& our_opts, const common_position& our_pos, const bool& unlimited)
+{
+    common_position next_pos;
+    next_pos.on_height = our_pos.on_height + fronts;
+    next_pos.on_width = our_pos.on_width + sides;
+
+    if(next_pos.on_height < 0 || next_pos.on_width < 0 || next_pos.on_height >= this->board_height || next_pos.on_width >= this->board_width) return;
+
+    common_position no_strike;
+    no_strike.on_height = -1;
+    no_strike.on_width = -1;
+
+    if(this->board_pos[next_pos.on_height][next_pos.on_width] != GAM_REP_EMPTY && this->board_pos[next_pos.on_height][next_pos.on_width] != strikable_pawn && this->board_pos[next_pos.on_height][next_pos.on_width] != strikable_jokey) return;
+
+    if(this->board_pos[next_pos.on_height][next_pos.on_width] == GAM_REP_EMPTY) {
+        our_opts.possible_next_strike.push_back(false);
+        our_opts.possible_points.push_back(next_pos);
+        our_opts.strike_positions.push_back(no_strike);
+
+        if(unlimited) {
+            this->sideway_options<fronts, sides, strikable_pawn, strikable_jokey>(our_opts, next_pos, unlimited);
+        }
+    }
+
+    common_position behind_enemy;
+    behind_enemy.on_height + fronts;
+    behind_enemy.on_width + sides;
+
+    if(behind_enemy.on_height < 0 || behind_enemy.on_width < 0; behind_enemy.on_height >= this->board_height || behind_enemy.on_width >= board_width) return;
+
+    if(this->board_pos[behind_enemy.on_height][behind_enemy.on_width] != GAM_REP_EMPTY) return;
+
+    //soon
 }

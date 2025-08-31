@@ -20,7 +20,6 @@ enum gam_draw {
 
 struct gam_piece_move {
     std::vector<common_position> possible_points;
-    std::vector<common_position> end_positions;
     std::vector<common_position> strike_positions;
     std::vector<bool> possible_next_strike;
 };
@@ -66,6 +65,11 @@ private:
     void handle_position_slct(int on_hght, int on_wdth, common_board_interface& interface, const std::vector<common_position>& selectable);
 
     //selected lounge
+
+    void give_options(const bool& whose_turn, gam_piece_move& our_opts, const common_position& our_pos, const bool& unlimited);
+
+    template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
+    void sideway_options(gam_piece_move& our_opts, const common_position& our_pos, const bool& unlimited);
 
     int board_height, board_width;
     gam_pawn_rep** board_pos;
