@@ -155,6 +155,26 @@ common_board_interface gam_board::communicate_draw(const bool& whose_turn, const
                 if(this->board_pos[on_hght][on_wdth] != GAM_REP_UNPLAYABLE) this->handle_position_slct(on_hght, on_wdth, to_return, selectable_poses);
             }
         }
+    } else if(what_draw == GAM_DRW_SLCTD) {
+        if(pos.on_height < 0 || pos.on_width < 0 || pos.on_height >= this->board_height || pos.on_width >= this->board_width) return to_return;
+
+        gam_pawn_rep pawn, jokey;
+
+        if(whose_turn) {
+            pawn = GAM_REP_LIGHT_PAWN;
+            jokey = GAM_REP_LIGHT_JOKEY;
+        } else {
+            pawn = GAM_REP_DARK_PAWN;
+            jokey = GAM_REP_DARK_JOKEY;
+        }
+
+        if(this->board_pos[pos.on_height][pos.on_width] != pawn && this->board_pos[pos.on_height][pos.on_width] != jokey) return to_return;
+
+        gam_piece_move temp;
+
+        bool unlimited = false;
+
+        if(this->board_pos[pos.on_height][pos.on_width] == jokey) unlimited = true;
     }
 
     return to_return;
