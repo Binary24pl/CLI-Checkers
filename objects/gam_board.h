@@ -53,7 +53,9 @@ void gam_board::give_movable(const bool& whose_turn, std::vector<common_position
             temp.on_width = on_wdth;
 
             if((this->*ourteam_check)(whose_turn, temp)) {
-                std::cout << temp.on_height << " : " << temp.on_width << " - is moveable" << std::endl;
+                //std::cout << temp.on_height << " : " << temp.on_width << " - is moveable" << std::endl;
+
+                positions.push_back(temp);
             }
         }
     }
