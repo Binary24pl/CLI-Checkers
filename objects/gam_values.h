@@ -41,6 +41,12 @@ public:
     void init();
 
     void give_movable(const bool& whose_turn, std::vector<common_position>& positions);
+
+    template<gam_pawn_rep pawn, gam_pawn_rep jokey>
+    bool check_movable(const bool& whose_turn, const common_position& our_pos);
+
+    template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep stikable_jokey>
+    bool check_sideways(const common_position our_pos);
 private:
     int board_height, board_width;
     gam_pawn_rep** board_pos;
