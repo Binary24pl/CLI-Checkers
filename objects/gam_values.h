@@ -13,6 +13,10 @@ enum gam_pawn_rep {
     GAM_REP_DARK_JOKEY
 };
 
+enum gam_draw {
+    GAM_DRW_SLCTB
+};
+
 class gam_board
 {
 public:
@@ -40,6 +44,8 @@ public:
 
     void init();
 
+    common_board_interface communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos);
+private:
     void give_movable(const bool& whose_turn, std::vector<common_position>& positions);
 
     template<gam_pawn_rep pawn, gam_pawn_rep jokey>
@@ -47,7 +53,9 @@ public:
 
     template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep stikable_jokey>
     bool check_sideways(const common_position our_pos);
-private:
+
+    void handle_position_slct(int on_hght, int on_wdth, common_board_interface& interface, const std::vector<common_position>& selectable);
+
     int board_height, board_width;
     gam_pawn_rep** board_pos;
 };

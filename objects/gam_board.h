@@ -140,3 +140,77 @@ bool gam_board::check_sideways(const common_position our_pos)
 
     return false;
 }
+
+common_board_interface gam_board::communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos = {-1 , -1})
+{
+    common_board_interface to_return;
+
+    if(what_draw == GAM_DRW_SLCTB) {
+        std::vector<common_position> selectable_poses;
+
+        this->give_movable(whose_turn, selectable_poses);
+
+        for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+            for(int on_wdth = 0; on_wdth < this->board_height; on_wdth++) {
+                if(this->board_pos[on_hght][on_wdth] != GAM_REP_UNPLAYABLE) this->handle_position_slct(on_hght, on_wdth, to_return, selectable_poses);
+            }
+        }
+    }
+
+    return to_return;
+}
+
+void gam_board::handle_position_slct(int on_hght, int on_wdth, common_board_interface& interface, const std::vector<common_position>& selectable)
+{
+    if(this->board_pos[on_hght][on_wdth] == GAM_REP_EMPTY) {
+        common_board_playable temp;
+
+        temp.position.on_height = on_hght;
+        temp.position.on_width = on_wdth;
+        temp.current_state = CMN_STAT_NEITHER;
+
+        interface.playable.push_back(temp);
+        return;
+    }
+
+    common_board_pawns temp;
+            
+    temp.position.on_height = on_hght;
+    temp.position.on_width = on_wdth;
+    temp.current_state = CMN_STAT_NEITHER;
+
+    switch(this->board_pos[on_hght][on_wdth]) {
+        case GAM_REP_LIGHT_PAWN : {
+            temp.type = CMN_PAWN_LIGHT;
+            break;
+        }
+
+        case GAM_REP_LIGHT_JOKEY : {
+            temp.type = CMN_JOKEY_LIGHT;
+            break;
+        }
+
+        case GAM_REP_DARK_PAWN : {
+            temp.type = CMN_PAWN_DARK;
+            break;
+        }
+
+        case GAM_REP_DARK_JOKEY : {
+            temp.type = CMN_JOKEY_DARK;
+            break;
+        }
+
+        default : {
+            break;
+        }
+    }
+
+    for(int i = 0; i < selectable.size(); i++) {
+        if(on_hght == selectable[i].on_height && on_wdth == selectable[i].on_width) {
+            temp.current_state = CMN_STAT_SELECTABLE;
+            break;
+        }
+    }
+
+    interface.pawns.push_back(temp);
+}
