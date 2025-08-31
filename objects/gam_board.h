@@ -74,13 +74,13 @@ bool gam_board::check_movable(const bool& whose_turn, const common_position& our
     if(whose_turn) {
         up_left = &gam_board::check_sideways<-1, -1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
         up_right = &gam_board::check_sideways<-1, 1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
-        down_left = &gam_board::check_sideways<1, -1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
-        down_right = &gam_board::check_sideways<1, 1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+        down_left = &gam_board::check_sideways<1, -1, GAM_REP_DAKR_PAWN, GAM_REP_DARK_JOKEY>;
+        down_right = &gam_board::check_sideways<1, 1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
     } else {
         up_left = &gam_board::check_sideways<-1, -1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
         up_right = &gam_board::check_sideways<-1, 1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
-        down_left = &gam_board::check_sideways<1, -1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
-        down_right = &gam_board::check_sideways<1, 1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
+        down_left = &gam_board::check_sideways<1, -1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+        down_right = &gam_board::check_sideways<1, 1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
     }
 
     if(our_pawn == pawn || our_pawn == jokey) {
