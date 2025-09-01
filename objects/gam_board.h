@@ -87,6 +87,12 @@ common_board_interface gam_board::communicate_draw(const bool& whose_turn, const
 
             strikable = true;
         }
+
+        for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+            for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+                if(this->board_pos[on_hght][on_wdth] != GAM_REP_UNPLAYABLE) this->handle_position_cnfm(on_hght, on_wdth, strikable, to_return, pos, move_to, strike_at);
+            }
+        }
     }
 
     return to_return;
