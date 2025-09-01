@@ -19,6 +19,18 @@ enum gam_draw {
     GAM_DRW_TCNFRM
 };
 
+enum gam_select_results {
+    GAM_SLT_INVALID,
+    GAM_SLT_VALID,
+    GAM_SLT_UNSELECT
+};
+
+enum gam_move_results {
+    GAM_MOV_INVALID,
+    GAM_MOV_FINISHED,
+    GAM_MOV_UNFINISHED
+};
+
 struct gam_piece_move {
     std::vector<common_position> possible_points;
     std::vector<common_position> strike_positions;
