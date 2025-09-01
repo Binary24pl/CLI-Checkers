@@ -53,6 +53,16 @@ public:
     void init();
 
     common_board_interface communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos, const common_position& move_to, const common_position& strike_at);
+
+    //think lounge
+    bool think_movable(const bool& whose_turn, const common_position& at_pos);
+
+    bool think_options(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos);
+
+    bool think_strike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
+
+    bool think_restrike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
+
 private:
     //selectable lounge
     void give_movable(const bool& whose_turn, std::vector<common_position>& positions);
