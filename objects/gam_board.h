@@ -67,6 +67,8 @@ common_board_interface gam_board::communicate_draw(const bool& whose_turn, const
         bool unlimited = false;
 
         if(this->board_pos[pos.on_height][pos.on_width] == jokey) unlimited = true;
+
+        this->give_options(whose_turn, temp, pos, unlimited);
     }
 
     return to_return;
@@ -241,7 +243,10 @@ void gam_board::handle_position_slct(int on_hght, int on_wdth, common_board_inte
 
 void gam_board::give_options(const bool& whose_turn, gam_piece_move& our_opts, const common_position& our_pos, const bool& unlimited)
 {
-    //soon
+    void (gam_board::*up_left)(gam_piece_move&, const common_position&, const bool&) = nullptr;
+    void (gam_board::*up_right)(gam_piece_move&, const common_position&, const bool&) = nullptr;
+    void (gam_board::*down_left)(gam_piece_move&, const common_position&, const bool&) = nullptr;
+    void (gam_board::*down_right)(gam_piece_move&, const common_position&, const bool&) = nullptr;
 }
 
 template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
@@ -267,15 +272,61 @@ void gam_board::sideway_options(gam_piece_move& our_opts, const common_position&
         if(unlimited) {
             this->sideway_options<fronts, sides, strikable_pawn, strikable_jokey>(our_opts, next_pos, unlimited);
         }
+
+        return;
     }
 
     common_position behind_enemy;
-    behind_enemy.on_height + fronts;
-    behind_enemy.on_width + sides;
+    behind_enemy.on_height = next_pos.on_height + fronts;
+    behind_enemy.on_width = next_pos.on_width + sides;
 
     if(behind_enemy.on_height < 0 || behind_enemy.on_width < 0; behind_enemy.on_height >= this->board_height || behind_enemy.on_width >= board_width) return;
 
     if(this->board_pos[behind_enemy.on_height][behind_enemy.on_width] != GAM_REP_EMPTY) return;
 
-    //soon
+    our_opts.possible_points.push_back(behind_enemy);
+    our_opts.strike_positions.push_back(next_pos);
+
+    this->strike_options<fronts, sides, strikable_pawn, strikable_jokey>(our_opts, behind_enemy);
+}
+
+template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
+void gam_board::strike_options(gam_piece_move& our_opts, const common_position& our_pos)
+{
+    const int coords = 3;
+
+    common_position calc_vals[coords];
+
+    calc_vals[0].on_height = fronts * -1;
+    calc_vals[0].on_width = sides * -1;
+
+    calc_vals[1].on_height = fronts;
+    calc_vals[1].on_width = sides * -1;
+
+    calc_vals[2].on_height = fronts * -1;
+    calc_vals[2].on_width = sides;
+
+    common_position possible_enemies[coords];
+    common_position possibly_behind_em[coords];
+
+    bool multiple = false;
+
+    for(int i = 0; i < coords; i++) {
+        possible_enemies[i].on_height = our_pos.on_height + (calc_vals[i].on_height * 1);
+        possible_enemies[i].on_width = our_pos.on_width + (calc_vals[i].on_width * 1);
+
+        possibly_behind_em[i].on_height = our_pos.on_height + (calc_vals[i].on_height * 1);
+        possibly_behind_em[i].on_width = our_pos.on_width + (calc_vals[i].on_width * 1);
+    }
+
+    for(int check = 0; check < coords; check++) {
+        if(possibly_behind_em[check].on_height >= 0 && possibly_behind_em[check].on_width >= 0 && possibly_behind_em[check].on_height < this->board_height && possibly_behind_em[check].on_width < this->board_width) {
+            if((this->board_pos[possible_enemies[check].on_height][possible_enemies[check].on_width] == strikable_pawn || this->board_pos[possible_enemies[check].on_height][possible_enemies[check].on_width] == strikable_jokey) && this->board_pos[possibly_behind_em[check].on_height][possibly_behind_em[check].on_width] == GAM_REP_EMPTY) {
+                multiple = true;
+                break;
+            }
+        }
+    }
+
+    our_opts.possible_next_strike.push_back(multiple);
 }

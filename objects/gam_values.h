@@ -71,6 +71,9 @@ private:
     template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
     void sideway_options(gam_piece_move& our_opts, const common_position& our_pos, const bool& unlimited);
 
+    template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
+    void strike_options(gam_piece_move& our_opts, const common_position& our_pos);
+
     int board_height, board_width;
     gam_pawn_rep** board_pos;
 };
