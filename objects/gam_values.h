@@ -15,7 +15,8 @@ enum gam_pawn_rep {
 
 enum gam_draw {
     GAM_DRW_SLCTB,
-    GAM_DRW_SLCTD
+    GAM_DRW_SLCTD,
+    GAM_DRW_TCNFRM
 };
 
 struct gam_piece_move {
@@ -51,7 +52,7 @@ public:
 
     void init();
 
-    common_board_interface communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos);
+    common_board_interface communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos, const common_position& move_to, const common_position& strike_at);
 private:
     //selectable lounge
     void give_movable(const bool& whose_turn, std::vector<common_position>& positions);
@@ -75,6 +76,10 @@ private:
     void strike_options(gam_piece_move& our_opts, const common_position& our_pos);
 
     void handle_position_sltd(int on_hght, int on_wdth, common_board_interface& interface, const gam_piece_move& options, const common_position& selected);
+
+    // to confirm lounge
+
+    void handle_position_cnfm(int on_hght, int on_wdth, const bool& is_strike, common_board_interface& interface, const common_position& origin, const common_position& destination, const common_position& strike_through);
 
     int board_height, board_width;
     gam_pawn_rep** board_pos;
