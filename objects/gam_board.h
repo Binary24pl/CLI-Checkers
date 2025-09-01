@@ -69,6 +69,12 @@ common_board_interface gam_board::communicate_draw(const bool& whose_turn, const
         if(this->board_pos[pos.on_height][pos.on_width] == jokey) unlimited = true;
 
         this->give_options(whose_turn, temp, pos, unlimited);
+
+        for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+            for(int on_wdth = 0; on_wdth < this->board_height; on_wdth++) {
+                if(this->board_pos[on_hght][on_wdth] != GAM_REP_UNPLAYABLE) this->handle_position_sltd(on_hght, on_wdth, to_return, temp, pos);
+            }
+        }
     }
 
     return to_return;

@@ -74,6 +74,8 @@ private:
     template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
     void strike_options(gam_piece_move& our_opts, const common_position& our_pos);
 
+    void handle_position_sltd(int on_hght, int on_wdth, common_board_interface& interface, const gam_piece_move& options, const common_position& selected);
+
     int board_height, board_width;
     gam_pawn_rep** board_pos;
 };

@@ -6,6 +6,33 @@ void gam_board::give_options(const bool& whose_turn, gam_piece_move& our_opts, c
     void (gam_board::*up_right)(gam_piece_move&, const common_position&, const bool&) = nullptr;
     void (gam_board::*down_left)(gam_piece_move&, const common_position&, const bool&) = nullptr;
     void (gam_board::*down_right)(gam_piece_move&, const common_position&, const bool&) = nullptr;
+
+    if(whose_turn) {
+        up_left = &gam_board::sideway_options<-1, -1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
+        up_right = &gam_board::sideway_options<-1, 1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
+        down_left = &gam_board::sideway_options<1, -1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
+        down_right = &gam_board::sideway_options<1, 1, GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
+    } else {
+        up_left = &gam_board::sideway_options<-1, -1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+        up_right = &gam_board::sideway_options<-1, 1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+        down_left = &gam_board::sideway_options<1, -1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+        down_right = &gam_board::sideway_options<1, 1, GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+    }
+
+    if(unlimited) {
+        (this->*up_left)(our_opts, our_pos, unlimited);
+        (this->*up_right)(our_opts, our_pos, unlimited);
+        (this->*down_left)(our_opts, our_pos, unlimited);
+        (this->*down_right)(our_opts, our_pos, unlimited);
+    } else {
+        if(whose_turn) {
+            (this->*up_left)(our_opts, our_pos, unlimited);
+            (this->*up_right)(our_opts, our_pos, unlimited);
+        } else {
+            (this->*down_left)(our_opts, our_pos, unlimited);
+            (this->*down_right)(our_opts, our_pos, unlimited);
+        }
+    }
 }
 
 template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
@@ -88,4 +115,72 @@ void gam_board::strike_options(gam_piece_move& our_opts, const common_position& 
     }
 
     our_opts.possible_next_strike.push_back(multiple);
+}
+
+void gam_board::handle_position_sltd(int on_hght, int on_wdth, common_board_interface& interface, const gam_piece_move& options, const common_position& selected)
+{
+    gam_pawn_rep our_tile = this->board_pos[on_hght][on_wdth];
+
+    if(our_tile == GAM_REP_EMPTY) {
+        common_board_playable temp;
+
+        temp.position.on_height = on_hght;
+        temp.position.on_width = on_wdth;
+
+        temp.current_state = CMN_STAT_NEITHER;
+
+        for(int i = 0; i < options.possible_points.size(); i++) {
+            if(options.possible_points[i].on_height == on_hght && options.possible_points[i].on_width == on_wdth) {
+                temp.current_state = CMN_STAT_SELECTABLE;
+                break;
+            }
+        }
+
+        interface.playable.push_back(temp);
+        return;
+    }
+
+    common_board_pawns temp;
+    temp.position.on_height = on_hght;
+    temp.position.on_width = on_wdth;
+
+    switch(our_tile) {
+        case GAM_REP_LIGHT_PAWN : {
+            temp.type = CMN_PAWN_LIGHT;
+            break;
+        }
+
+        case GAM_REP_LIGHT_JOKEY : {
+            temp.type = CMN_JOKEY_LIGHT;
+            break;
+        }
+
+        case GAM_REP_DARK_PAWN : {
+            temp.type = CMN_PAWN_DARK;
+            break;
+        }
+
+        case GAM_REP_DARK_JOKEY : {
+            temp.type = CMN_JOKEY_DARK;
+            break;
+        }
+
+        default : {
+            break;
+        }
+    }
+
+    temp.current_state = CMN_STAT_NEITHER;
+
+    if(on_hght == selected.on_height && on_wdth == selected.on_width) {
+        temp.current_state = CMN_STAT_SELECTED;
+    } else {
+        for(int i = 0; i < options.strike_positions.size(); i++) {
+            if(options.strike_positions[i].on_height == on_hght && options.strike_positions[i].on_width == on_wdth) {
+                temp.current_state = CMN_STAT_STRIKABLE;
+            }
+        }
+    }
+
+    interface.pawns.push_back(temp);
 }
