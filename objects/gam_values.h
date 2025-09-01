@@ -63,6 +63,8 @@ public:
 
     bool think_restrike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
 
+    bool think_check_win(const bool& after_who);
+
 private:
     //selectable lounge
     void give_movable(const bool& whose_turn, std::vector<common_position>& positions);

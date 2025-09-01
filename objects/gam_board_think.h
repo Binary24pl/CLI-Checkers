@@ -75,3 +75,24 @@ bool gam_board::think_restrike(const bool& whose_turn, const common_position& at
 
     return false;
 }
+
+bool gam_board::think_check_win(const bool& after_who)
+{
+    gam_pawn_rep pawn, jokey;
+
+    if(after_who) {
+        pawn = GAM_REP_DARK_PAWN;
+        jokey = GAM_REP_DARK_JOKEY;
+    } else {
+        pawn = GAM_REP_LIGHT_PAWN;
+        jokey = GAM_REP_LIGHT_JOKEY;
+    }
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            if(this->board_pos[on_hght][on_wdth] == pawn || this->board_pos[on_hght][on_wdth] == jokey) return false;
+        }
+    }
+
+    return true;
+}
