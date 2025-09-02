@@ -51,3 +51,44 @@ gam_move_results gam_board::scenario_post_move(const bool& whose_turn, const com
 
     return end_results;
 }
+
+gam_move_results gam_board::scenario_restrike(const bool& whose_turn, const common_position& origin, const common_position& end)
+{
+    std::vector<common_position> strikes, ends;
+    
+    void(gam_board::*check_chain)(const common_position&, std::vector<common_position>&, std::vector<common_position>&) = nullptr;
+
+    if(whose_turn) {
+        check_chain = &gam_board::give_chain_strike<GAM_REP_DARK_PAWN, GAM_REP_DARK_JOKEY>;
+    } else {
+        check_chain = &gam_board::give_chain_strike<GAM_REP_LIGHT_PAWN, GAM_REP_LIGHT_JOKEY>;
+    }
+
+    (this->*check_chain)(origin, strikes, ends);
+
+    if(strikes.size() != ends.size()) return GAM_MOV_INVALID;
+
+    int idx = -1;
+
+    for(int i = 0; i < ends.size(); i++) {
+        if(end.on_height == ends[i].on_height && end.on_width == ends[i].on_width) {
+            idx = i;
+            break;
+        }
+    }
+
+    if(idx < 0) return GAM_MOV_INVALID;
+
+    const common_position to_strike = strikes[idx];
+    const gam_pawn_rep our_piece = this->board_pos[origin.on_height][origin.on_width];
+
+    bool results = this->think_restrike(whose_turn, origin, end, to_strike);
+
+    this->board_pos[end.on_height][end.on_width] = our_piece;
+    this->board_pos[origin.on_height][origin.on_width] = GAM_REP_EMPTY;
+    this->board_pos[to_strike.on_height][to_strike.on_width] = GAM_REP_EMPTY;
+
+    if(results) return GAM_MOV_UNFINISHED;
+
+    return GAM_MOV_FINISHED;
+}
