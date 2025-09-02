@@ -66,14 +66,15 @@ public:
 
     common_board_interface communicate_draw(const bool& whose_turn, const gam_draw& what_draw, const common_position& pos, const common_position& move_to, const common_position& strike_at);
 
-    //think lounge
-    bool think_movable(const bool& whose_turn, const common_position& at_pos);
+    //scenario lounge
 
-    bool think_options(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos);
+    gam_select_results scenario_select(const bool& whose_turn, const common_position& pos);
 
-    bool think_strike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
+    gam_select_results scenario_pre_move(const bool& whose_turn, const common_position& pos, const common_position end);
 
-    bool think_restrike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
+    gam_move_results scenario_post_move(const bool& whose_turn, const common_position& origin, const common_position& end);
+
+    // think lounge
 
     bool think_check_win(const bool& after_who);
 
@@ -104,6 +105,15 @@ private:
     // to confirm lounge
 
     void handle_position_cnfm(int on_hght, int on_wdth, const bool& is_strike, common_board_interface& interface, const common_position& origin, const common_position& destination, const common_position& strike_through);
+
+    //think lounge
+    bool think_movable(const bool& whose_turn, const common_position& at_pos);
+
+    bool think_options(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos);
+
+    bool think_strike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
+
+    bool think_restrike(const bool& whose_turn, const common_position& at_pos, const common_position& to_pos, const common_position& strike_at);
 
     int board_height, board_width;
     gam_pawn_rep** board_pos;
