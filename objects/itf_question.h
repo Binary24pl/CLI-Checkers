@@ -128,7 +128,7 @@ bool itf_question::verify_type(const input_type& to_check)
     return false;
 }
 
-void itf_question::ask_question()
+std::vector<std::string> itf_question::ask_question()
 {
     while (true)
     {
@@ -145,7 +145,7 @@ void itf_question::ask_question()
         }
 
         if(this->validate_question(raw_version)) {
-            break;
+            return raw_version;
         }
     }
     
