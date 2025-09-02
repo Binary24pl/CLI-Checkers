@@ -64,6 +64,7 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
 #include "gam_board.h"
 #include "gam_board_mov.h"
 #include "gam_board_slt.h"
+#include "gam_board_chain.h"
 #include "gam_board_think.h"
 #include "gam_board_scenario.h"
 
