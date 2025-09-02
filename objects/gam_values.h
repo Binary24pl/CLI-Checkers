@@ -77,6 +77,8 @@ public:
 
     gam_move_results scenario_restrike(const bool& whose_turn, const common_position& origin, const common_position& end);
 
+    void scenario_make_jokeys();
+
     // think lounge
 
     bool think_check_win(const bool& after_who);

@@ -92,3 +92,19 @@ gam_move_results gam_board::scenario_restrike(const bool& whose_turn, const comm
 
     return GAM_MOV_FINISHED;
 }
+
+void gam_board::scenario_make_jokeys()
+{
+    const int shift_lights = 0;
+    const int shift_darks = this->board_height - 1;
+
+    for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+        if(this->board_pos[shift_lights][on_wdth] == GAM_REP_LIGHT_PAWN) {
+            this->board_pos[shift_lights][on_wdth] == GAM_REP_LIGHT_JOKEY;
+        }
+
+        if(this->board_pos[shift_darks][on_wdth] == GAM_REP_DARK_PAWN) {
+            this->board_pos[shift_darks][on_wdth] == GAM_REP_DARK_JOKEY;
+        }
+    }
+}
