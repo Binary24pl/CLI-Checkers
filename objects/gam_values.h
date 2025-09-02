@@ -110,7 +110,7 @@ private:
     template<int fronts, int sides, gam_pawn_rep strikable_pawn, gam_pawn_rep strikable_jokey>
     void sideway_chain(const common_position& our_pos, std::vector<common_position>& strikes, std::vector<common_position>& end_points);
 
-    void handle_position_chain(int on_hght, int on_wdth, const common_position& our_pos);
+    void handle_position_chain(const bool& whose_turn, int on_hght, int on_wdth, common_board_interface& interface, const common_position& our_pos);
 
     // to confirm lounge
 
