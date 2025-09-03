@@ -69,7 +69,7 @@ bool gam_board::think_restrike(const bool& whose_turn, const common_position& at
 
     for(int i = 0; i < local_size; i++) {
         if(to_pos.on_height == our_options.possible_points[i].on_height && to_pos.on_width == our_options.possible_points[i].on_width && strike_at.on_height == our_options.strike_positions[i].on_height && strike_at.on_width == our_options.strike_positions[i].on_width) {
-            return our_options.possible_next_strike[i];
+            if(our_options.possible_next_strike[i]) return true;
         }
     }
 

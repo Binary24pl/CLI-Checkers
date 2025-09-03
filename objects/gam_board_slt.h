@@ -83,8 +83,8 @@ void gam_board::strike_options(gam_piece_move& our_opts, const common_position& 
 
     common_position calc_vals[coords];
 
-    calc_vals[0].on_height = fronts * -1;
-    calc_vals[0].on_width = sides * -1;
+    calc_vals[0].on_height = fronts;
+    calc_vals[0].on_width = sides;
 
     calc_vals[1].on_height = fronts;
     calc_vals[1].on_width = sides * -1;
@@ -101,8 +101,8 @@ void gam_board::strike_options(gam_piece_move& our_opts, const common_position& 
         possible_enemies[i].on_height = our_pos.on_height + (calc_vals[i].on_height * 1);
         possible_enemies[i].on_width = our_pos.on_width + (calc_vals[i].on_width * 1);
 
-        possibly_behind_em[i].on_height = our_pos.on_height + (calc_vals[i].on_height * 1);
-        possibly_behind_em[i].on_width = our_pos.on_width + (calc_vals[i].on_width * 1);
+        possibly_behind_em[i].on_height = our_pos.on_height + (calc_vals[i].on_height * 2);
+        possibly_behind_em[i].on_width = our_pos.on_width + (calc_vals[i].on_width * 2);
     }
 
     for(int check = 0; check < coords; check++) {
