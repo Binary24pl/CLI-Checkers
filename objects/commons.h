@@ -53,7 +53,6 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
 
 
 #include "itf_values.h"
-#include "gam_values.h"
 
 #include "itf_funcs.h"
 #include "itf_tile.h"
@@ -61,12 +60,15 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
 #include "itf_query_element.h"
 #include "itf_question.h"
 
+#include "gam_values.h"
+
 #include "gam_board.h"
 #include "gam_board_mov.h"
 #include "gam_board_slt.h"
 #include "gam_board_chain.h"
 #include "gam_board_think.h"
 #include "gam_board_scenario.h"
+#include "gam_mainloop.h"
 
 void common_board_setter(int height, int width, ITF::itf_board*& interface, GAM::gam_board*& logic);
 

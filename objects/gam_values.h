@@ -135,4 +135,70 @@ private:
     gam_pawn_rep** board_pos;
 };
 
+
+enum gam_phase {
+    GAM_PHS_START,
+    GAM_PHS_SELECTED,
+    GAM_PHS_MOVED,
+    GAM_PHS_AT_RECHAIN,
+    GAM_PHS_FINISHED
+};
+
+
+class gam_mainloop
+{
+public:
+    gam_mainloop(int height, int width) {
+        this->game_height = height;
+        this->game_width = width;
+
+        this->logic = nullptr;
+        this->display = nullptr;
+
+        this->ask_confirm = nullptr;
+        this->ask_coords = nullptr;
+
+        if(height <= 0 || width <= 0 || height % 2 != 0 || width % 2 != 0) {
+            this->game_height = -1;
+            this->game_width = -1;
+        }
+
+        this->current_phase = GAM_PHS_START;
+        this->current_team = GAM_LIGHT;
+    }
+
+    ~gam_mainloop() {
+        if(this->logic != nullptr) {
+            delete this->logic;
+        }
+
+        if(this->display != nullptr) {
+            delete this->display;
+        }
+
+        if(this->ask_confirm != nullptr) {
+            delete this->ask_confirm;
+        }
+
+        if(this->ask_coords != nullptr) {
+            delete this->ask_coords;
+        }
+    }
+
+    void init();
+private:
+    void set_questions();
+
+    gam_board* logic;
+    itf_board* display;
+
+    itf_question* ask_confirm;
+    itf_question* ask_coords;
+
+    gam_phase current_phase;
+    bool current_team;
+
+    int game_height, game_width;
+};
+
 #endif
