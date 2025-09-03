@@ -1,9 +1,19 @@
 #include "objects/commons.h"
 
-int main()
-{
+int main() {
     std::locale::global(std::locale("")); //making special characters work
 
-    std::locale::global(std::locale::classic()); //clears the special characters interpreter
+    GAM::gam_mainloop gamemaster(10,10);
+    gamemaster.init();
+
+    bool controler = true;
+    while (controler)
+    {
+        gamemaster.run_loop(controler);
+    }
+    
+
+    std::locale::global(std::locale::classic());
+
     return 0;
 }
