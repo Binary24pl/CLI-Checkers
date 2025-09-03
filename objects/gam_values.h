@@ -139,7 +139,9 @@ private:
 enum gam_phase {
     GAM_PHS_START,
     GAM_PHS_SELECTED,
+    GAM_PHS_PRE_MOVE,
     GAM_PHS_MOVED,
+    GAM_PSH_PRE_CHAIN,
     GAM_PHS_AT_RECHAIN,
     GAM_PHS_FINISHED
 };

@@ -61,5 +61,7 @@ void gam_mainloop::set_questions()
 void gam_mainloop::run_loop(bool& controler)
 {
     system("clear");
+    gam_draw our_draw;
+
     controler = false;
 }
