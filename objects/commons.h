@@ -61,17 +61,7 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
 #include "itf_question.h"
 
 #include "gam_values.h"
-
-#include "gam_board.h"
-#include "gam_board_mov.h"
-#include "gam_board_slt.h"
-#include "gam_board_chain.h"
-#include "gam_board_think.h"
-#include "gam_board_scenario.h"
-#include "gam_mainloop.h"
-#include "gam_mainloop_phase.h"
-
-void common_board_setter(int height, int width, ITF::itf_board*& interface, GAM::gam_board*& logic);
+#include "gam_board_piece.h"
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate)
 {
@@ -138,12 +128,4 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
         vrt_y = 0;
         vrt_x += 1;
     }
-}
-
-void common_board_setter(int height, int width, ITF::itf_board*& interface, GAM::gam_board*& logic) {
-    interface = new ITF::itf_board(height, width);
-    logic = new ITF::gam_board(height, width);
-
-    interface->init();
-    logic->init();
 }
