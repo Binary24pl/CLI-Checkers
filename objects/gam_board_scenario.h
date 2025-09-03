@@ -33,7 +33,7 @@ gam_move_results gam_board::scenario_post_move(const bool& whose_turn, const com
     if(origin.on_width < end.on_width) {
         possible_strike.on_width = end.on_width - 1;
     } else {
-        possible_strike.on_height = end.on_width + 1;
+        possible_strike.on_width = end.on_width + 1;
     }
 
     gam_move_results end_results = GAM_MOV_FINISHED;
