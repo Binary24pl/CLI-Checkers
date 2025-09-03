@@ -65,3 +65,27 @@ void gam_mainloop::run_loop(bool& controler)
 
     controler = false;
 }
+
+bool gam_mainloop::status_confirm(const std::vector<std::string>& check)
+{
+    if(check[0] == "confirm") return true;
+
+    return false;
+}
+
+common_position gam_mainloop::status_coords(const std::vector<std::string>& check)
+{
+    common_position to_return;
+
+    char raw_height = check[0][0];
+    int fixed_height = (int)raw_height;
+    fixed_height -= (int)'A';
+    to_return.on_height = fixed_height;
+
+    std::stringstream translator;
+    translator << check[1];
+    translator >> to_return.on_width;
+    to_return.on_width -= 1;
+
+    return to_return;
+}

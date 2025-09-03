@@ -192,6 +192,9 @@ public:
 private:
     void set_questions();
 
+    bool status_confirm(const std::vector<std::string>& check);
+    common_position status_coords(const std::vector<std::string>& check);
+
     gam_board* logic;
     itf_board* display;
 
