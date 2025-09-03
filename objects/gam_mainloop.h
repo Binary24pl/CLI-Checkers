@@ -62,42 +62,53 @@ void gam_mainloop::run_loop(bool& controler)
 {
     system("clear");
 
+    this->logic->scenario_make_jokeys();
+    bool finished = this->logic->think_check_win(this->current_team);
+
     switch(this->current_phase) {
         case GAM_PHS_START: {
             // Handle game start phase
+            this->phase_start();
             break;
         }
         case GAM_PHS_SELECTED: {
             // Handle piece selected phase
+            this->phase_selected();
             break;
         }
         case GAM_PHS_PRE_MOVE: {
             // Handle pre-move phase
+            this->phase_pre_move();
             break;
         }
         case GAM_PHS_MOVED: {
             // Handle after move phase
+            this->phase_moved();
             break;
         }
         case GAM_PSH_PRE_CHAIN: {
             // Handle pre-chain phase
+            this->phase_pre_chain();
             break;
         }
         case GAM_PHS_AT_RECHAIN: {
             // Handle re-chain phase
+            this->phase_at_re_chain();
             break;
         }
         case GAM_PHS_FINISHED: {
             // Handle game finished phase
+            this->phase_finished();
             break;
         }
         default: {
-            // Handle unknown phase (optional error handling)
             break;
         }
     }
 
-    controler = false;
+    if(finished) {
+        controler = false;
+    }
 }
 
 bool gam_mainloop::status_confirm(const std::vector<std::string>& check)
@@ -122,4 +133,30 @@ common_position gam_mainloop::status_coords(const std::vector<std::string>& chec
     to_return.on_width -= 1;
 
     return to_return;
+}
+
+common_position gam_mainloop::status_enemy()
+{
+    common_position to_reutrn;
+
+    if(this->cursor.on_height < this->selector.on_height) {
+        to_reutrn.on_height = this->selector.on_height - 1;
+    } else {
+        to_reutrn.on_height = this->selector.on_height + 1;
+    }
+
+    if(this->cursor.on_width < this->selector.on_width) {
+        to_reutrn.on_width = this->selector.on_width - 1;
+    } else {
+        to_reutrn.on_width = this->selector.on_width + 1;
+    }
+
+    if(to_reutrn.on_height == this->cursor.on_height && to_reutrn.on_width == this->cursor.on_width) {
+        to_reutrn.on_height = -1;
+        to_reutrn.on_width = -1;
+    }
+
+    //std::cout << to_reutrn.on_height << to_reutrn.on_width << std::endl;
+
+    return to_reutrn;
 }

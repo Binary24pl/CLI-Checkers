@@ -194,6 +194,7 @@ private:
 
     bool status_confirm(const std::vector<std::string>& check);
     common_position status_coords(const std::vector<std::string>& check);
+    common_position status_enemy();
 
     void phase_start();
     void phase_selected();
