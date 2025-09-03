@@ -195,6 +195,14 @@ private:
     bool status_confirm(const std::vector<std::string>& check);
     common_position status_coords(const std::vector<std::string>& check);
 
+    void phase_start();
+    void phase_selected();
+    void phase_pre_move();
+    void phase_moved();
+    void phase_pre_chain();
+    void phase_at_re_chain();
+    void phase_finished();
+
     gam_board* logic;
     itf_board* display;
 

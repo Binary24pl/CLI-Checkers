@@ -61,7 +61,41 @@ void gam_mainloop::set_questions()
 void gam_mainloop::run_loop(bool& controler)
 {
     system("clear");
-    gam_draw our_draw;
+
+    switch(this->current_phase) {
+        case GAM_PHS_START: {
+            // Handle game start phase
+            break;
+        }
+        case GAM_PHS_SELECTED: {
+            // Handle piece selected phase
+            break;
+        }
+        case GAM_PHS_PRE_MOVE: {
+            // Handle pre-move phase
+            break;
+        }
+        case GAM_PHS_MOVED: {
+            // Handle after move phase
+            break;
+        }
+        case GAM_PSH_PRE_CHAIN: {
+            // Handle pre-chain phase
+            break;
+        }
+        case GAM_PHS_AT_RECHAIN: {
+            // Handle re-chain phase
+            break;
+        }
+        case GAM_PHS_FINISHED: {
+            // Handle game finished phase
+            break;
+        }
+        default: {
+            // Handle unknown phase (optional error handling)
+            break;
+        }
+    }
 
     controler = false;
 }

@@ -69,6 +69,7 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
 #include "gam_board_think.h"
 #include "gam_board_scenario.h"
 #include "gam_mainloop.h"
+#include "gam_mainloop_phase.h"
 
 void common_board_setter(int height, int width, ITF::itf_board*& interface, GAM::gam_board*& logic);
 
