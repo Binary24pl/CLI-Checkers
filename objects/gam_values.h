@@ -186,6 +186,7 @@ public:
     }
 
     void init();
+    void run_loop(bool& controler);
 private:
     void set_questions();
 
@@ -199,6 +200,9 @@ private:
     bool current_team;
 
     int game_height, game_width;
+
+    common_position cursor;
+    common_position selector;
 };
 
 #endif

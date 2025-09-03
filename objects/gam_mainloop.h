@@ -57,3 +57,9 @@ void gam_mainloop::set_questions()
     delete[] on_hght_rng.args;
     delete[] on_wdth_rng.args;
 }
+
+void gam_mainloop::run_loop(bool& controler)
+{
+    system("clear");
+    controler = false;
+}
