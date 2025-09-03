@@ -75,6 +75,8 @@ public:
 
     gam_move_results scenario_post_move(const bool& whose_turn, const common_position& origin, const common_position& end);
 
+    gam_select_results scenario_pre_restrike(const bool& whose_turn, const common_position& origin, const common_position& end);
+
     gam_move_results scenario_restrike(const bool& whose_turn, const common_position& origin, const common_position& end);
 
     void scenario_make_jokeys();
