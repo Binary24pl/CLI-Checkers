@@ -30,7 +30,8 @@ enum gam_tile_rep
 
 enum gam_round_phase
 {
-    GAM_PHS_START
+    GAM_PHS_START,
+    GAM_PHS_SELECTED
 };
 
 class gam_board_piece
@@ -103,7 +104,7 @@ public:
         return;
     }
 
-    common_board_interface communicate_with_interface(const gam_round_phase& game_phase, const bool& whose_turn);
+    common_board_interface communicate_with_interface(const gam_round_phase& game_phase, const bool& whose_turn, const common_position& select);
 private:
     int board_height;
     int board_width;
@@ -126,9 +127,12 @@ private:
     std::vector<common_position> compose_movable(const bool& whose_turn);
     std::vector<common_position> compose_strikable(const bool& whose_turn);
     std::vector<common_position> compose_selectable(const bool& whose_turn);
+    std::vector<common_position> compose_to_strike(const common_position& relative_to, const std::vector<common_position>& strike_ends);
 
     void communicate_phase_start(const bool& whose_turn, common_board_interface& to_edit);
     void communicate_handle_start(common_board_interface& to_edit, const common_position& local_pos, const std::vector<common_position>& local_poses);
+    void communicate_phase_selected(const bool& whose_turn, common_board_interface& to_edit, const common_position& selection);
+    void communicate_handle_selected(common_board_interface& to_eidt, const common_position& local_pos, const common_position& current_pos, const std::vector<common_position>& move_points, const std::vector<common_position>& strike_points, const std::vector<common_position>& to_strike);
 };
 
 #endif
