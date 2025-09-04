@@ -89,7 +89,6 @@ public:
     ~gam_board_logic() {};
     
     void init();
-    common_board_interface communicate_draw();
 private:
     int board_height;
     int board_width;
@@ -97,9 +96,6 @@ private:
     std::vector<gam_board_piece> our_pieces;
 
     int find_piece_by_pos(const common_position& pos);
-
-    void prep_vectors(std::vector<int>& idxs, std::vector<common_position>& poses);
-    void prep_pos(const std::vector<int>& idxs, const std::vector<common_position>& poses, common_board_interface& interface, int on_hght, int on_wdth);
 };
 
 #endif
