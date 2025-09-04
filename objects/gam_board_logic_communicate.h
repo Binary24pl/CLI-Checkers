@@ -18,6 +18,16 @@ common_board_interface gam_board_logic::communicate_with_interface(const gam_rou
             break;
         }
 
+        case GAM_PHS_CHAIN_START : {
+            //soon
+            break;
+        }
+
+        case GAM_PHS_PRE_CHAIN : {
+            this->communicate_phase_pre(to_return, select, move_to);
+            break;
+        }
+
         default : {
             break;
         }

@@ -33,7 +33,11 @@ enum gam_round_phase
     GAM_PHS_START,
     GAM_PHS_SELECTED,
     GAM_PHS_PRE_MOVE,
-    GAM_PHS_POST_MOVE
+    GAM_PHS_POST_MOVE,
+    GAM_PHS_CHAIN_START,
+    GAM_PHS_PRE_CHAIN,
+    GAM_PHS_POST_CHAIN,
+    GAM_PHS_FINISHED
 };
 
 class gam_board_piece
