@@ -53,6 +53,7 @@ public:
     std::vector<gam_mov_results> give_mov_results(const std::vector<gam_tile_rep>& container, const bool& unlimited);
 
     void set_to_jokey();
+    void set_new_pos(const common_position& pos);
 
 private:
     int board_height;
@@ -70,6 +71,14 @@ private:
 
     template<int fronts, int sides>
     std::vector<common_position> give_sideway_coords();
+};
+
+class gam_board_logic
+{
+public:
+    gam_board_logic() {};
+
+    ~gam_board_logic() {};
 };
 
 #endif

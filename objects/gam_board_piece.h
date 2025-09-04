@@ -139,6 +139,14 @@ void gam_board_piece::set_to_jokey()
     }
 }
 
+void gam_board_piece::set_new_pos(const common_position& pos)
+{
+    if(this->util_is_pos_valid(pos) == false) return;
+
+    origin.on_height = pos.on_height;
+    origin.on_width = pos.on_width;
+}
+
 bool gam_board_piece::util_is_pos_valid(const common_position& pos)
 {
     if(pos.on_height < 0 || pos.on_height >= this->board_height) return false;
