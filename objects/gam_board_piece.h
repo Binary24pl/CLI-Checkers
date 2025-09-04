@@ -52,6 +52,62 @@ std::vector<common_position> gam_board_piece::give_sideway_coords()
     return to_return;
 }
 
+std::vector<gam_mov_results> gam_board_piece::give_mov_results(const std::vector<gam_tile_rep>& container, const bool& unlimited = false)
+{
+    std::vector<gam_mov_results> to_return;
+
+    int is_in_combat = 0;
+
+    for(int i = 0; i < container.size(); i++) {
+        if(unlimited == false && i >= 1) {
+            to_return.push_back(GAM_MOV_RESTRICTED);
+        } else {
+            this->give_handle_mov_res_pos(container, i, is_in_combat, to_return);
+        }
+    }
+
+    return to_return;
+}
+
+void gam_board_piece::give_handle_mov_res_pos(const std::vector<gam_tile_rep>& container, const int& pos, int& combat_scenario, std::vector<gam_mov_results>& to_push)
+{
+    if(combat_scenario == -1) {
+        to_push.push_back(GAM_MOV_IMPOSSIBLE);
+        return;
+    }
+
+    if(combat_scenario == 1) {
+        if(container[pos] == GAM_TLE_EMPTY) {
+            to_push.push_back(GAM_MOV_STRIKE);
+        } else {
+            to_push.push_back(GAM_MOV_IMPOSSIBLE);
+        }
+
+        combat_scenario = -1;
+        return;
+    }
+
+    if(container[pos] == GAM_TLE_EMPTY) {
+        to_push.push_back(GAM_MOV_SHIFT);
+        return;
+    }
+
+    gam_tile_rep enemy;
+    if(this->whose_side) {
+        enemy = GAM_TLE_DARK;
+    } else {
+        enemy = GAM_TLE_LIGHT;
+    }
+
+    if(container[pos] == enemy) {
+        combat_scenario = 1;
+    } else {
+        combat_scenario = -1;
+    }
+
+    to_push.push_back(GAM_MOV_IMPOSSIBLE);
+}
+
 common_board_pawns_types gam_board_piece::give_my_type()
 {
     common_board_pawns_types to_return;

@@ -21,6 +21,13 @@ enum gam_mov_results
     GAM_MOV_IMPOSSIBLE
 };
 
+enum gam_tile_rep
+{
+    GAM_TLE_EMPTY,
+    GAM_TLE_DARK,
+    GAM_TLE_LIGHT
+};
+
 class gam_board_piece
 {
 public:
@@ -43,6 +50,7 @@ public:
     bool give_am_i_on_coords(const common_position& pos);
     common_board_pawns_types give_my_type();
     std::vector<std::vector<common_position>> give_possible_coords();
+    std::vector<gam_mov_results> give_mov_results(const std::vector<gam_tile_rep>& container, const bool& unlimited);
 
     void set_to_jokey();
 
@@ -56,7 +64,7 @@ private:
 
     common_position origin;
 
-    void set_pawn_directions();
+    void give_handle_mov_res_pos(const std::vector<gam_tile_rep>& container, const int& pos, int& combat_scenario, std::vector<gam_mov_results>& to_push);
 
     bool util_is_pos_valid(const common_position& pos);
 
