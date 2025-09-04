@@ -94,8 +94,7 @@ public:
     
     void init();
     void test() {
-        //soon
-
+        //soon test something
         return;
     }
 private:
@@ -110,6 +109,8 @@ private:
 
     int count_move(const common_position& pos, const gam_relative_directions& direction);
     int count_strike(const common_position& pos, const gam_relative_directions& direction, const bool& is_restrike_check);
+    
+    std::vector<common_position> get_move_to(const common_position& pos);
 };
 
 #endif

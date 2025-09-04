@@ -135,3 +135,48 @@ int gam_board_logic::count_strike(const common_position& pos, const gam_relative
     
     return -1;
 }
+
+std::vector<common_position> gam_board_logic::get_move_to(const common_position& pos)
+{
+    std::vector<common_position> to_return;
+
+    int work_idx;
+
+    std::vector<std::vector<common_position>> temp_coords;
+    this->find_sideway_coords(temp_coords, pos, work_idx);
+
+    if(work_idx == -1) return to_return;
+
+    int up_left, up_right, down_left, down_right;
+    up_left = up_right = down_left = down_right = 0;
+
+    const common_board_pawns_types identiy = this->our_pieces[work_idx].give_my_type();
+
+    if(identiy == CMN_JOKEY_LIGHT || identiy == CMN_JOKEY_DARK) {
+        up_left = this->count_move(pos, GAM_DRCT_FRONT_LEFT);
+        up_right = this->count_move(pos, GAM_DRCT_FRONT_RIGHT);
+        down_left = this->count_move(pos, GAM_DRCT_BACK_LEFT);
+        down_right = this->count_move(pos, GAM_DRCT_BACK_RIGHT);
+    } else if(identiy == CMN_PAWN_LIGHT) {
+        up_left = this->count_move(pos, GAM_DRCT_FRONT_LEFT);
+        up_right = this->count_move(pos, GAM_DRCT_FRONT_RIGHT);
+    } else if(identiy == CMN_PAWN_DARK) {
+        down_left = this->count_move(pos, GAM_DRCT_BACK_LEFT);
+        down_right = this->count_move(pos, GAM_DRCT_BACK_RIGHT);
+    }
+
+    for(int ul_add = 0; ul_add < up_left; ul_add++) {
+        to_return.push_back(temp_coords[GAM_DRCT_FRONT_LEFT][ul_add]);
+    }
+    for(int ur_add = 0; ur_add < up_right; ur_add++) {
+        to_return.push_back(temp_coords[GAM_DRCT_FRONT_RIGHT][ur_add]);
+    }
+    for(int dl_add = 0; dl_add < down_left; dl_add++) {
+        to_return.push_back(temp_coords[GAM_DRCT_BACK_LEFT][dl_add]);
+    }
+    for(int dr_add = 0; dr_add < down_right; dr_add++) {
+        to_return.push_back(temp_coords[GAM_DRCT_BACK_RIGHT][dr_add]);
+    }
+
+    return to_return;
+}
