@@ -94,10 +94,9 @@ public:
     
     void init();
     void test() {
-        common_position test = {8,8};
-        std::vector<common_position> to_test;
+        common_position test = {8,4};
+        std::vector<common_position> to_test = this->get_strike_to(test, false);
 
-        this->get_movable(test, to_test, GAM_LIGHT);
 
         std::cout << to_test.size() << std::endl;
 
