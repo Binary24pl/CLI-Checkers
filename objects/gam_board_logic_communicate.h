@@ -1,0 +1,142 @@
+common_board_interface gam_board_logic::communicate_with_interface(const gam_round_phase& game_phase, const bool& whose_turn, const common_position& select = {-1, -1})
+{
+    common_board_interface to_return;
+
+    switch(game_phase) {
+        case GAM_PHS_START : {
+            this->communicate_phase_start(whose_turn, to_return);
+            break;
+        }
+
+        case GAM_PHS_SELECTED : {
+            this->communicate_phase_selected(whose_turn, to_return, select);
+            break;
+        }
+
+        default : {
+            break;
+        }
+    };
+
+    return to_return;
+}
+
+void gam_board_logic::communicate_phase_start(const bool& whose_turn, common_board_interface& to_edit)
+{
+    std::vector<common_position> our_poses = this->compose_selectable(whose_turn);
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            if(on_hght % 2 == on_wdth % 2) {
+                common_position our_local;
+                
+                our_local.on_height = on_hght;
+                our_local.on_width = on_wdth;
+
+                this->communicate_handle_start(to_edit, our_local, our_poses);
+            }
+        }
+    }
+}
+
+void gam_board_logic::communicate_handle_start(common_board_interface& to_edit, const common_position& local_pos, const std::vector<common_position>& local_poses)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(local_pos);
+
+    if(work_idx == -1) {
+        common_board_playable temp;
+        temp.current_state = CMN_STAT_NEITHER;
+
+        temp.position.on_height = local_pos.on_height;
+        temp.position.on_width = local_pos.on_width;
+
+        to_edit.playable.push_back(temp);
+        return;
+    }
+
+    common_board_pawns temp;
+    temp.current_state = CMN_STAT_NEITHER;
+    temp.type = this->our_pieces[work_idx].give_my_type();
+    temp.position.on_height = local_pos.on_height;
+    temp.position.on_width = local_pos.on_width;
+
+    for(int check = 0; check < local_poses.size(); check++) {
+        if(local_poses[check].on_height == local_pos.on_height && local_poses[check].on_width == local_pos.on_width) {
+            temp.current_state = CMN_STAT_SELECTABLE;
+            break;
+        }
+    }
+
+    to_edit.pawns.push_back(temp);
+}
+
+void gam_board_logic::communicate_phase_selected(const bool& whose_turn, common_board_interface& to_edit, const common_position& selection)
+{
+    std::vector<common_position> moves, strikes, enemies;
+    moves = this->get_move_to(selection);
+    strikes = this->get_strike_to(selection, false);
+    enemies = this->compose_to_strike(selection, strikes);
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            if(on_hght % 2 == on_wdth % 2) {
+                common_position our_local;
+                
+                our_local.on_height = on_hght;
+                our_local.on_width = on_wdth;
+
+                this->communicate_handle_selected(to_edit, our_local, selection, moves, strikes, enemies);
+            }
+        }
+    }
+}
+
+void gam_board_logic::communicate_handle_selected(common_board_interface& to_eidt, const common_position& local_pos, const common_position& current_pos, const std::vector<common_position>& move_points, const std::vector<common_position>& strike_points, const std::vector<common_position>& to_strike)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(local_pos);
+
+    if(work_idx == -1) {
+        common_board_playable temp;
+        temp.position.on_height = local_pos.on_height;
+        temp.position.on_width = local_pos.on_width;
+        temp.current_state = CMN_STAT_NEITHER;
+
+        for(int chk_mov = 0; chk_mov < move_points.size(); chk_mov++) {
+            if(move_points[chk_mov].on_height == local_pos.on_height && move_points[chk_mov].on_width == local_pos.on_width) {
+                temp.current_state = CMN_STAT_SELECTABLE;
+                break;
+            }
+        }
+
+        for(int chk_stk = 0; chk_stk < strike_points.size(); chk_stk++) {
+            if(strike_points[chk_stk].on_height == local_pos.on_height && strike_points[chk_stk].on_width == local_pos.on_width) {
+                temp.current_state = CMN_STAT_SELECTABLE;
+                break;
+            }
+        }
+
+        to_eidt.playable.push_back(temp);
+        return;
+    }
+
+    common_board_pawns temp;
+    temp.current_state = CMN_STAT_NEITHER;
+    temp.type = this->our_pieces[work_idx].give_my_type();
+    temp.position.on_height = local_pos.on_height;
+    temp.position.on_width = local_pos.on_width;
+
+    if(local_pos.on_height == current_pos.on_height && local_pos.on_width == current_pos.on_width) {
+        temp.current_state = CMN_STAT_SELECTED;
+    }
+
+    for(int chk_enm = 0; chk_enm < to_strike.size(); chk_enm++) {
+        if(local_pos.on_height == to_strike[chk_enm].on_height && local_pos.on_width == to_strike[chk_enm].on_width) {
+            temp.current_state = CMN_STAT_STRIKABLE;
+            break;
+        }
+    }
+
+    to_eidt.pawns.push_back(temp);
+}
