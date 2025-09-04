@@ -62,6 +62,7 @@ void common_define_showcase(std::vector<common_board_pawns>& to_write, int width
 
 #include "gam_values.h"
 #include "gam_board_piece.h"
+#include "gam_board_logic.h"
 
 template<typename FROM, typename TO> TO common_translate_value(FROM to_translate)
 {
