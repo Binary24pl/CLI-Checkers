@@ -89,10 +89,24 @@ void gam_board_piece::set_pawn_directions()
     &gam_board_piece::util_give_two_steps<1, 1>;
 }
 
+void gam_board_piece::set_to_jokey()
+{
+    if(this->is_jokey) return;
+    if(this->is_set == false) return;
+
+    if(this->whose_side) {
+        if(this->origin.on_height == 0) {
+            this->is_jokey = true;
+        }
+    } else {
+        if(this->origin.on_height == (this->board_height - 1)) {
+            this->is_jokey = true;
+        }
+    }
+}
+
 bool gam_board_piece::util_is_pos_valid(const common_position& pos)
 {
-    std::cout << pos.on_height << " ;; " << pos.on_width << std::endl;
-
     if(pos.on_height < 0 || pos.on_height >= this->board_height) return false;
 
     if(pos.on_width < 0 || pos.on_height >= this->board_width) return false;

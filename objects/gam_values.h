@@ -13,6 +13,14 @@ enum gam_relative_directions
     GAM_DRCT_COUNT
 };
 
+enum gam_mov_results
+{
+    GAM_MOV_RESTRICTED,
+    GAM_MOV_SHIFT,
+    GAM_MOV_STRIKE,
+    GAM_MOV_IMPOSSIBLE
+};
+
 class gam_board_piece
 {
 public:
@@ -35,6 +43,8 @@ public:
     std::vector<int> give_possible_directions(bool ignore_restriction);
     bool give_am_i_on_coords(const common_position& pos);
     common_board_pawns_types give_my_type();
+
+    void set_to_jokey();
 
 private:
     int board_height;
