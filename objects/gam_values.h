@@ -89,6 +89,9 @@ public:
     ~gam_board_logic() {};
     
     void init();
+    void test() {
+        return;
+    }
 private:
     int board_height;
     int board_width;
@@ -96,6 +99,8 @@ private:
     std::vector<gam_board_piece> our_pieces;
 
     int find_piece_by_pos(const common_position& pos);
+    void find_sideway_coords(std::vector<std::vector<common_position>>& container, const common_position& pos, int& our_index);
+    std::vector<gam_tile_rep> find_sideway_rep(const std::vector<common_position> sideway_cont);
 };
 
 #endif

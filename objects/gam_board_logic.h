@@ -35,3 +35,38 @@ int gam_board_logic::find_piece_by_pos(const common_position& pos)
 
     return -1;
 }
+
+void gam_board_logic::find_sideway_coords(std::vector<std::vector<common_position>>& container, const common_position& pos, int& our_index)
+{
+    const int idx = this->find_piece_by_pos(pos);
+    our_index = idx;
+
+    if(idx == -1) return;
+
+    container.clear();
+
+    container = this->our_pieces[idx].give_possible_coords();
+}
+
+std::vector<gam_tile_rep> gam_board_logic::find_sideway_rep(const std::vector<common_position> sideway_cont)
+{
+    std::vector<gam_tile_rep> to_return;
+
+    for(int tile = 0; tile <sideway_cont.size(); tile++) {
+        const int idx = this->find_piece_by_pos(sideway_cont[tile]);
+
+        if(idx == -1) {
+            to_return.push_back(GAM_TLE_EMPTY);
+        } else {
+            const common_board_pawns_types our_type = this->our_pieces[idx].give_my_type();
+
+            if(our_type == CMN_PAWN_LIGHT || our_type == CMN_JOKEY_LIGHT) {
+                to_return.push_back(GAM_TLE_LIGHT);
+            } else if(our_type == CMN_PAWN_DARK || our_type == CMN_JOKEY_DARK) {
+                to_return.push_back(GAM_TLE_DARK);
+            }
+        }
+    }
+
+    return to_return;
+}
