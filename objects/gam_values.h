@@ -28,6 +28,11 @@ enum gam_tile_rep
     GAM_TLE_LIGHT
 };
 
+enum gam_round_phase
+{
+    GAM_PHS_START
+};
+
 class gam_board_piece
 {
 public:
@@ -94,19 +99,11 @@ public:
     
     void init();
     void test() {
-        common_position test = {8,4};
-        std::vector<common_position> to_test = this->compose_selectable(true);
-
-
-        std::cout << to_test.size() << std::endl;
-
-        for(int i = 0; i < to_test.size(); i++) {
-            std::cout << to_test[i].on_height << " : " << to_test[i].on_width << std::endl;
-        }
-
-
+        
         return;
     }
+
+    common_board_interface communicate_with_interface(const gam_round_phase& game_phase, const bool& whose_turn);
 private:
     int board_height;
     int board_width;
@@ -129,6 +126,9 @@ private:
     std::vector<common_position> compose_movable(const bool& whose_turn);
     std::vector<common_position> compose_strikable(const bool& whose_turn);
     std::vector<common_position> compose_selectable(const bool& whose_turn);
+
+    void communicate_phase_start(const bool& whose_turn, common_board_interface& to_edit);
+    void communicate_handle_start(common_board_interface& to_edit, const common_position& local_pos, const std::vector<common_position>& local_poses);
 };
 
 #endif

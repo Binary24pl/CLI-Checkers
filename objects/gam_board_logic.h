@@ -332,3 +332,71 @@ std::vector<common_position> gam_board_logic::compose_selectable(const bool& who
 
     return to_return;
 }
+
+common_board_interface gam_board_logic::communicate_with_interface(const gam_round_phase& game_phase, const bool& whose_turn)
+{
+    common_board_interface to_return;
+
+    switch(game_phase) {
+        case GAM_PHS_START : {
+            this->communicate_phase_start(whose_turn, to_return);
+            break;
+        }
+
+        default : {
+            break;
+        }
+    };
+
+    return to_return;
+}
+
+void gam_board_logic::communicate_phase_start(const bool& whose_turn, common_board_interface& to_edit)
+{
+    std::vector<common_position> our_poses = this->compose_selectable(whose_turn);
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            if(on_hght % 2 == on_wdth % 2) {
+                common_position our_local;
+                
+                our_local.on_height = on_hght;
+                our_local.on_width = on_wdth;
+
+                this->communicate_handle_start(to_edit, our_local, our_poses);
+            }
+        }
+    }
+}
+
+void gam_board_logic::communicate_handle_start(common_board_interface& to_edit, const common_position& local_pos, const std::vector<common_position>& local_poses)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(local_pos);
+
+    if(work_idx == -1) {
+        common_board_playable temp;
+        temp.current_state = CMN_STAT_NEITHER;
+
+        temp.position.on_height = local_pos.on_height;
+        temp.position.on_width = local_pos.on_width;
+
+        to_edit.playable.push_back(temp);
+        return;
+    }
+
+    common_board_pawns temp;
+    temp.current_state = CMN_STAT_NEITHER;
+    temp.type = this->our_pieces[work_idx].give_my_type();
+    temp.position.on_height = local_pos.on_height;
+    temp.position.on_width = local_pos.on_width;
+
+    for(int check = 0; check < local_poses.size(); check++) {
+        if(local_poses[check].on_height == local_pos.on_height && local_poses[check].on_width == local_pos.on_width) {
+            temp.current_state = CMN_STAT_SELECTABLE;
+            break;
+        }
+    }
+
+    to_edit.pawns.push_back(temp);
+}
