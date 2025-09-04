@@ -45,6 +45,10 @@ public:
 
     ~gam_board_piece() {};
 
+    bool pass_jokey() {
+        return this->is_jokey;
+    }
+
     void init(const common_position& pos, const bool& side);
 
     bool give_am_i_on_coords(const common_position& pos);
@@ -90,6 +94,8 @@ public:
     
     void init();
     void test() {
+        //soon
+
         return;
     }
 private:
@@ -101,6 +107,9 @@ private:
     int find_piece_by_pos(const common_position& pos);
     void find_sideway_coords(std::vector<std::vector<common_position>>& container, const common_position& pos, int& our_index);
     std::vector<gam_tile_rep> find_sideway_rep(const std::vector<common_position> sideway_cont);
+
+    int count_move(const common_position& pos, const gam_relative_directions& direction);
+    int count_strike(const common_position& pos, const gam_relative_directions& direction, const bool& is_restrike_check);
 };
 
 #endif

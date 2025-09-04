@@ -70,3 +70,68 @@ std::vector<gam_tile_rep> gam_board_logic::find_sideway_rep(const std::vector<co
 
     return to_return;
 }
+
+//how much can we shift
+int gam_board_logic::count_move(const common_position& pos, const gam_relative_directions& direction)
+{
+    int to_return = 0;
+
+    int idx;
+    std::vector<std::vector<common_position>> sides;
+
+    this->find_sideway_coords(sides, pos, idx);
+
+    if(idx == -1) return -1;
+
+    std::vector<gam_tile_rep> tiles;
+    tiles = this->find_sideway_rep(sides[direction]);
+
+    std::vector<gam_mov_results> moves;
+
+    bool limits = this->our_pieces[idx].pass_jokey();
+    moves = this->our_pieces[idx].give_mov_results(tiles, limits);
+
+    for(int i = 0; i < moves.size(); i++) {
+        if(moves[i] == GAM_MOV_SHIFT) {
+            to_return += 1;
+        } else {
+            break;
+        }
+    }
+    
+
+    return to_return;
+}
+
+//idx of a strike
+int gam_board_logic::count_strike(const common_position& pos, const gam_relative_directions& direction, const bool& is_restrike_check)
+{
+    int idx;
+    std::vector<std::vector<common_position>> sides;
+
+    this->find_sideway_coords(sides, pos, idx);
+
+    if(idx == -1) return -1;
+
+    bool limitations = false;
+    if(is_restrike_check) {
+        limitations = true;
+    } else {
+        if(this->our_pieces[idx].pass_jokey() == false) {
+            limitations = true;
+        }
+    }
+
+    std::vector<gam_tile_rep> tiles;
+    tiles = this->find_sideway_rep(sides[direction]);
+
+    std::vector<gam_mov_results> moves;
+
+    moves = this->our_pieces[idx].give_mov_results(tiles, limitations);
+
+    for(int i = 0; i < moves.size(); i++) {
+        if(moves[i] == GAM_MOV_STRIKE) return i;
+    }
+    
+    return -1;
+}
