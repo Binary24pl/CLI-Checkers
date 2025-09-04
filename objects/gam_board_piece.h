@@ -11,45 +11,7 @@ void gam_board_piece::init(const common_position& pos, const bool& side)
     this->whose_side = side;
     this->is_jokey = false;
 
-    this->set_pawn_directions();
-
     this->is_set = true;
-}
-
-std::vector<int> gam_board_piece::give_possible_directions(bool ignore_restriction = false)
-{
-    std::vector<int> to_return;
-
-    if(this->is_set == false) return to_return;
-    if(this->util_is_pos_valid(this->origin) == false) return to_return;
-
-    int offset = 0;
-    int end = GAM_DRCT_COUNT;
-
-    if(ignore_restriction == false && this->is_jokey == false) {
-        if(this->whose_side) {
-            end -= 2;
-        } else {
-            offset += 2;
-        }
-    }
-
-    for(int i = offset; i < end; i++) {
-        int results = 0;
-        common_position first, second;
-
-        (this->*this->directional_functions[i])(first, second);
-
-        if(this->util_is_pos_valid(first)) {
-            results += 1;
-
-            if(this->util_is_pos_valid(second)) results += 1;
-        }
-
-        to_return.push_back(results);
-    }
-
-    return to_return;
 }
 
 bool gam_board_piece::give_am_i_on_coords(const common_position& pos)
@@ -75,20 +37,6 @@ common_board_pawns_types gam_board_piece::give_my_type()
     return to_return;
 }
 
-void gam_board_piece::set_pawn_directions()
-{
-    this->directional_functions.reserve(GAM_DRCT_COUNT);
-
-    this->directional_functions[GAM_DRCT_FRONT_LEFT] = 
-    &gam_board_piece::util_give_two_steps<-1, -1>;
-    this->directional_functions[GAM_DRCT_FRONT_RIGHT] = 
-    &gam_board_piece::util_give_two_steps<-1, 1>;
-    this->directional_functions[GAM_DRCT_BACK_LEFT] = 
-    &gam_board_piece::util_give_two_steps<1, -1>;
-    this->directional_functions[GAM_DRCT_BACK_RIGHT] = 
-    &gam_board_piece::util_give_two_steps<1, 1>;
-}
-
 void gam_board_piece::set_to_jokey()
 {
     if(this->is_jokey) return;
@@ -112,15 +60,4 @@ bool gam_board_piece::util_is_pos_valid(const common_position& pos)
     if(pos.on_width < 0 || pos.on_height >= this->board_width) return false;
 
     return true;
-}
-
-template<int fronts, int sides>
-void gam_board_piece::util_give_two_steps(common_position& first_step, common_position& second_step)
-{
-
-    first_step.on_height = origin.on_height + fronts;
-    first_step.on_width = origin.on_width + sides;
-
-    second_step.on_height = origin.on_height + (fronts * 2);
-    second_step.on_width = origin.on_width + (sides * 2);
 }

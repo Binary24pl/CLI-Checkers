@@ -40,7 +40,6 @@ public:
 
     void init(const common_position& pos, const bool& side);
 
-    std::vector<int> give_possible_directions(bool ignore_restriction);
     bool give_am_i_on_coords(const common_position& pos);
     common_board_pawns_types give_my_type();
 
@@ -56,13 +55,9 @@ private:
 
     common_position origin;
 
-    std::vector<void(gam_board_piece::*)(common_position&, common_position&)> directional_functions;
-
     void set_pawn_directions();
 
     bool util_is_pos_valid(const common_position& pos);
-    template<int fronts, int sides>
-    void util_give_two_steps(common_position& first_step, common_position& second_step);
 };
 
 #endif
