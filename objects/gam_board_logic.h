@@ -9,7 +9,7 @@ void gam_board_logic::init()
                 on_pos.on_height = on_hght;
                 on_pos.on_width = on_wdth;
 
-                if(on_hght == 7) {
+                if(on_hght < 2) {
                     gam_board_piece temp(10, 10);
                     temp.init(on_pos, GAM_DARK);
 
@@ -271,4 +271,64 @@ bool gam_board_logic::get_restrikeable(const common_position& pos)
     if(this->get_strike_to(pos, true).size() > 0) return true;
 
     return false;
+}
+
+std::vector<common_position> gam_board_logic::compose_movable(const bool& whose_turn)
+{
+    std::vector<common_position> to_return;
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            common_position current_pos;
+
+            current_pos.on_height = on_hght;
+            current_pos.on_width = on_wdth;
+
+            this->get_movable(current_pos, to_return, whose_turn);
+        }
+    }
+
+    return to_return;
+}
+
+std::vector<common_position> gam_board_logic::compose_strikable(const bool& whose_turn)
+{
+    std::vector<common_position> to_return;
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            common_position current_pos;
+
+            current_pos.on_height = on_hght;
+            current_pos.on_width = on_wdth;
+
+            this->get_strikable(current_pos, to_return, whose_turn);
+        }
+    }
+
+    return to_return;
+}
+
+std::vector<common_position> gam_board_logic::compose_selectable(const bool& whose_turn)
+{
+    std::vector<common_position> to_return = this->compose_movable(whose_turn);
+    std::vector<common_position> temp = this->compose_strikable(whose_turn);
+
+    if(temp.size() == 0) return to_return;
+
+    for(int temp_idx = 0; temp_idx < temp.size(); temp_idx++) {
+        bool is_duplicate = false;
+        for(int ret_idx = 0; ret_idx < to_return.size(); ret_idx++) {
+            if(temp[temp_idx].on_height == to_return[ret_idx].on_height && 
+               temp[temp_idx].on_width == to_return[ret_idx].on_width) {
+                is_duplicate = true;
+                break;
+            }
+        }
+        if(is_duplicate == false) {
+            to_return.push_back(temp[temp_idx]);
+        }
+    }
+
+    return to_return;
 }

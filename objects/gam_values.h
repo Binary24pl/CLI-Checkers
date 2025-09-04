@@ -95,10 +95,14 @@ public:
     void init();
     void test() {
         common_position test = {8,4};
-        std::vector<common_position> to_test = this->get_strike_to(test, false);
+        std::vector<common_position> to_test = this->compose_selectable(true);
 
 
         std::cout << to_test.size() << std::endl;
+
+        for(int i = 0; i < to_test.size(); i++) {
+            std::cout << to_test[i].on_height << " : " << to_test[i].on_width << std::endl;
+        }
 
 
         return;
@@ -121,6 +125,10 @@ private:
     std::vector<common_position> get_strike_to(const common_position& pos, const bool& is_restrike);
     void get_strikable(const common_position& pos, std::vector<common_position>& to_add, const bool& whose_turn);
     bool get_restrikeable(const common_position& pos);
+
+    std::vector<common_position> compose_movable(const bool& whose_turn);
+    std::vector<common_position> compose_strikable(const bool& whose_turn);
+    std::vector<common_position> compose_selectable(const bool& whose_turn);
 };
 
 #endif

@@ -151,7 +151,7 @@ bool gam_board_piece::util_is_pos_valid(const common_position& pos)
 {
     if(pos.on_height < 0 || pos.on_height >= this->board_height) return false;
 
-    if(pos.on_width < 0 || pos.on_height >= this->board_width) return false;
+    if(pos.on_width < 0 || pos.on_width >= this->board_width) return false;
 
     return true;
 }
