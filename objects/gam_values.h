@@ -94,7 +94,14 @@ public:
     
     void init();
     void test() {
-        //soon test something
+        common_position test = {8,8};
+        std::vector<common_position> to_test;
+
+        this->get_movable(test, to_test, GAM_LIGHT);
+
+        std::cout << to_test.size() << std::endl;
+
+
         return;
     }
 private:
@@ -111,6 +118,8 @@ private:
     int count_strike(const common_position& pos, const gam_relative_directions& direction, const bool& is_restrike_check);
     
     std::vector<common_position> get_move_to(const common_position& pos);
+    void get_movable(const common_position& pos, std::vector<common_position>& to_add, const bool& whose_turn);
+    std::vector<common_position> get_strike_to(const common_position& pos, const bool& is_restrike);
 };
 
 #endif

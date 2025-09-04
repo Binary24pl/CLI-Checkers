@@ -180,3 +180,20 @@ std::vector<common_position> gam_board_logic::get_move_to(const common_position&
 
     return to_return;
 }
+void gam_board_logic::get_movable(const common_position& pos, std::vector<common_position>& to_add, const bool& whose_turn)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(pos);
+
+    if(work_idx == -1) return;
+
+    if(whose_turn) {
+        if(this->our_pieces[work_idx].give_my_type() == CMN_PAWN_DARK || this->our_pieces[work_idx].give_my_type() == CMN_JOKEY_DARK) return;
+    } else {
+        if(this->our_pieces[work_idx].give_my_type() == CMN_PAWN_LIGHT || this->our_pieces[work_idx].give_my_type() == CMN_JOKEY_LIGHT) return;
+    }
+
+    if(this->get_move_to(pos).size() > 0) {
+        to_add.push_back(pos);
+    }
+}
