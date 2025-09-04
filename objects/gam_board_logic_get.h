@@ -134,21 +134,3 @@ bool gam_board_logic::get_restrikeable(const common_position& pos)
 
     return false;
 }
-
-std::vector<common_position> gam_board_logic::compose_movable(const bool& whose_turn)
-{
-    std::vector<common_position> to_return;
-
-    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
-        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
-            common_position current_pos;
-
-            current_pos.on_height = on_hght;
-            current_pos.on_width = on_wdth;
-
-            this->get_movable(current_pos, to_return, whose_turn);
-        }
-    }
-
-    return to_return;
-}
