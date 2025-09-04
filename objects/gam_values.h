@@ -119,6 +119,8 @@ private:
     std::vector<common_position> get_move_to(const common_position& pos);
     void get_movable(const common_position& pos, std::vector<common_position>& to_add, const bool& whose_turn);
     std::vector<common_position> get_strike_to(const common_position& pos, const bool& is_restrike);
+    void get_strikable(const common_position& pos, std::vector<common_position>& to_add, const bool& whose_turn);
+    bool get_restrikeable(const common_position& pos);
 };
 
 #endif

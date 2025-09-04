@@ -242,3 +242,33 @@ std::vector<common_position> gam_board_logic::get_strike_to(const common_positio
 
     return to_return;
 }
+
+void gam_board_logic::get_strikable(const common_position& pos, std::vector<common_position>& to_add, const bool& whose_turn)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(pos);
+
+    if(work_idx == -1) return;
+
+    if(whose_turn) {
+        if(this->our_pieces[work_idx].give_my_type() == CMN_PAWN_DARK || this->our_pieces[work_idx].give_my_type() == CMN_JOKEY_DARK) return;
+    } else {
+        if(this->our_pieces[work_idx].give_my_type() == CMN_PAWN_LIGHT || this->our_pieces[work_idx].give_my_type() == CMN_JOKEY_LIGHT) return;
+    }
+
+    if(this->get_strike_to(pos, false).size() > 0) {
+        to_add.push_back(pos);
+    }
+}
+
+bool gam_board_logic::get_restrikeable(const common_position& pos)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(pos);
+
+    if(work_idx == -1) return false;
+
+    if(this->get_strike_to(pos, true).size() > 0) return true;
+
+    return false;
+}
