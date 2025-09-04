@@ -32,11 +32,15 @@ public:
 
     void init(const common_position& pos, const bool& side);
 
+    std::vector<int> give_possible_directions(bool ignore_restriction);
+    bool give_am_i_on_coords(const common_position& pos);
+    common_board_pawns_types give_my_type();
+
 private:
     int board_height;
     int board_width;
 
-    bool side;
+    bool whose_side;
     bool is_jokey;
     bool is_set;
 
@@ -47,7 +51,6 @@ private:
     void set_pawn_directions();
 
     bool util_is_pos_valid(const common_position& pos);
-
     template<int fronts, int sides>
     void util_give_two_steps(common_position& first_step, common_position& second_step);
 };
