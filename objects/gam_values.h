@@ -42,6 +42,7 @@ public:
 
     bool give_am_i_on_coords(const common_position& pos);
     common_board_pawns_types give_my_type();
+    std::vector<std::vector<common_position>> give_possible_coords();
 
     void set_to_jokey();
 
@@ -58,6 +59,9 @@ private:
     void set_pawn_directions();
 
     bool util_is_pos_valid(const common_position& pos);
+
+    template<int fronts, int sides>
+    std::vector<common_position> give_sideway_coords();
 };
 
 #endif

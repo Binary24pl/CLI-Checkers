@@ -22,6 +22,36 @@ bool gam_board_piece::give_am_i_on_coords(const common_position& pos)
     return false;
 }
 
+std::vector<std::vector<common_position>> gam_board_piece::give_possible_coords()
+{
+    std::vector<std::vector<common_position>> to_return;
+
+    to_return.push_back(this->give_sideway_coords<-1, -1>());
+    to_return.push_back(this->give_sideway_coords<-1, 1>());
+    to_return.push_back(this->give_sideway_coords<1, -1>());
+    to_return.push_back(this->give_sideway_coords<1, 1>());
+
+    return to_return;
+}
+
+template<int fronts, int sides>
+std::vector<common_position> gam_board_piece::give_sideway_coords()
+{
+    std::vector<common_position> to_return;
+
+    common_position our_sway;
+    our_sway.on_height = this->origin.on_height + fronts;
+    our_sway.on_width = this->origin.on_width + sides;
+
+    while(this->util_is_pos_valid(our_sway)) {
+        to_return.push_back(our_sway);
+        our_sway.on_height += fronts;
+        our_sway.on_width += sides;
+    }
+
+    return to_return;
+}
+
 common_board_pawns_types gam_board_piece::give_my_type()
 {
     common_board_pawns_types to_return;
