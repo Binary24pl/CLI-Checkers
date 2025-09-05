@@ -141,6 +141,8 @@ private:
     void communicate_handle_selected(common_board_interface& to_eidt, const common_position& local_pos, const common_position& current_pos, const std::vector<common_position>& move_points, const std::vector<common_position>& strike_points, const std::vector<common_position>& to_strike);
     void communicate_phase_pre(common_board_interface& to_eidt, const common_position& at_pos, const common_position& to_pos);
     void communicate_handle_pre(common_board_interface& to_edit, const common_position& local_pos, const common_position& at_pos, const common_position& to_pos, const common_position& posb_strike);
+    void communicate_phase_chain_start(const bool& whose_turn, common_board_interface& to_edit, const common_position& selection);
+    void communicate_handle_chain_start(common_board_interface& to_edit, const common_position& local_pos, const common_position& at_pos, const std::vector<common_position>& ends, const std::vector<common_position>& enemies);
 };
 
 #endif

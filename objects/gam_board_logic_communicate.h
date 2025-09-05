@@ -19,7 +19,7 @@ common_board_interface gam_board_logic::communicate_with_interface(const gam_rou
         }
 
         case GAM_PHS_CHAIN_START : {
-            //soon
+            this->communicate_phase_chain_start(whose_turn, to_return, select);
             break;
         }
 
@@ -224,6 +224,67 @@ void gam_board_logic::communicate_handle_pre(common_board_interface& to_edit, co
 
     if(posb_strike.on_height == local_pos.on_height && posb_strike.on_width == local_pos.on_width) {
         temp.current_state = CMN_STAT_STRIKABLE;
+    }
+
+    to_edit.pawns.push_back(temp);
+}
+
+void gam_board_logic::communicate_phase_chain_start(const bool& whose_turn, common_board_interface& to_edit, const common_position& selection)
+{
+    std::vector<common_position> end_points, enemy_points;
+    end_points = this->get_strike_to(selection, true);
+    enemy_points = this->compose_to_strike(selection, end_points);
+
+    for(int on_hght = 0; on_hght < this->board_height; on_hght++) {
+        for(int on_wdth = 0; on_wdth < this->board_width; on_wdth++) {
+            if(on_hght % 2 == on_wdth % 2) {
+                common_position our_local;
+                our_local.on_height = on_hght;
+                our_local.on_width = on_wdth;
+
+                this->communicate_handle_chain_start(to_edit, our_local, selection, end_points, enemy_points);
+            }
+        }
+    }
+}
+
+void gam_board_logic::communicate_handle_chain_start(common_board_interface& to_edit, const common_position& local_pos, const common_position& at_pos, const std::vector<common_position>& ends, const std::vector<common_position>& enemies)
+{
+    int work_idx;
+    work_idx = this->find_piece_by_pos(local_pos);
+
+    if(work_idx == -1) {
+        common_board_playable temp;
+        temp.position.on_height = local_pos.on_height;
+        temp.position.on_width = local_pos.on_width;
+        temp.current_state = CMN_STAT_NEITHER;
+
+        for(int i = 0; i < ends.size(); i++) {
+            if(local_pos.on_height == ends[i].on_height && local_pos.on_width == ends[i].on_width) {
+                temp.current_state = CMN_STAT_SELECTABLE;
+                break;
+            }
+        }
+
+        to_edit.playable.push_back(temp);
+        return;
+    }
+
+    common_board_pawns temp;
+    temp.position.on_height = local_pos.on_height;
+    temp.position.on_width = local_pos.on_width;
+    temp.type = this->our_pieces[work_idx].give_my_type();
+    temp.current_state = CMN_STAT_NEITHER;
+
+    if(at_pos.on_height == local_pos.on_height && at_pos.on_width == local_pos.on_width) {
+        temp.current_state = CMN_STAT_SELECTED;
+    }
+
+    for(int i = 0; i < enemies.size(); i++) {
+        if(local_pos.on_height == enemies[i].on_height && local_pos.on_width == enemies[i].on_width) {
+            temp.current_state = CMN_STAT_STRIKABLE;
+            break;
+        }
     }
 
     to_edit.pawns.push_back(temp);

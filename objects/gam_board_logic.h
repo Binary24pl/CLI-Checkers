@@ -9,7 +9,7 @@ void gam_board_logic::init()
                 on_pos.on_height = on_hght;
                 on_pos.on_width = on_wdth;
 
-                if(on_hght < 2) {
+                if(on_hght == 7) {
                     gam_board_piece temp(10, 10);
                     temp.init(on_pos, GAM_DARK);
 
